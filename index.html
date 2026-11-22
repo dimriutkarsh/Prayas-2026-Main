@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Services - Apuni Sarkar</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico">
+    
+    <!-- Base UX4G accessibility widget styles -->
+    <style>
+      html.accessibility-widget-loading #uw-main,
+      html.accessibility-widget-loading #accessibility-overlay,
+      html.accessibility-widget-loading #open-the-accessibility-menu,
+      html.accessibility-widget-loading [id^='uw-'],
+      html.accessibility-widget-loading .uwaw {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      #uw-widget-custom-trigger,
+      #accessibility-overlay,
+      #open-the-accessibility-menu {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add('accessibility-widget-loading')
+    </script>
+
+    <!-- Advanced Enhancements & Animations -->
+    <style>
+        /* ----- GLOBAL REFINEMENTS ----- */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* ----- KEYFRAME ANIMATIONS ----- */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ----- TOP ANNOUNCEMENT MARQUEE ----- */
+        .top-marquee-wrapper {
+            background: linear-gradient(90deg, #1e293b, #2563eb, #1e293b);
+            color: white;
+            padding: 8px 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 50;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .top-marquee-content {
+            display: flex;
+            width: max-content;
+            animation: marqueeScroll 30s linear infinite;
+        }
+        .top-marquee-content:hover {
+            animation-play-state: paused;
+        }
+        .marquee-item {
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .marquee-item::before {
+            content: '★';
+            color: #fbbf24;
+            font-size: 10px;
+        }
+
+        /* ----- HERO TITLE: INTEGRATED SMOOTH REVEAL & LETTER-BY-LETTER TYPEWRITER ----- */
+        
+        /* 1. Container wrapping the title to handle initial loading mask */
+        .hero-title-wrap {
+            overflow: hidden;
+            /* Reserves height to prevent layout jump */
+            min-height: 1.1em; 
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 2. The Title Base - handles initial smooth slide up & gradient text */
+        .hero-title {
+            animation: smoothReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+            
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a8a 50%, #1e293b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            
+            font-weight: bold;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            font-size: 3.25rem; 
+            line-height: 1.1;
+            display: flex;
+            align-items: center;
+        }
+        @media (min-width: 640px) {
+            .hero-title { font-size: 4.25rem; }
+        }
+        @media (min-width: 1024px) {
+            .hero-title { font-size: 5.25rem; }
+        }
+        @media (min-width: 1280px) {
+            .hero-title { font-size: 6rem; }
+        }
+
+        @keyframes smoothReveal {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 3. Letter-by-letter typing element anchored next to 'A' */
+        .typewriter-anim {
+            display: inline-flex;
+            align-items: center;
+            white-space: pre;
+        }
+
+        .typewriter-text {
+            display: inline-block;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 4px;
+            height: 0.85em;
+            margin-left: 4px;
+            background-color: #2563eb;
+            border-radius: 2px;
+            animation: caretBlink 0.78s ease-in-out infinite;
+        }
+
+        .typewriter-cursor.is-active {
+            animation: none;
+            opacity: 1;
+        }
+
+        @keyframes caretBlink {
+            0%, 45% { opacity: 1; }
+            55%, 100% { opacity: 0; }
+        }
+
+        /* ----- HERO SECTION ENHANCEMENTS ----- */
+        .hero-subtitle { animation: fadeSlideUp 1s ease-out 0.2s both; }
+        .hero-features li { animation: fadeSlideUp 0.8s ease-out both; }
+        .hero-features li:nth-child(1) { animation-delay: 0.4s; }
+        .hero-features li:nth-child(2) { animation-delay: 0.55s; }
+        .hero-features li:nth-child(3) { animation-delay: 0.7s; }
+        .search-bar-wrapper { animation: fadeSlideUp 0.9s ease-out 0.35s both; }
+        .hero-cta-wrapper { animation: fadeSlideUp 0.9s ease-out 0.5s both; }
+        
+        .quick-action-card {
+            animation: fadeInScale 0.7s ease-out both;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+        .quick-action-card:nth-child(1) { animation-delay: 0.6s; }
+        .quick-action-card:nth-child(2) { animation-delay: 0.75s; }
+        .quick-action-card:nth-child(3) { animation-delay: 0.9s; }
+        .quick-action-card:nth-child(4) { animation-delay: 1.05s; }
+        .quick-action-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12) !important;
+        }
+        .quick-action-card .action-icon { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .quick-action-card:hover .action-icon { transform: scale(1.12) rotate(-3deg); }
+
+        /* ----- SERVICE CARDS ----- */
+        .service-card {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+            border: 1px solid transparent;
+            animation: fadeSlideUp 0.8s ease-out both;
+        }
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.25s; }
+        .service-card:nth-child(3) { animation-delay: 0.4s; }
+        .service-card:nth-child(4) { animation-delay: 0.55s; }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+        .service-card:hover .service-icon { animation: float 1.5s ease-in-out infinite; }
+
+        /* ----- FIXED MEDIA GALLERY ----- */
+        .fixed-gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) {
+            .fixed-gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .gallery-card {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+            aspect-ratio: 16/10;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ----- PREMIUM FOOTER UPGRADE ----- */
+        .premium-footer {
+            background: linear-gradient(145deg, #0b1220 0%, #111827 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 3px solid #2563eb;
+        }
+        .premium-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.4), transparent);
+        }
+        .footer-link {
+            position: relative;
+            transition: color 0.25s ease, padding-left 0.25s ease;
+        }
+        .footer-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%) scaleX(0);
+            width: 3px;
+            height: 14px;
+            background: #60a5fa;
+            border-radius: 2px;
+            transition: transform 0.25s ease;
+            transform-origin: left center;
+        }
+        .footer-link:hover::before {
+            transform: translateY(-50%) scaleX(1);
+        }
+        .footer-link:hover {
+            padding-left: 10px;
+            color: #ffffff;
+        }
+        .footer-toll-free {
+            background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(37,99,235,0.05));
+            border: 1px solid rgba(96,165,250,0.3);
+            transition: all 0.35s ease;
+        }
+        .footer-toll-free:hover {
+            background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(37,99,235,0.1));
+            border-color: rgba(96,165,250,0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37,99,235,0.15);
+        }
+
+        /* ----- MISC ENHANCEMENTS ----- */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link-enhanced { position: relative; }
+        .nav-link-enhanced::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 1px;
+            transform: scaleX(0);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+        }
+        .nav-link-enhanced:hover::after { transform: scaleX(1); }
+
+        .whatsapp-btn { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease; }
+        .whatsapp-btn:hover { transform: scale(1.12) rotate(-4deg); box-shadow: 0 8px 28px rgba(37, 211, 102, 0.4); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .typewriter-cursor {
+                display: none;
+            }
+        }
+    </style>
+
+    <!-- Original External Scripts and Links -->
+    <script type="module" crossorigin src="./scripts/index-CWDBZwQ_.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-9YgKe2Eq.js">
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-v911oC7T.js">
+    <link rel="modulepreload" crossorigin href="/assets/schemas-lAct9vbk.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-CA7Gka6f.js">
+    <link rel="modulepreload" crossorigin href="/assets/spinner-wpsvLciE.js">
+    <link rel="modulepreload" crossorigin href="/assets/match-sorter.esm-CXNdKdYH.js">
+    <link rel="modulepreload" crossorigin href="/assets/search-DpfAok7e.js">
+    <link rel="modulepreload" crossorigin href="/assets/shim-DqwIxHMB.js">
+    <link rel="modulepreload" crossorigin href="/assets/useStore-DhOpog_P.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dom-_dgpmj5P.js">
+    <link rel="modulepreload" crossorigin href="/assets/link-CAd5BRhP.js">
+    <link rel="modulepreload" crossorigin href="/assets/matchContext-1fchTJtT.js">
+    <link rel="modulepreload" crossorigin href="/assets/useNavigate-B8ACm-Eo.js">
+    <link rel="modulepreload" crossorigin href="/assets/lazyRouteComponent-jYYZD__G.js">
+    <link rel="modulepreload" crossorigin href="/assets/all-services-C65uhm0C.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-accessibility-widget-rN82Tlm5.js">
+    <link rel="modulepreload" crossorigin href="/assets/config-CUQ9lQfH.js">
+    <link rel="modulepreload" crossorigin href="/assets/client-eFZdksir.js">
+    <link rel="modulepreload" crossorigin href="/assets/queries-DoM59BqG.js">
+    <link rel="modulepreload" crossorigin href="/assets/_tab-MlPYboDf.js">
+    <link rel="modulepreload" crossorigin href="/assets/reset-password-nqs8Z9cF.js">
+    <link rel="modulepreload" crossorigin href="/assets/useTranslation-BGfZSnm2.js">
+    <link rel="modulepreload" crossorigin href="/assets/janparichay-BauJw25t.js">
+    <link rel="modulepreload" crossorigin href="/assets/Match-C-_VO1FX.js">
+    <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-BqLnDpte.js">
+    <link rel="modulepreload" crossorigin href="/assets/circle-check-DkBOZDYS.js">
+    <link rel="modulepreload" crossorigin href="/assets/info-DhxSqRzU.js">
+    <link rel="modulepreload" crossorigin href="/assets/triangle-alert-DhQG35Sa.js">
+    <link rel="stylesheet" crossorigin href="./styles/index-CoTTKD7e.css">
+    
+    <style type="text/css">
+        .rfm-marquee-container {overflow-x: hidden;display: flex;flex-direction: row;position: relative;width: var(--width);transform: var(--transform);}
+        .rfm-marquee-container:hover div {animation-play-state: var(--pause-on-hover);}
+        .rfm-marquee-container:active div {animation-play-state: var(--pause-on-click);}
+        .rfm-overlay {position: absolute;width: 100%;height: 100%;}
+        .rfm-overlay::before, .rfm-overlay::after {background: linear-gradient(to right, var(--gradient-color), rgba(255, 255, 255, 0));content: "";height: 100%;position: absolute;width: var(--gradient-width);z-index: 2;pointer-events: none;touch-action: none;}
+        .rfm-overlay::after {right: 0;top: 0;transform: rotateZ(180deg);}
+        .rfm-overlay::before {left: 0;top: 0;}
+        .rfm-marquee {flex: 0 0 auto;min-width: var(--min-width);z-index: 1;display: flex;flex-direction: row;align-items: center;animation: scroll var(--duration) linear var(--delay) var(--iteration-count);animation-play-state: var(--play);animation-delay: var(--delay);animation-direction: var(--direction);}
+        @keyframes scroll {0% {transform: translateX(0%);}100% {transform: translateX(-100%);}}
+        .rfm-initial-child-container {flex: 0 0 auto;display: flex;min-width: auto;flex-direction: row;align-items: center;}
+        .rfm-child {transform: var(--transform);}
+    </style>
+    <meta name="description" content="Essential Online Services for the Citizens of Uttarakhand">
+    <link rel="stylesheet" href="./styles/website_translation_utility.css">
+    <style>
+        .bhashini-toast {position: fixed;left: 50%;bottom: 20px;transform: translateX(-50%);background-color: rgba(0, 0, 0, 0.7);color: white;padding: 10px 20px;border-radius: 5px;opacity: 0;transition: opacity 0.3s ease, bottom 0.3s ease;z-index: 10000;}
+        .bhashini-toast.visible {opacity: 1;bottom: 40px;}
+        #bhashiniLanguageDropdown .language-option {list-style: none;}
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="flex min-h-svh flex-col bg-background">
+            
+            <!-- TOP ANNOUNCEMENT MARQUEE -->
+            <div class="top-marquee-wrapper">
+                <div class="top-marquee-content">
+                    <div class="marquee-item">New: Digital Domicile Certificate now available in 24 hours</div>
+                    <div class="marquee-item">Important: Last date for e-Scholarship application extended to Nov 15th</div>
+                    <div class="marquee-item">Update: Apuni Sarkar Mobile App v2.0 launched with new features</div>
+                    <div class="marquee-item">Notice: Scheduled maintenance on Sunday 2:00 AM - 4:00 AM</div>
+                    <!-- Duplicated for seamless loop -->
+                    <div class="marquee-item">New: Digital Domicile Certificate now available in 24 hours</div>
+                    <div class="marquee-item">Important: Last date for e-Scholarship application extended to Nov 15th</div>
+                    <div class="marquee-item">Update: Apuni Sarkar Mobile App v2.0 launched with new features</div>
+                    <div class="marquee-item">Notice: Scheduled maintenance on Sunday 2:00 AM - 4:00 AM</div>
+                </div>
+            </div>
+
+            <header class="contents overflow-visible">
+                <div class="shrink-0 overflow-visible bg-navbar text-sm text-white">
+                    <div class="content-container flex min-h-10 flex-wrap items-center justify-center gap-x-2 gap-y-2 py-2 sm:justify-between sm:gap-x-2 sm:py-1.5 lg:h-10 lg:flex-nowrap lg:py-0">
+                        <div class="hidden min-w-0 items-center gap-2 sm:flex sm:gap-3">
+                            <a href="#main-content" class="shrink-0 underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Skip to main content</a>
+                            <span class="h-4 w-px shrink-0 bg-white/40" aria-hidden="true"></span>
+                            <a href="./pages/sitemap.html" class="shrink-0 underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Sitemap</a>
+                        </div>
+                        <div class="flex max-w-full flex-wrap items-center justify-center gap-1.5 sm:justify-end sm:gap-2">
+                            <div class="flex items-center gap-1 text-xs leading-none sm:gap-1.5 sm:text-sm">
+                                <button type="button" class="bhashini-skip-translation inline-flex items-center rounded px-1.5 py-0.5 leading-none transition-colors bg-white/20 font-semibold" aria-pressed="true">English</button>
+                                <span class="text-white/70" aria-hidden="true">|</span>
+                                <button type="button" class="bhashini-skip-translation inline-flex items-center rounded px-1.5 py-0.5 leading-none transition-colors hover:bg-white/10" aria-pressed="false">हिन्दी</button>
+                            </div>
+                            <span class="hidden h-4 w-px shrink-0 bg-white/40 sm:block" aria-hidden="true"></span>
+                            <div class="bhashini-plugin-container relative z-60 flex h-10 shrink-0 items-center overflow-visible" data-bhashini-ready="true">
+                                <div class="dont-translate bhashini-skip-translation bhashini-dropdown" id="bhashini-translation" title="Translate this page!">
+                                    <button role="combobox" aria-label="Language Translator" aria-expanded="false" aria-haspopup="listbox" aria-controls="bhashiniLanguageDropdown" class="bhashini-dropdown-btn">
+                                        <div class="bhashini-dropdown-btn-icon">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                                                <path d="M14.125 3.735V12H12.91V3.735H11.815V2.67H15.685V3.735H14.125ZM8.47 2.52C9.25 2.52 9.845 2.715 10.255 3.105C10.675 3.495 10.885 3.985 10.885 4.575C10.885 5.005 10.77 5.395 10.54 5.745C10.32 6.085 9.99 6.355 9.55 6.555C9.11 6.755 8.56 6.865 7.9 6.885L7.825 5.835C8.505 5.815 8.985 5.695 9.265 5.475C9.555 5.255 9.7 4.96 9.7 4.59C9.7 4.23 9.58 3.97 9.34 3.81C9.11 3.65 8.84 3.57 8.53 3.57C8.16 3.57 7.825 3.62 7.525 3.72C7.225 3.82 6.905 3.955 6.565 4.125L6.19 3.09C6.45 2.95 6.77 2.82 7.15 2.7C7.54 2.58 7.98 2.52 8.47 2.52ZM11.05 8.73C11.05 9.19 10.945 9.575 10.735 9.885C10.525 10.195 10.24 10.425 9.88 10.575C9.53 10.725 9.13 10.8 8.68 10.8C8.11 10.8 7.58 10.66 7.09 10.38C6.61 10.1 6.15 9.655 5.71 9.045C5.28 8.435 4.855 7.64 4.435 6.66L5.5 6.27C5.79 6.98 6.09 7.595 6.4 8.115C6.72 8.625 7.06 9.02 7.42 9.3C7.78 9.57 8.165 9.705 8.575 9.705C8.955 9.705 9.265 9.62 9.505 9.45C9.745 9.27 9.865 8.985 9.865 8.595C9.865 8.115 9.7 7.7 9.37 7.35C9.04 7 8.64 6.68 8.17 6.39L9.055 6.345L9.7 6.21C9.84 6.33 9.995 6.475 10.165 6.645C10.335 6.815 10.47 6.985 10.57 7.155L10.645 7.44C10.775 7.63 10.875 7.83 10.945 8.04C11.015 8.25 11.05 8.48 11.05 8.73ZM11.29 6.75C11.77 6.75 12.185 6.715 12.535 6.645C12.885 6.565 13.295 6.44 13.765 6.27V7.35C13.335 7.54 12.945 7.665 12.595 7.725C12.255 7.785 11.88 7.815 11.47 7.815C11.32 7.815 11.145 7.805 10.945 7.785C10.745 7.755 10.555 7.725 10.375 7.695C10.205 7.655 10.08 7.62 10 7.59L9.295 6.75L9.385 6.525C9.675 6.595 9.98 6.65 10.3 6.69C10.62 6.73 10.95 6.75 11.29 6.75Z" fill="#ffffff" />
+                                                <path d="M19.63 22L18.426 18.906H14.464L13.274 22H12L15.906 11.962H17.04L20.932 22H19.63ZM18.048 17.786L16.928 14.762C16.9 14.6873 16.8533 14.552 16.788 14.356C16.7227 14.16 16.6573 13.9593 16.592 13.754C16.536 13.5393 16.4893 13.376 16.452 13.264C16.3773 13.5533 16.298 13.838 16.214 14.118C16.1393 14.3887 16.074 14.6033 16.018 14.762L14.884 17.786H18.048Z" fill="#ffffff" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                    <ul class="bhashini-dropdown-content" id="bhashiniLanguageDropdown" role="listbox" aria-label="Select language" style="display: none;">
+                                        <li class="dont-translate language-option" data-value="en" tabindex="0" role="option" aria-selected="false">English</li>
+                                        <li class="dont-translate language-option" data-value="hi" tabindex="0" role="option" aria-selected="false">Hindi <span lang="hi">(हिन्दी)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <span class="hidden h-4 w-px bg-white/40 sm:block" aria-hidden="true"></span>
+                            <div class="flex items-center gap-1 accessibility-toolbar">
+                                <button type="button" class="inline-flex size-7 shrink-0 items-center justify-center rounded border border-white/50 bg-white text-xs font-bold leading-none text-navbar hover:bg-white/90" aria-label="Increase text size A+">A+</button>
+                                <button type="button" class="inline-flex size-7 shrink-0 items-center justify-center rounded border border-white/50 bg-white text-xs font-bold leading-none text-navbar hover:bg-white/90" aria-label="Reset text size A=">A=</button>
+                                <button type="button" class="inline-flex size-7 shrink-0 items-center justify-center rounded border border-white/50 bg-white text-xs font-bold leading-none text-navbar hover:bg-white/90" aria-label="Decrease text size A-">A-</button>
+                            </div>
+                            <span class="hidden h-4 w-px bg-white/40 sm:block" aria-hidden="true"></span>
+                            <button type="button" data-accessibility-widget-toggle="true" class="inline-flex size-7 shrink-0 items-center justify-center rounded border border-white/50 bg-white text-xs font-bold leading-none text-navbar hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" title="Accessibility tools" aria-label="Accessibility tools">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal size-4" aria-hidden="true">
+                                    <path d="M10 5H3" />
+                                    <path d="M12 19H3" />
+                                    <path d="M14 3v4" />
+                                    <path d="M16 17v4" />
+                                    <path d="M21 12h-9" />
+                                    <path d="M21 19h-5" />
+                                    <path d="M21 5h-7" />
+                                    <path d="M8 10v4" />
+                                    <path d="M8 12H3" />
+                                </svg>
+                            </button>
+                            <a title="Screen Reader" aria-label="Screen Reader" href="./pages/screen-reader.html" class="inline-flex size-7 shrink-0 items-center justify-center rounded border border-white/50 bg-white text-xs font-bold leading-none text-navbar hover:bg-white/90">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-accessibility size-4" aria-hidden="true">
+                                    <circle cx="16" cy="4" r="1" />
+                                    <path d="m18 19 1-7-6 1" />
+                                    <path d="m5 8 3-3 5.5 3-2.36 3.5" />
+                                    <path d="M4.24 14.5a5 5 0 0 0 6.88 6" />
+                                    <path d="M13.76 17.5a5 5 0 0 0-6.88-6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sticky top-0 z-30 shrink-0 border-b border-navbar-divider bg-white" style="height: 100px;">
+                    <div class="content-container flex h-full items-center gap-2 md:gap-4">
+                        <a class="flex min-w-0 flex-1 items-center gap-2 text-ink-900 md:flex-initial md:gap-3 active" href="/" data-status="active" aria-current="page">
+                            <img class="h-14 shrink-0 md:h-20" alt="" src="./images/indian-emblem.svg">
+                            <img class="h-14 w-auto shrink-0 object-contain md:h-20" alt="logo" src="./images/logo.webp">
+                            <div class="min-w-0">
+                                <div class="text-lg font-extrabold tracking-tight md:text-3xl">e-Services</div>
+                                <div class="text-sm font-medium text-ink-700 md:text-base">Apuni Sarkar</div>
+                            </div>
+                        </a>
+                        <nav class="ml-2 hidden min-w-0 flex-1 items-center justify-end gap-2 overflow-x-auto md:flex lg:gap-3" aria-label="Primary">
+                            <a class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 px-1.5 py-1 text-sm font-medium transition-colors hover:text-ink-900 border-ink-900 text-ink-900 active" href="/" data-status="active" aria-current="page">Home</a>
+                            <a href="./pages/about.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">About Apuni Sarkar</a>
+                            <a href="./pages/all-services.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">List of Services</a>
+                            <a href="./pages/faqs.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">FAQs</a>
+                            <a href="./pages/whats-new.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">What's New</a>
+                            <a href="./pages/important-gos.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">Important GOs</a>
+                            <a href="./pages/contact-us.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">Contact Us</a>
+                            <a href="./pages/dashboard.html" class="nav-link-enhanced shrink-0 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1 text-sm font-medium text-ink-700 transition-colors hover:text-ink-900">Dashboard</a>
+                        </nav>
+                        <div class="ml-auto flex shrink-0 items-center gap-2 md:ml-0">
+                            <img class="h-9 w-auto shrink-0 object-contain md:h-16" alt="" src="./images/digital-india.svg">
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <main id="main-content" class="flex min-h-0 flex-1 flex-col overflow-x-clip" style="scroll-margin-top: 140px;">
+                <section class="relative w-full overflow-hidden" style="--app-header-height: 140px;">
+                    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+                        <div class="absolute inset-0 hidden sm:block" style="background: radial-gradient(70% 110% at 72% 50%, rgb(247, 230, 213) 0%, rgba(247, 230, 213, 0) 100%);"></div>
+                        <img alt="" class="hero-image-mask absolute inset-y-0 right-0 hidden h-full w-[58%] object-cover object-center sm:block lg:w-[52%] xl:w-[48%]" src="./images/hero-cover-as.webp">
+                        <img alt="" class="absolute bottom-0 left-0 w-full object-cover object-bottom" src="./images/hero-footer.webp">
+                    </div>
+                    <div class="content-container relative z-10 flex min-h-[calc(100dvh-var(--app-header-height))] flex-col justify-between gap-10 pb-8 pt-7 sm:gap-12 sm:pb-9 sm:pt-9 lg:gap-14 lg:pb-10 lg:pt-10">
+                        <div class="max-w-4xl overflow-visible">
+                            <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-white/80 px-3.5 py-2 text-sm font-medium text-secondary-foreground backdrop-blur-sm sm:gap-2.5 sm:px-4 sm:py-2.5 sm:text-[15px]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark size-4 shrink-0 text-primary sm:size-5" aria-hidden="true">
+                                    <path d="M10 18v-7" />
+                                    <path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z" />
+                                    <path d="M14 18v-7" />
+                                    <path d="M18 18v-7" />
+                                    <path d="M3 22h18" />
+                                    <path d="M6 18v-7" />
+                                </svg>
+                                <span>Government of Uttarakhand</span>
+                            </div>
+                            
+                            <!-- INTEGRATED SMOOTH REVEAL & LETTER-BY-LETTER TYPEWRITER -->
+                            <div class="hero-title-wrap">
+                                <h1 class="hero-title" aria-label="Apuni Sarkar">
+                                    <span>A</span><span class="typewriter-anim"><span class="typewriter-text" data-typewriter-target="PUNI SARKAR">PUNI SARKAR</span><span class="typewriter-cursor" aria-hidden="true"></span></span>
+                                </h1>
+                            </div>
+
+                            <p class="hero-subtitle mt-4 max-w-xl text-xl font-medium leading-snug text-primary sm:mt-5 sm:text-2xl lg:text-[1.625rem]">Get every service done from one single portal</p>
+                            <ul class="hero-features mt-6 flex flex-wrap items-center text-base font-medium text-ink-700 sm:mt-7 sm:text-lg">
+                                <li class="inline-flex items-center gap-2.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check size-5 shrink-0 text-accent sm:size-6" aria-hidden="true">
+                                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                                        <path d="m9 12 2 2 4-4" />
+                                    </svg>
+                                    Secure Access
+                                </li>
+                                <li class="inline-flex items-center gap-2.5 ml-5 border-l border-ink-300/50 pl-5 sm:ml-7 sm:pl-7">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge size-5 shrink-0 text-accent sm:size-6" aria-hidden="true">
+                                        <path d="m12 14 4-4" />
+                                        <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+                                    </svg>
+                                    Fast Processing
+                                </li>
+                                <li class="inline-flex items-center gap-2.5 ml-5 border-l border-ink-300/50 pl-5 sm:ml-7 sm:pl-7">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones size-5 shrink-0 text-accent sm:size-6" aria-hidden="true">
+                                        <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
+                                    </svg>
+                                    Help Desk Support
+                                </li>
+                            </ul>
+                            <div class="search-bar-wrapper relative z-30 mt-6 w-full overflow-visible sm:mt-7 lg:mt-8">
+                                <form class="w-full max-w-4xl" role="search">
+                                    <div class="relative">
+                                        <div class="flex w-full overflow-hidden rounded-2xl border border-ring bg-white shadow-sm">
+                                            <input role="combobox" aria-label="Search for service" aria-expanded="false" aria-autocomplete="list" placeholder="Search Services (e.g., Caste Certificate, Domicile Certificate...)" class="min-w-0 flex-1 bg-transparent px-5 py-4 text-base text-ink-700 outline-none placeholder:text-ink-100 sm:px-6 sm:py-[1.1rem]" type="search" value="">
+                                            <button type="submit" class="m-1.5 inline-flex h-11 shrink-0 items-center gap-2 self-center rounded-xl bg-primary px-6 text-sm font-semibold text-white hover:bg-accent sm:h-12 sm:px-7 sm:text-base">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search size-4 sm:size-5" aria-hidden="true">
+                                                    <path d="m21 21-4.34-4.34" />
+                                                    <circle cx="11" cy="11" r="8" />
+                                                </svg>
+                                                Search Services
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="hero-cta-wrapper mt-6 flex flex-wrap items-center gap-3.5 sm:mt-7">
+                                <a href="./pages/login.html" class="group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer bg-primary text-primary-foreground [a]:hover:bg-primary/80 gap-1.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 h-14 min-h-14 min-w-36 rounded-xl px-9 text-base font-semibold sm:text-lg">Login/ Sign Up</a>
+                                <a href="./pages/all-services.html" class="group/button inline-flex shrink-0 items-center justify-center bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary gap-1.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 h-14 min-h-14 min-w-44 rounded-xl border-2 border-primary px-9 text-base font-semibold sm:text-lg">Explore Services</a>
+                            </div>
+                        </div>
+                        <div class="mt-auto grid w-full grid-cols-1 gap-3 pt-1 sm:grid-cols-2 sm:gap-4 sm:pt-2 xl:grid-cols-4">
+                            <a href="./pages/status.html" class="quick-action-card group relative flex h-full min-h-34 items-start gap-3.5 rounded-3xl bg-white p-5 text-left shadow-[0_2px_8px_rgba(15,23,42,0.07)] transition-shadow hover:shadow-[0_6px_20px_rgba(15,23,42,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:min-h-35 sm:gap-4 sm:p-6 lg:min-h-38" target="_blank" rel="noreferrer">
+                                <div class="action-icon inline-flex size-14 shrink-0 items-center justify-center rounded-full sm:size-16 bg-[#FFE8D6] text-[#D96B2B]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-search size-7 stroke-[1.75] sm:size-8" aria-hidden="true">
+                                        <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                        <circle cx="11.5" cy="14.5" r="2.5" />
+                                        <path d="M13.3 16.3 15 18" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0 flex-1 pb-9 pr-1 sm:pb-10">
+                                    <h2 class="m-0 text-sm font-bold leading-tight text-ink-900 sm:text-base">Track Application</h2>
+                                    <p class="mt-1.5 text-xs leading-[1.6] text-ink-600 sm:text-sm sm:leading-[1.6]">Quickly check the real-time status of your submitted application.</p>
+                                </div>
+                                <span class="absolute bottom-4 right-4 inline-flex size-8 items-center justify-center rounded-full border bg-white sm:bottom-5 sm:right-5 sm:size-9 border-[#D96B2B] text-[#D96B2B]" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-3.75 stroke-2 sm:size-4.25" aria-hidden="true">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </a>
+                            <a href="./pages/download-certificates.html" class="quick-action-card group relative flex h-full min-h-34 items-start gap-3.5 rounded-3xl bg-white p-5 text-left shadow-[0_2px_8px_rgba(15,23,42,0.07)] transition-shadow hover:shadow-[0_6px_20px_rgba(15,23,42,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:min-h-35 sm:gap-4 sm:p-6 lg:min-h-38" target="_blank" rel="noreferrer">
+                                <div class="action-icon inline-flex size-14 shrink-0 items-center justify-center rounded-full sm:size-16 bg-[#DCEEDE] text-[#2A7A4B]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down size-7 stroke-[1.75] sm:size-8" aria-hidden="true">
+                                        <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                        <path d="M12 18v-6" />
+                                        <path d="m9 15 3 3 3-3" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0 flex-1 pb-9 pr-1 sm:pb-10">
+                                    <h2 class="m-0 text-sm font-bold leading-tight text-ink-900 sm:text-base">Download Certificates</h2>
+                                    <p class="mt-1.5 text-xs leading-[1.6] text-ink-600 sm:text-sm sm:leading-[1.6]">Download your issued certificates directly from the portal.</p>
+                                </div>
+                                <span class="absolute bottom-4 right-4 inline-flex size-8 items-center justify-center rounded-full border bg-white sm:bottom-5 sm:right-5 sm:size-9 border-[#2A7A4B] text-[#2A7A4B]" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-3.75 stroke-2 sm:size-4.25" aria-hidden="true">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </a>
+                            <a href="./pages/certificate.html" class="quick-action-card group relative flex h-full min-h-34 items-start gap-3.5 rounded-3xl bg-white p-5 text-left shadow-[0_2px_8px_rgba(15,23,42,0.07)] transition-shadow hover:shadow-[0_6px_20px_rgba(15,23,42,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:min-h-35 sm:gap-4 sm:p-6 lg:min-h-38" target="_blank" rel="noreferrer">
+                                <div class="action-icon inline-flex size-14 shrink-0 items-center justify-center rounded-full sm:size-16 bg-[#DCE8F7] text-[#3568A8]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check size-7 stroke-[1.75] sm:size-8" aria-hidden="true">
+                                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                        <path d="m9 12 2 2 4-4" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0 flex-1 pb-9 pr-1 sm:pb-10">
+                                    <h2 class="m-0 text-sm font-bold leading-tight text-ink-900 sm:text-base">Verify Certificate</h2>
+                                    <p class="mt-1.5 text-xs leading-[1.6] text-ink-600 sm:text-sm sm:leading-[1.6]">Verify the authenticity of your certificates issued online.</p>
+                                </div>
+                                <span class="absolute bottom-4 right-4 inline-flex size-8 items-center justify-center rounded-full border bg-white sm:bottom-5 sm:right-5 sm:size-9 border-[#3568A8] text-[#3568A8]" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-3.75 stroke-2 sm:size-4.25" aria-hidden="true">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </a>
+                            <a href="./pages/citizen-survey-new.html" class="quick-action-card group relative flex h-full min-h-34 items-start gap-3.5 rounded-3xl bg-white p-5 text-left shadow-[0_2px_8px_rgba(15,23,42,0.07)] transition-shadow hover:shadow-[0_6px_20px_rgba(15,23,42,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:min-h-35 sm:gap-4 sm:p-6 lg:min-h-38" target="_blank" rel="noreferrer">
+                                <div class="action-icon inline-flex size-14 shrink-0 items-center justify-center rounded-full sm:size-16 bg-[#F8EFD0] text-[#B8860B]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-text size-7 stroke-[1.75] sm:size-8" aria-hidden="true">
+                                        <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+                                        <path d="M7 11h10" />
+                                        <path d="M7 15h6" />
+                                        <path d="M7 7h8" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0 flex-1 pb-9 pr-1 sm:pb-10">
+                                    <h2 class="m-0 text-sm font-bold leading-tight text-ink-900 sm:text-base">Citizen Survey</h2>
+                                    <p class="mt-1.5 text-xs leading-[1.6] text-ink-600 sm:text-sm sm:leading-[1.6]">Your feedback is important to us. Participate in our citizen survey.</p>
+                                </div>
+                                <span class="absolute bottom-4 right-4 inline-flex size-8 items-center justify-center rounded-full border bg-white sm:bottom-5 sm:right-5 sm:size-9 border-[#B8860B] text-[#B8860B]" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-3.75 stroke-2 sm:size-4.25" aria-hidden="true">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="content-container min-w-0 overflow-x-clip">
+                    <!-- GOVERNMENT SERVICES SECTION -->
+                    <section class="services-section reveal-section bg-background py-12 sm:py-14 md:py-16" aria-labelledby="government-services-heading">
+                        <h2 id="government-services-heading" class="text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-[28px] md:text-[32px]">Designed for Simpler Government Services</h2>
+                        <ul class="mt-8 grid list-none grid-cols-1 gap-6 sm:mt-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-8">
+                            <li class="flex service-card">
+                                <article class="flex w-full flex-col items-start gap-4 rounded-3xl bg-white p-6 text-left">
+                                    <img alt="" width="42" height="48" class="service-icon h-10 w-auto shrink-0 self-start" decoding="async" src="./images/pie.svg">
+                                    <div class="w-full">
+                                        <h3 class="text-[17px] leading-snug font-bold text-ink-900">All Services in One Place</h3>
+                                        <p class="mt-3 text-sm leading-relaxed text-ink-700">Access multiple government services through a single platform—no need to visit different offices or websites.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="flex service-card">
+                                <article class="flex w-full flex-col items-start gap-4 rounded-3xl bg-white p-6 text-left">
+                                    <img alt="" width="42" height="48" class="service-icon h-10 w-auto shrink-0 self-start" decoding="async" src="./images/trend.svg">
+                                    <div class="w-full">
+                                        <h3 class="text-[17px] leading-snug font-bold text-ink-900">Easy Application &amp; Tracking</h3>
+                                        <p class="mt-3 text-sm leading-relaxed text-ink-700">Apply for services online and track your application status in real-time with complete transparency.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="flex service-card">
+                                <article class="flex w-full flex-col items-start gap-4 rounded-3xl bg-white p-6 text-left">
+                                    <img alt="" width="42" height="48" class="service-icon h-10 w-auto shrink-0 self-start" decoding="async" src="./images/shield.svg">
+                                    <div class="w-full">
+                                        <h3 class="text-[17px] leading-snug font-bold text-ink-900">Secure &amp; Verified</h3>
+                                        <p class="mt-3 text-sm leading-relaxed text-ink-700">Your data and documents are protected with secure systems and officially verified processes.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="flex service-card">
+                                <article class="flex w-full flex-col items-start gap-4 rounded-3xl bg-white p-6 text-left">
+                                    <img alt="" width="42" height="48" class="service-icon h-10 w-auto shrink-0 self-start" decoding="async" src="./images/access.svg">
+                                    <div class="w-full">
+                                        <h3 class="text-[17px] leading-snug font-bold text-ink-900">Anytime, Anywhere Access</h3>
+                                        <p class="mt-3 text-sm leading-relaxed text-ink-700">Use services anytime from your mobile or desktop—no queues, no travel, no hassle.</p>
+                                    </div>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- APP DOWNLOAD SECTION -->
+                    <section class="app-download-section reveal-section bg-background py-8 sm:py-10" aria-labelledby="mobile-app-download-heading">
+                        <div class="grid overflow-hidden rounded-[28px] border border-border/70 bg-white md:grid-cols-2">
+                            <div class="flex items-center px-7 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+                                <div class="max-w-130">
+                                    <h2 id="mobile-app-download-heading" class="text-[2rem] leading-tight font-semibold tracking-tight text-ink-900">Download Apuni Sarkar App</h2>
+                                    <p class="mt-5 text-lg leading-relaxed text-ink-700">Access government services anytime, anywhere with the Apuni Sarkar mobile app. Easily verify certificates, track application status, download documents, and stay updated with important services, all from your smartphone with a simple, secure, and user-friendly experience.</p>
+                                    <div class="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+                                        <a href="https://play.google.com/store/apps/details?id=com.apunisarkaarapp" rel="noopener noreferrer" aria-label="Download from Google Play Store" class="store-badge inline-flex">
+                                            <img alt="Get it on Google Play" class="h-11 w-auto sm:h-12" src="./images/download-form-play-store.png">
+                                        </a>
+                                        <a href="https://apps.apple.com/in/app/apuni-sarkar/id6446305714" rel="noopener noreferrer" aria-label="Download from Apple App Store" class="store-badge inline-flex">
+                                            <img alt="Download on the App Store" class="h-11 w-auto sm:h-12" src="./images/download-from-app-store.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center bg-white px-6 py-8 sm:px-8 sm:py-10">
+                                <img alt="Apuni Sarkar mobile app preview" class="app-preview-img max-h-80 w-auto rounded-2xl object-contain sm:max-h-96 lg:max-h-105" src="./images/mobile-app.webp">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FIXED MEDIA GALLERY -->
+                    <section class="media-gallery-section reveal-section min-w-0 overflow-x-clip py-12 sm:py-14 md:py-16" aria-labelledby="media-gallery-heading">
+                        <div class="mx-auto mb-8 max-w-2xl px-4 text-center sm:mb-10">
+                            <h2 id="media-gallery-heading" class="text-2xl font-semibold tracking-tight text-primary sm:text-[28px] md:text-[32px]">Media Gallery</h2>
+                            <p class="mt-2 text-base text-muted-foreground sm:text-lg">Glimpses of development and cultural heritage.</p>
+                        </div>
+                        <div class="fixed-gallery-grid">
+                            <div class="gallery-card">
+                                <img alt="Award ceremony for administrative reforms and public grievances" loading="lazy" decoding="async" src="./images/media-gallery2.webp">
+                            </div>
+                            <div class="gallery-card">
+                                <img alt="Group photo at a government outreach programme" loading="lazy" decoding="async" src="./images/media-gallery3.webp">
+                            </div>
+                            <div class="gallery-card">
+                                <img alt="Officials reviewing digital services on a laptop" loading="lazy" decoding="async" src="./images/media-gallery4.webp">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- PARTNER LOGOS MARQUEE -->
+                <section class="w-full overflow-x-hidden bg-background py-8 sm:py-10" aria-label="Official partner services and national portals">
+                    <div class="w-full overflow-hidden">
+                        <div class="rfm-marquee-container" style="--pause-on-hover: paused; --pause-on-click: paused; --width: 100%; --transform: none;">
+                            <div class="rfm-marquee" style="--play: running; --direction: normal; --duration: 36s; --delay: 0s; --iteration-count: infinite; --min-width: auto;">
+                                <div class="rfm-initial-child-container partner-marquee">
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://www.india.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="India National Portal" class="max-h-full max-w-full object-contain" src="./images/national-portal-logo.svg">
+                                        </a>
+                                    </div>
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://web.umang.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="UMANG" class="max-h-full max-w-full object-contain" src="./images/umang.png">
+                                        </a>
+                                    </div>
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://apisetu.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="API Setu" class="max-h-full max-w-full object-contain" src="./images/logo-api-setu.png">
+                                        </a>
+                                    </div>
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://www.digilocker.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="DigiLocker" class="max-h-full max-w-full object-contain" src="./images/digi-locker.png">
+                                        </a>
+                                    </div>
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://egazette.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="eGazette" class="max-h-full max-w-full object-contain" src="./images/egazette.png">
+                                        </a>
+                                    </div>
+                                    <div class="rfm-child" style="--transform: none;">
+                                        <a href="https://uttarainformation.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                            <img alt="DIPR" class="max-h-full max-w-full object-contain" src="./images/dipr.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rfm-marquee" style="--play: running; --direction: normal; --duration: 36s; --delay: 0s; --iteration-count: infinite; --min-width: auto;">
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://www.india.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="India National Portal" class="max-h-full max-w-full object-contain" src="./images/national-portal-logo.svg">
+                                    </a>
+                                </div>
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://web.umang.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="UMANG" class="max-h-full max-w-full object-contain" src="./images/umang.png">
+                                    </a>
+                                </div>
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://apisetu.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="API Setu" class="max-h-full max-w-full object-contain" src="./images/logo-api-setu.png">
+                                    </a>
+                                </div>
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://www.digilocker.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="DigiLocker" class="max-h-full max-w-full object-contain" src="./images/digi-locker.png">
+                                    </a>
+                                </div>
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://egazette.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="eGazette" class="max-h-full max-w-full object-contain" src="./images/egazette.png">
+                                    </a>
+                                </div>
+                                <div class="rfm-child" style="--transform: none;">
+                                    <a href="https://uttarainformation.gov.in/" target="_blank" rel="noopener noreferrer" class="mx-3 flex h-22 w-44 shrink-0 items-center justify-center rounded-xl border border-border bg-white px-3 py-3 shadow-none transition-colors hover:border-primary sm:mx-4 sm:h-24 sm:w-52 sm:px-4">
+                                        <img alt="DIPR" class="max-h-full max-w-full object-contain" src="./images/dipr.png">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="content-container min-w-0 overflow-x-clip">
+                    <section class="reveal-section bg-background pb-8 sm:pb-10" aria-label="Website compliance badges">
+                        <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+                            <img alt="GIGW usability certified badge" class="h-6 w-auto rounded-[2px] border border-border/80 bg-white object-contain sm:h-7" loading="lazy" src="./images/uc.jpg">
+                            <img alt="W3C CSS validated badge" class="h-6 w-auto rounded-[2px] border border-border/80 bg-white object-contain sm:h-7" loading="lazy" src="./images/css.jpg">
+                            <img alt="W3C WCAG 2.0 Level AA badge" class="h-6 w-auto rounded-[2px] border border-border/80 bg-white object-contain sm:h-7" loading="lazy" src="./images/w3c.png">
+                        </div>
+                    </section>
+                </div>
+                
+                <div class="pointer-events-none fixed bottom-4 left-4 z-50 flex flex-col items-start gap-4 sm:bottom-6 sm:left-6">
+                    <button type="button" aria-label="Open WhatsApp" class="whatsapp-btn pointer-events-auto relative flex size-14 cursor-pointer items-center justify-center rounded-full bg-[#25D366] shadow-lg transition-transform hover:scale-105 active:scale-95 animate-pulse-ring">
+                        <img alt="WhatsApp" class="size-8" src="./images/whatsapp.svg">
+                        <span class="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-30"></span>
+                    </button>
+                </div>
+            </main>
+
+            <!-- PREMIUM FOOTER UPGRADE -->
+            <footer id="footer" class="premium-footer">
+                <div class="py-10 text-primary-foreground lg:py-14">
+                    <div class="content-container grid grid-cols-1 items-start gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-0 xl:gap-x-14">
+                        <div class="flex min-h-0 flex-col gap-5 sm:col-span-2 lg:col-span-1">
+                            <div class="flex items-start gap-3">
+                                <img alt="indian-emblem" class="h-14 w-auto shrink-0 brightness-0 invert" src="./images/indian-emblem.svg">
+                                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-white/35 bg-white/10 p-1.5">
+                                    <img alt="logo" class="h-full w-full object-contain" src="./images/logo.webp">
+                                </div>
+                                <div class="min-w-0 flex-1 pt-0.5">
+                                    <div class="text-xl font-bold leading-tight tracking-tight">e-Services</div>
+                                    <div class="mt-0.5 text-sm font-medium text-white/90">Apuni Sarkar</div>
+                                </div>
+                            </div>
+                            <p class="text-sm leading-relaxed text-primary-foreground/95">Information Technology Development Agency, Plot No IT 07 IT Park, Shastradhara Road, Dehradun, Dehradun, Uttarakhand, 248001</p>
+                            <a href="./pages/screen-reader.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-accessibility size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <circle cx="16" cy="4" r="1" />
+                                    <path d="m18 19 1-7-6 1" />
+                                    <path d="m5 8 3-3 5.5 3-2.36 3.5" />
+                                    <path d="M4.24 14.5a5 5 0 0 0 6.88 6" />
+                                    <path d="M13.76 17.5a5 5 0 0 0-6.88-6" />
+                                </svg>
+                                <span>Screen Reader</span>
+                            </a>
+                            <p class="mt-auto border-t border-white/10 pt-5 text-xs leading-snug text-primary-foreground/75 lg:pt-6">Last Updated At: <time datetime="2026-10-14">14/10/2026</time></p>
+                        </div>
+                        <nav class="flex flex-col gap-4" aria-label="Resources">
+                            <a class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline active" href="/" data-status="active" aria-current="page">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                </svg>
+                                <span>Home</span>
+                            </a>
+                            <a href="./pages/about.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 16v-4" />
+                                    <path d="M12 8h.01" />
+                                </svg>
+                                <span>About Apuni Sarkar</span>
+                            </a>
+                            <a href="./pages/all-services.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M3 5h.01" />
+                                    <path d="M3 12h.01" />
+                                    <path d="M3 19h.01" />
+                                    <path d="M8 5h13" />
+                                    <path d="M8 12h13" />
+                                    <path d="M8 19h13" />
+                                </svg>
+                                <span>List of Services</span>
+                            </a>
+                            <a href="./pages/faqs.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                    <path d="M12 17h.01" />
+                                </svg>
+                                <span>FAQs</span>
+                            </a>
+                            <a href="./pages/contact-us.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                                </svg>
+                                <span>Contact Us</span>
+                            </a>
+                            <a href="./pages/privacy-policy.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                </svg>
+                                <span>Privacy Policy</span>
+                            </a>
+                            <a href="./pages/dashboard.html" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <span>Dashboard</span>
+                            </a>
+                        </nav>
+                        <nav class="flex flex-col gap-4" aria-label="Resources">
+                            <a href="./documents/accessibility-statement.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Accessibility Statement (407KB)</span>
+                            </a>
+                            <a href="./documents/cancellation-policy.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Cancellation and Refund Policy (406KB)</span>
+                            </a>
+                            <a href="./documents/copyright-policy.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Copyright Policy (406KB)</span>
+                            </a>
+                            <a href="./documents/disclaimer.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Disclaimer (406KB)</span>
+                            </a>
+                            <a href="./documents/hyperlink-policy.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Hyperlink Policy (407KB)</span>
+                            </a>
+                            <a href="./documents/terms.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Terms and Conditions (407KB)</span>
+                            </a>
+                            <a href="./documents/holidays-list.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Holidays List (95KB)</span>
+                            </a>
+                            <a href="./documents/contingency-management-plan.pdf" class="footer-link flex items-center gap-2 text-sm text-primary-foreground underline-offset-4 hover:text-white hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text size-4 shrink-0 opacity-95" aria-hidden="true">
+                                    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                    <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                    <path d="M10 9H8" />
+                                    <path d="M16 13H8" />
+                                    <path d="M16 17H8" />
+                                </svg>
+                                <span>Contingency Management Plan (112KB)</span>
+                            </a>
+                        </nav>
+                        <div class="flex w-full justify-start sm:col-span-2 lg:col-span-1 lg:justify-end">
+                            <a href="./pages/tel:1905.html" class="footer-toll-free flex w-full max-w-[300px] flex-col items-center justify-center rounded-[20px] px-8 py-4 text-center outline-none ring-0 transition-colors focus-visible:ring-2 focus-visible:ring-white/50 sm:py-5">
+                                <span class="text-sm font-normal text-white/80">Toll Free Helpline</span>
+                                <span class="mt-2 text-2xl font-bold leading-tight tracking-tight text-white tabular-nums sm:text-[26px]">1905</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 bg-[#0b1220] px-4 py-6 text-center text-white sm:py-7">
+                    <div class="content-container space-y-1.5 text-sm leading-relaxed text-white/80">
+                        <p>For the best experience, please view the site in 1024 x 768 resolution. It's optimized for modern browsers like Chrome (v84+), Safari (v14+), and Firefox (v90+).</p>
+                        <p>Contents of this website is published and managed by Information Technology Development Agency (ITDA), Department of IT, Good Governance &amp; Science Technology, Government of Uttarakhand.</p>
+                        <p>Copyright © 2026 - Information Technology Development Agency | All rights reserved</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"></section>
+    </div>
+
+    <script defer src="./scripts/accessibility-widget.js"></script>
+    <script id="bhashini-script" src="./scripts/website_translation_utility.js" language-icon-color="#ffffff"></script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX4G Accessibility Tool</title>
+    <link rel="stylesheet" href="./styles/accessibility-widget.css">
+    <div class="uwaw uw-light-theme gradient-head uwaw-initial paid_widget" id="uw-main" role="dialog" aria-modal="true" aria-labelledby="uw-heading" style="right: -530px;">
+        <!-- Widget content preserved -->
+    </div>
+
+    <!-- Cleaned up Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Letter-by-letter Typewriter for "PUNI SARKAR" after "A"
+            const targetEl = document.querySelector('[data-typewriter-target]');
+            const cursorEl = document.querySelector('.typewriter-cursor');
+            if (targetEl) {
+                const fullText = targetEl.getAttribute('data-typewriter-target') || '';
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                if (prefersReducedMotion) {
+                    targetEl.textContent = fullText;
+                } else {
+                    let index = fullText.length;
+                    let isDeleting = true;
+                    targetEl.textContent = fullText;
+
+                    const getTypingDelay = (char) => {
+                        const base = 95;
+                        const jitter = Math.floor(Math.random() * 45);
+                        return char === ' ' ? base + 50 : base + jitter;
+                    };
+
+                    const getDeletingDelay = () => 52 + Math.floor(Math.random() * 24);
+
+                    const tick = () => {
+                        if (!isDeleting) {
+                            if (index < fullText.length) {
+                                index += 1;
+                                targetEl.textContent = fullText.slice(0, index);
+                                cursorEl?.classList.add('is-active');
+                                setTimeout(tick, getTypingDelay(fullText[index - 1]));
+                            } else {
+                                cursorEl?.classList.remove('is-active');
+                                isDeleting = true;
+                                setTimeout(tick, 1700);
+                            }
+                        } else if (index > 0) {
+                            index -= 1;
+                            targetEl.textContent = fullText.slice(0, index);
+                            cursorEl?.classList.add('is-active');
+                            setTimeout(tick, getDeletingDelay());
+                        } else {
+                            cursorEl?.classList.remove('is-active');
+                            isDeleting = false;
+                            setTimeout(tick, 420);
+                        }
+                    };
+
+                    // Let smoothReveal settle first, then erase and retype one character at a time
+                    setTimeout(tick, 1100);
+                }
+            }
+
+            // Scroll Reveal Observer
+            const revealSections = document.querySelectorAll('.reveal-section');
+            if (revealSections.length) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+                revealSections.forEach(section => observer.observe(section));
+            }
+        });
+    </script>
+</body>
+</html>

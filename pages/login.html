@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | e-District</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        /* Matched color palette based on reference */
+        --blue: #0b5997;
+        --blue-hover: #084a7e;
+        --orange: #f37021;
+        --text-main: #1f2937;
+        --text-muted: #6b7280;
+        --text-light: #9ca3af;
+        --bg-body: #ffffff;
+        --bg-tab: #f3f4f6;
+        --bg-input: #f9fafb;
+        --border-color: #e5e7eb;
+        --font-main: 'Inter', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-main);
+        color: var(--text-main);
+        background-color: var(--bg-body);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Prevent body scroll */
+    }
+
+    /* --- Top Navbar (Minimal) --- */
+    .top-nav {
+        height: 48px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.5rem;
+        font-size: 0.85rem;
+        z-index: 10;
+    }
+    .top-nav .left-links { display: flex; gap: 1rem; }
+    .top-nav a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .top-nav a:hover { color: var(--blue); }
+    .top-nav .right-tools { display: flex; align-items: center; gap: 1rem; }
+    .top-nav .lang-toggle { display: flex; background: var(--bg-tab); border-radius: 4px; overflow: hidden; }
+    .top-nav .lang-toggle button { background: transparent; border: none; padding: 0.2rem 0.6rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+    .top-nav .lang-toggle button.active { background: #fff; color: var(--blue); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+    /* --- Main Split Layout --- */
+    .split-layout {
+        display: flex;
+        flex: 1;
+        height: calc(100vh - 48px); /* Fill remaining height */
+        overflow: hidden;
+    }
+
+    /* --- Left Side: Image Slider --- */
+    .image-panel {
+        flex: 1.15;
+        position: relative;
+        background: #1f2937;
+        overflow: hidden;
+    }
+
+    .slider-track {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 300%; /* 3 slides */
+    }
+
+    .slide {
+        width: 33.333%;
+        height: 100%;
+        position: relative;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slide::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+    }
+
+    /* Floating Back Button on Image */
+    .back-btn {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        z-index: 5;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.4);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.4); transform: translateX(-3px); }
+
+    /* Text over image */
+    .slide-text {
+        position: absolute;
+        bottom: 4rem;
+        left: 3rem;
+        right: 3rem;
+        z-index: 2;
+        color: white;
+    }
+    .slide-text h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+    .slide-text p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        max-width: 90%;
+        opacity: 0.9;
+    }
+
+    /* Slider Dots */
+    .slider-dots {
+        position: absolute;
+        bottom: 2rem;
+        left: 3rem;
+        display: flex;
+        gap: 0.6rem;
+        z-index: 5;
+    }
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.4);
+        cursor: pointer;
+        transition: all 0.3s;
+        border: none;
+    }
+    .dot.active {
+        width: 32px;
+        background: white;
+        border-radius: 10px;
+    }
+
+    /* --- Right Side: Login Form --- */
+    .form-panel {
+        flex: 0.85;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 3rem 2rem;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+    .form-content {
+        width: 100%;
+        max-width: 440px;
+        margin: auto 0; /* Center vertically */
+    }
+
+    /* Brand Logo Area */
+    .brand-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 3rem;
+    }
+    .brand-logo-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1rem;
+    }
+    .brand-text {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+    }
+    .brand-text span { color: var(--orange); }
+
+    /* Headings */
+    .welcome-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #1e3a8a; /* deep blue */
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.03em;
+    }
+    .welcome-title span { color: var(--orange); }
+    .welcome-subtitle {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+        font-weight: 400;
+    }
+
+    /* Role Tabs */
+    .role-tabs {
+        display: flex;
+        background: var(--bg-tab);
+        border-radius: 8px;
+        padding: 0.3rem;
+        margin-bottom: 2rem;
+    }
+    .role-tab {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.65rem 0;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+    .role-tab i { font-size: 1rem; }
+    .role-tab.active {
+        background: white;
+        color: var(--blue);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Prototype Note */
+    .proto-note {
+        background: #fff4e6;
+        border-left: 3px solid var(--orange);
+        padding: 0.85rem 1rem;
+        border-radius: 0 6px 6px 0;
+        font-size: 0.85rem;
+        color: #7c3aed; /* Purple-ish text as in image */
+        color: #374151;
+        margin-bottom: 2rem;
+        line-height: 1.4;
+    }
+    .proto-note strong { font-weight: 700; color: #111827; }
+
+    /* Form Fields */
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+    }
+    .form-label i { color: var(--orange); font-size: 1rem; }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .input-wrapper input {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-family: var(--font-main);
+        background: #ffffff;
+        color: var(--text-main);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus {
+        outline: none;
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(11, 89, 151, 0.1);
+    }
+    .input-wrapper input::placeholder { color: var(--text-light); }
+    
+    .toggle-pw {
+        position: absolute;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .toggle-pw:hover { color: var(--text-muted); }
+
+    /* Row: Remember & Forgot */
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+    .checkbox-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        cursor: pointer;
+    }
+    .checkbox-wrap input {
+        accent-color: var(--blue);
+        width: 16px;
+        height: 16px;
+    }
+    .forgot-link {
+        color: var(--orange);
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: var(--blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        transition: background 0.2s;
+        margin-bottom: 1.5rem;
+    }
+    .btn-submit:hover { background: var(--blue-hover); }
+
+    /* Footer Security Badges */
+    .security-badges {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        font-size: 0.8rem;
+        color: #059669; /* green */
+        font-weight: 500;
+    }
+    .security-badges span { display: flex; align-items: center; gap: 0.4rem; }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 900px) {
+        .split-layout { flex-direction: column; height: auto; overflow-y: auto; }
+        .image-panel { min-height: 400px; }
+        .form-panel { padding: 2rem 1.5rem; }
+        .slide-text h1 { font-size: 2rem; }
+        .slide-text { bottom: 3rem; left: 2rem; right: 2rem; }
+        .slider-dots { left: 2rem; bottom: 1.5rem; }
+        .back-btn { top: 1.5rem; left: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+
+    <!-- Subtle Top Nav -->
+    <nav class="top-nav">
+        <div class="left-links">
+            <a href="#">Skip to main content</a>
+            <a href="#">Sitemap</a>
+        </div>
+        <div class="right-tools">
+            <div class="lang-toggle">
+                <button class="active">English</button>
+                <button>हिन्दी</button>
+            </div>
+            <a href="#" aria-label="Accessibility"><i class="fas fa-universal-access" style="font-size: 1.1rem;"></i></a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="split-layout">
+        
+        <!-- Left Side: Image Slider -->
+        <div class="image-panel">
+            
+            <!-- Floating Back Button -->
+            <a href="index.html" class="back-btn" aria-label="Go back">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+
+            <div class="slider-track" id="sliderTrack">
+                <!-- Slide 1 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="Modern Government Building">
+                    <div class="slide-text">
+                        <h1>हर घर जल,<br>सुरक्षित जल</h1>
+                        <p>ग्रामीण भारत में वास्तविक समय में जल गुणवत्ता की निगरानी और सामुदायिक भागीदारी के माध्यम से सुरक्षित पेयजल सुनिश्चित करना।</p>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=80" alt="Digital Citizen Services">
+                    <div class="slide-text">
+                        <h1>स्मार्ट गवर्नेंस,<br>सशक्त नागरिक</h1>
+                        <p>डिजिटल इंडिया की पहल के साथ, अब सभी सरकारी सेवाएं आपके मोबाइल और कंप्यूटर पर सीधे उपलब्ध हैं।</p>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80" alt="Team Collaboration">
+                    <div class="slide-text">
+                        <h1>पारदर्शी व्यवस्था,<br>तेज़ सेवाएं</h1>
+                        <p>बिना किसी देरी और परेशानी के, घर बैठे प्रमाण पत्र प्राप्त करें और अपनी शिकायतों का त्वरित समाधान पाएं।</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Dots -->
+            <div class="slider-dots" id="sliderDots">
+                <button class="dot active" data-index="0" aria-label="Slide 1"></button>
+                <button class="dot" data-index="1" aria-label="Slide 2"></button>
+                <button class="dot" data-index="2" aria-label="Slide 3"></button>
+            </div>
+        </div>
+
+        <!-- Right Side: Form Panel -->
+        <div class="form-panel">
+            <div class="form-content">
+                
+                <!-- Brand Header -->
+                <div class="brand-header">
+                    <div class="brand-logo-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="brand-text">e-District<span>.</span></div>
+                </div>
+
+                <!-- Heading -->
+                <h1 class="welcome-title">Welcome <span>Back</span></h1>
+                <p class="welcome-subtitle">कृपया साइन इन करने के लिए अपना विवरण दर्ज करें</p>
+
+                <!-- Role Tabs (Admin, Officer, User) -->
+                <div class="role-tabs" role="tablist">
+                    <button class="role-tab active" id="tab-admin" role="tab" aria-selected="true" onclick="switchRole('admin')">
+                        <i class="fas fa-user-shield"></i> Admin
+                    </button>
+                    <button class="role-tab" id="tab-officer" role="tab" aria-selected="false" onclick="switchRole('officer')">
+                        <i class="fas fa-user-tie"></i> Officer
+                    </button>
+                    <button class="role-tab" id="tab-user" role="tab" aria-selected="false" onclick="switchRole('user')">
+                        <i class="fas fa-user"></i> User
+                    </button>
+                </div>
+
+                <!-- Prototype Note (Matches reference) -->
+                <div class="proto-note">
+                    <strong>Prototype Note:</strong> Use Username: <strong>admin</strong> and Password: <strong>admin123</strong>
+                </div>
+
+                <!-- Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label class="form-label" for="username">
+                            <i class="fas fa-user"></i> उपयोगकर्ता नाम (Username)
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="username" placeholder="Enter your username" required>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label class="form-label" for="password">
+                            <i class="fas fa-lock"></i> पासवर्ड (Password)
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" placeholder="••••••••" required>
+                            <button type="button" class="toggle-pw" onclick="togglePassword()" aria-label="Show password">
+                                <i class="fas fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember & Forgot -->
+                    <div class="form-row">
+                        <label class="checkbox-wrap">
+                            <input type="checkbox"> मुझे याद रखें
+                        </label>
+                        <a href="#" class="forgot-link">पासवर्ड भूल गए?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+
+                <!-- Footer Badges -->
+                <div class="security-badges">
+                    <span><i class="fas fa-lock"></i> सुरक्षित लॉगिन</span>
+                    <span><i class="fas fa-shield-alt"></i> SSL संरक्षित</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Role Switch UI logic
+        function switchRole(role) {
+            // Update tabs
+            document.querySelectorAll('.role-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`tab-${role}`).classList.add('active');
+            document.getElementById(`tab-${role}`).setAttribute('aria-selected', 'true');
+            
+            // Optional: Change form fields based on role if needed.
+        }
+
+        // Password visibility toggle
+        function togglePassword() {
+            const pwInput = document.getElementById('password');
+            const icon = document.getElementById('eyeIcon');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                pwInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Handle Form Submission
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // Determine active role
+            const activeTab = document.querySelector('.role-tab.active').id;
+            
+            // Redirect based on role
+            if (activeTab === 'tab-user') {
+                window.location.href = 'pages/user_dashboard.html';
+            } else if (activeTab === 'tab-admin' || activeTab === 'tab-officer') {
+                // Both Admin and Officer go to admin dashboard for this demo
+                window.location.href = 'pages/admin_dashboard.html';
+            }
+        }
+
+        // Slider Logic
+        const track = document.getElementById('sliderTrack');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        const totalSlides = 3;
+        let slideInterval;
+
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentSlide = index;
+            track.style.transform = `translateX(-${index * 33.333}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function startSlider() {
+            slideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, 5000); // 5 seconds
+        }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                goToSlide(i);
+                clearInterval(slideInterval);
+                startSlider();
+            });
+        });
+
+        // Start automatic sliding
+        startSlider();
+
+        // Pause on hover over the image panel
+        const imagePanel = document.querySelector('.image-panel');
+        imagePanel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        imagePanel.addEventListener('mouseleave', startSlider);
+
+    </script>
+</body>
+</html>
