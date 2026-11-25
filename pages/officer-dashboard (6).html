@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Officer Dashboard · Apuni Sarkar Smart Assist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Geist Variable';font-style:normal;font-display:swap;
+  font-weight:100 900;src:url(https://dimriutkarsh.github.io/Prayas-2026-Main/images/geist-latin-wght-normal-Dm3htQBi.woff2) format('woff2-variations')}
+/* ============ Apuni Sarkar Smart Assist — shared design tokens ============
+   Aligned 1:1 to the Prayas-2026-Main portal theme (e-Services · Apuni Sarkar):
+   Geist type · warm cream canvas · terracotta primary · steel-blue chrome.  */
+:root{
+  --bar:#0D4366;           /* steel-blue chrome (site --navbar): strip, drawer, toasts */
+  --ticker:#284CAC;        /* royal-blue notice ticker (site --badge) */
+  --terracotta:#90502A;    /* primary actions (site --primary) */
+  --terracotta-deep:#7D3F18;
+  --rust:#9A3E16;          /* strong accent (site --accent) */
+  --ring:#B46A3A;          /* focus ring (site --ring) */
+  --navy:#0D4366;          /* kept name — now the steel-blue chrome colour */
+  --teal:#90502A;          /* kept name — now the terracotta accent (links, active) */
+  --teal-soft:#F1EBE1;     /* warm beige tint backgrounds */
+  --navy-soft:#EDE7DD;     /* warm neutral tint */
+  --success:#217A46;       --success-soft:#E5F2E8;
+  --warning:#9A6A15;       --warning-soft:#FBF0D9;
+  --error:#B42318;         --error-soft:#FEE9E7;
+  --bg:#F8F6F1;            /* warm cream canvas (site --background) */
+  --surface:#FFFFFF;
+  --text:#181614;          /* ink-900 */
+  --text-muted:#6B5040;    /* ink-500 */
+  --text-light:#816F65;    /* ink-300 */
+  --border:#E4E4E7;
+  --border-strong:#D6D3D1;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(24,22,20,.05),0 4px 14px rgba(24,22,20,.06);
+  --shadow-lg:0 8px 30px rgba(24,22,20,.16);
+  --font:'Geist Variable','Inter',-apple-system,'Segoe UI',Roboto,'Noto Sans',sans-serif;
+  --mono:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+  --topbar-h:62px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--ring);outline-offset:2px;border-radius:4px}
+.icon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex:none}
+.icon-sm{width:15px;height:15px}
+.icon-lg{width:22px;height:22px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Gov utility strip + top bar (portal shell) ---------- */
+.gov-strip{background:var(--bar);color:#fff;height:34px;display:flex;
+  align-items:center;gap:14px;padding:0 clamp(12px,2.5vw,28px);font-size:12px}
+.gov-strip .gs-note{display:flex;align-items:center;gap:7px;color:#E6EDF3;
+  font-weight:500;letter-spacing:.2px}
+.gov-strip .gs-note .icon{width:14px;height:14px;color:#F2C879}
+.gov-strip .gs-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+@media (max-width:640px){.gov-strip .gs-note span{display:none}}
+.topbar{position:sticky;top:0;z-index:60;height:var(--topbar-h);
+  background:var(--surface);color:var(--text);display:flex;align-items:center;
+  gap:16px;padding:0 clamp(12px,2.5vw,28px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--bar);
+  color:#fff;display:grid;place-items:center;flex:none}
+.brand-mark .icon{width:20px;height:20px}
+.brand-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand-text b{font-size:15px;font-weight:700;letter-spacing:.1px;white-space:nowrap}
+.brand-text span{font-size:11.5px;color:var(--text-light);white-space:nowrap}
+.topnav{display:flex;gap:2px;margin-left:8px}
+.topnav a{display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:8px;
+  color:var(--text-muted);font-weight:500;font-size:14px;white-space:nowrap}
+.topnav a:hover{background:var(--teal-soft);color:var(--terracotta);text-decoration:none}
+.topnav a.active{background:var(--teal-soft);color:var(--terracotta);font-weight:600;
+  box-shadow:inset 0 -2px 0 0 var(--terracotta)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.lang-toggle{display:flex;background:var(--navy-soft);border-radius:8px;
+  overflow:hidden;border:1px solid var(--border-strong)}
+.lang-toggle button{background:transparent;border:none;color:var(--text-muted);
+  padding:6px 12px;font-size:12.5px;font-weight:600;min-height:40px}
+.lang-toggle button[aria-pressed="true"]{background:#fff;color:var(--navy)}
+.role-chip{display:flex;align-items:center;gap:7px;background:var(--surface);
+  border:1px solid var(--border-strong);padding:6px 12px;border-radius:8px;
+  font-size:12.5px;font-weight:600;color:var(--text-muted);white-space:nowrap}
+.role-chip .role-short{display:none}
+.bell{position:relative;width:38px;height:38px;border-radius:8px;display:grid;
+  place-items:center;background:var(--surface);border:1px solid var(--border-strong);color:var(--text-muted)}
+.bell:hover{background:#F6F2EA}
+.bell .dot{position:absolute;top:5px;right:5px;min-width:16px;height:16px;
+  background:var(--error);color:#fff;font-size:10px;font-weight:700;border-radius:8px;
+  display:grid;place-items:center;padding:0 4px}
+.bell .dot[hidden]{display:none}
+
+/* ---------- Demo ribbon ---------- */
+.demo-ribbon{background:var(--ticker);color:#fff;border-bottom:1px solid rgba(255,255,255,.16);
+  font-size:12.5px;font-weight:500;padding:7px clamp(12px,2.5vw,28px);
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.demo-ribbon .icon{width:15px;height:15px;color:#F2C879}
+.conn-chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  border-radius:7px;padding:3px 9px;letter-spacing:.2px;max-width:100%}
+.conn-chip .icon{width:13px;height:13px;stroke-width:2.4}
+.conn-live{background:var(--success-soft);color:var(--success);border:1px solid #C3DFCB}
+.conn-neutral{background:#EDF1F4;color:#6B5040;border:1px solid #D8E0E7}
+.live-banner{display:flex;align-items:center;gap:14px;padding:16px clamp(14px,2.5vw,24px);margin-bottom:18px}
+.live-banner[hidden]{display:none}
+.live-banner .lb-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.live-banner .lb-icon .icon{width:20px;height:20px}
+.live-banner .lb-title{font-weight:700;font-size:15px}
+.live-banner .lb-body{font-size:13.5px;color:var(--text-light);margin-top:2px;line-height:1.5}
+.live-banner .btn{margin-left:auto;flex-shrink:0}
+.lb-connecting .lb-icon{background:var(--teal-soft);color:var(--teal)}
+.lb-empty .lb-icon{background:var(--success-soft);color:var(--success)}
+.lb-error .lb-icon{background:var(--error-soft);color:var(--error)}
+.conn-warn{background:#FCEFC7;color:#8A5C13;border:1px solid #EAD9AE}
+.conn-error{background:var(--error-soft);color:var(--error);border:1px solid #F2C9C4}
+
+/* ---------- Layout ---------- */
+.container{max-width:1440px;margin:0 auto;padding:0 clamp(12px,2.5vw,28px)}
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;
+  padding:26px 0 18px}
+.page-head h1{font-size:clamp(21px,3vw,26px);font-weight:800;color:var(--navy);
+  letter-spacing:-.2px}
+.page-head .sub{color:var(--text-muted);font-size:13.5px;margin-top:3px}
+.head-actions{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sync-note{font-size:12.5px;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+.sync-note .pulse{width:8px;height:8px;border-radius:50%;background:var(--success);
+  box-shadow:0 0 0 3px var(--success-soft)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border-radius:9px;font-weight:600;font-size:13.5px;min-height:40px;
+  padding:8px 15px;border:1px solid var(--border-strong);background:var(--surface);
+  color:var(--text);transition:background .15s,border-color .15s;white-space:nowrap}
+.btn:hover{background:#F6F2EA}
+.btn-primary{background:var(--terracotta);border-color:var(--terracotta);color:#fff}
+.btn-primary:hover{background:var(--terracotta-deep)}
+.btn-teal{background:var(--rust);border-color:var(--rust);color:#fff}
+.btn-teal:hover{background:#823512}
+.btn-danger{background:var(--error);border-color:var(--error);color:#fff}
+.btn-danger:hover{background:#991B1B}
+.btn-ghost{border-color:transparent;background:transparent;color:var(--teal)}
+.btn-ghost:hover{background:var(--teal-soft)}
+.btn-sm{min-height:34px;padding:5px 11px;font-size:12.5px;border-radius:8px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn[disabled]:hover{background:var(--surface)}
+.btn-primary[disabled]:hover{background:var(--terracotta)}
+
+/* ---------- KPI cards ---------- */
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:4px 0 18px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:6px;
+  text-align:left;transition:border-color .15s,transform .15s;position:relative}
+.kpi:hover{border-color:var(--teal);transform:translateY(-1px)}
+.kpi .kpi-top{display:flex;align-items:center;gap:9px}
+.kpi .kpi-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center}
+.kpi .kpi-label{font-size:12px;font-weight:600;color:var(--text-muted);line-height:1.25}
+.kpi .kpi-value{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.5px;
+  font-variant-numeric:tabular-nums}
+.kpi .kpi-sub{font-size:11.5px;color:var(--text-light)}
+.kpi.alert .kpi-value{color:var(--error)}
+
+/* ---------- Filters ---------- */
+.filterbar{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px;
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:11px;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.5px}
+.field select,.field input{min-height:40px;border:1px solid var(--border-strong);
+  border-radius:8px;padding:7px 11px;background:#fff;font-size:13.5px;min-width:120px}
+.field select{padding-right:28px;appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B5040' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
+.search-wrap{position:relative}
+.search-wrap .icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  color:var(--text-light);width:16px;height:16px}
+.search-wrap input{padding-left:32px;width:clamp(160px,22vw,260px)}
+.seg{display:flex;background:#EFEAE0;border:1px solid var(--border-strong);
+  border-radius:9px;overflow:hidden}
+.seg button{border:none;background:transparent;padding:8px 13px;font-size:12.5px;
+  font-weight:600;color:var(--text-muted);display:flex;align-items:center;gap:6px;min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--terracotta);color:#fff}
+.filter-meta{margin-left:auto;font-size:12.5px;color:var(--text-muted);
+  display:flex;align-items:center;gap:10px}
+.filter-meta b{color:var(--navy)}
+.reset-link{background:none;border:none;color:var(--teal);font-weight:600;
+  font-size:12.5px;min-height:38px;padding:0 6px}
+.reset-link:hover{text-decoration:underline}
+
+/* ---------- Main grid ---------- */
+.main-grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(280px,1fr);
+  gap:16px;margin-bottom:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:14px 16px;
+  border-bottom:1px solid var(--border)}
+.card-head h2{font-size:14.5px;font-weight:700;color:var(--text)}
+.card-head .hint{font-size:12px;color:var(--text-light);font-weight:500}
+.card-body{padding:14px 16px}
+.card-head .head-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* ---------- Map ---------- */
+.map-wrap{position:relative;padding:10px}
+#ukmap{width:100%;height:auto;display:block;border-radius:10px;background:#FAF7F1}
+.map-toolbar{position:absolute;top:18px;right:18px;display:flex;flex-direction:column;
+  gap:6px;z-index:5}
+.map-tool{width:34px;height:34px;border-radius:8px;background:#fff;
+  border:1px solid var(--border-strong);display:grid;place-items:center;color:var(--navy);
+  box-shadow:var(--shadow)}
+.map-tool:hover{background:#F6F2EA}
+.map-legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+  padding:10px 16px 14px;font-size:12px;color:var(--text-muted)}
+.map-legend .lg-item{display:flex;align-items:center;gap:6px}
+.map-legend .swatch{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.12)}
+.map-legend .ring{border-radius:50%;border:2.5px solid}
+.map-tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;
+  font-size:12px;font-weight:500;padding:7px 10px;border-radius:8px;box-shadow:var(--shadow-lg);
+  opacity:0;transform:translate(-50%,-115%);transition:opacity .12s;max-width:240px;z-index:6;line-height:1.35}
+.map-tip.show{opacity:1}
+.map-tip .tip-title{font-weight:700;font-size:12.5px}
+.map-tip .tip-sub{color:#B9C7D4;font-size:11px}
+.district-label{font-size:11px;font-weight:600;fill:#4A3C32;pointer-events:none;
+  text-transform:uppercase;letter-spacing:.4px}
+.district-label.on-dark{fill:#FFFFFF}
+.d-count{font-size:10.5px;font-weight:700;fill:var(--navy);pointer-events:none}
+.marker{cursor:pointer}
+.marker-ring{fill:none;stroke-width:2}
+
+/* ---------- Right rail stats ---------- */
+.bar-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.bar-row .bar-label{flex:0 0 auto;width:118px;font-size:12.5px;font-weight:600;
+  color:var(--text);display:flex;align-items:center;gap:7px;min-width:0}
+.bar-row .bar-track{flex:1;height:16px;background:#EFEAE0;border-radius:5px;overflow:hidden}
+.bar-row .bar-fill{height:100%;border-radius:5px 0 0 5px;background:var(--teal);
+  transition:width .4s}
+.bar-row .bar-val{width:30px;text-align:right;font-size:12px;font-weight:700;
+  color:var(--navy);font-variant-numeric:tabular-nums}
+.bar-row .bar-label .icon{width:14px;height:14px;color:var(--teal)}
+.mini-list{display:flex;flex-direction:column;gap:2px}
+.mini-item{display:flex;align-items:center;gap:9px;padding:8px 2px;font-size:12.5px;
+  border-bottom:1px dashed var(--border)}
+.mini-item:last-child{border-bottom:none}
+.mini-item .mi-ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none}
+.mini-item .mi-text{min-width:0;flex:1}
+.mini-item .mi-text b{display:block;font-size:12.5px;font-weight:600;color:var(--text)}
+.mini-item .mi-text span{color:var(--text-light);font-size:11.5px}
+.mini-item time{color:var(--text-light);font-size:11px;flex:none}
+
+/* ---------- Section headings ---------- */
+.section-head{display:flex;align-items:center;gap:10px;margin:26px 0 12px;flex-wrap:wrap}
+.section-head h2{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.2px}
+.section-head .count-pill{background:var(--teal-soft);color:var(--teal);font-size:12px;
+  font-weight:700;border-radius:20px;padding:3px 10px}
+.section-head .head-actions{margin-left:auto}
+.section-sub{font-size:12.5px;color:var(--text-muted);margin:-6px 0 12px}
+
+/* ---------- Duplicate groups ---------- */
+.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.group-card{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;
+  display:flex;flex-direction:column;gap:9px}
+.group-card .g-top{display:flex;align-items:center;gap:9px}
+.group-card .g-ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none}
+.group-card .g-title{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.group-card .g-title span{display:block;font-size:11.5px;font-weight:500;color:var(--text-light)}
+.group-card .g-sim{font-size:12px;color:var(--text-muted);background:#F7F4ED;
+  border:1px dashed var(--border-strong);border-radius:8px;padding:7px 10px}
+.group-card .g-members{display:flex;flex-wrap:wrap;gap:6px}
+.ref-chip{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--teal);
+  background:var(--teal-soft);border:1px solid transparent;border-radius:6px;padding:3px 7px}
+.group-card .g-actions{display:flex;gap:8px;margin-top:2px}
+.group-card .g-actions .btn{flex:1}
+
+/* ---------- Queue table ---------- */
+.table-wrap{overflow-x:auto;border-radius:0 0 var(--radius) var(--radius)}
+table.queue{width:100%;border-collapse:collapse;font-size:13px;min-width:840px}
+table.queue th{position:sticky;top:0;background:#F4F1EA;color:var(--text-muted);
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+table.queue td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+table.queue tr:last-child td{border-bottom:none}
+table.queue tbody tr:hover{background:#FAF7F1}
+.cell-id{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--navy);white-space:nowrap}
+.cell-loc b{display:block;font-weight:600;color:var(--text)}
+.cell-loc span{font-size:11.5px;color:var(--text-light)}
+.overdue-days{font-weight:800;color:var(--error);font-variant-numeric:tabular-nums;white-space:nowrap}
+.due-in{font-weight:600;color:var(--text-light);font-variant-numeric:tabular-nums;white-space:nowrap}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.empty-state{padding:44px 20px;text-align:center;color:var(--text-muted)}
+.empty-state .icon{width:34px;height:34px;color:var(--text-light);margin-bottom:8px}
+.empty-state b{display:block;color:var(--text);font-size:14.5px;margin-bottom:3px}
+
+/* ---------- Status chips (icon + text, never colour alone) ---------- */
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
+  border-radius:7px;padding:3px 9px;white-space:nowrap;letter-spacing:.2px}
+.chip .icon{width:13px;height:13px;stroke-width:2.4}
+.chip-submitted{background:var(--teal-soft);color:var(--teal)}
+.chip-under-review{background:var(--warning-soft);color:#8A5C13}
+.chip-action-required{background:var(--warning-soft);color:#8A5C13;outline:1.5px dashed var(--warning);outline-offset:-3px}
+.chip-resolution-claimed{background:var(--navy-soft);color:var(--navy)}
+.chip-citizen-confirmed{background:var(--success-soft);color:var(--success)}
+.chip-closed{background:#ECE7DE;color:#6B5040}
+.chip-reopened{background:var(--error-soft);color:var(--error)}
+.chip-overdue{background:var(--error);color:#fff}
+.chip-escalated{background:#8C2F39;color:#fff}
+.chip-muted{background:#ECE7DE;color:#6B5040}
+
+/* ---------- Drawer ---------- */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(24,22,20,.45);z-index:70;
+  opacity:0;pointer-events:none;transition:opacity .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);background:#fff;
+  z-index:80;box-shadow:var(--shadow-lg);transform:translateX(105%);
+  transition:transform .25s ease;display:flex;flex-direction:column}
+body.drawer-open .drawer{transform:translateX(0)}
+body.drawer-open .drawer-backdrop{opacity:1;pointer-events:auto}
+.drawer-head{display:flex;align-items:flex-start;gap:10px;padding:16px 18px;
+  border-bottom:1px solid var(--border);background:var(--navy);color:#fff}
+.drawer-head h3{font-size:16px;font-weight:800;letter-spacing:-.2px}
+.drawer-head .sub{font-size:12px;color:#B9C7D4;margin-top:2px}
+.drawer-close{margin-left:auto;width:36px;height:36px;border-radius:8px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);
+  color:#fff;display:grid;place-items:center}
+.drawer-close:hover{background:rgba(255,255,255,.25)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:16px}
+.drawer-sec h4{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--text-light);margin-bottom:8px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 14px}
+.meta-item{font-size:12.5px}
+.meta-item .k{color:var(--text-light);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.4px}
+.meta-item .v{font-weight:600;color:var(--text);margin-top:1px}
+.desc-box{background:#FAF7F1;border:1px solid var(--border);border-radius:10px;
+  padding:11px 13px;font-size:13.5px;line-height:1.55}
+.callout{border-radius:10px;padding:11px 13px;font-size:13px;line-height:1.5;
+  display:flex;gap:9px;align-items:flex-start}
+.callout .icon{margin-top:1px}
+.callout-info{background:var(--navy-soft);color:var(--navy);border:1px solid #D8CFC0}
+.callout-success{background:var(--success-soft);color:#1C5C3F;border:1px solid #C3DFCB}
+.callout-warn{background:var(--warning-soft);color:#7A5310;border:1px solid #EAD9AE}
+.callout-danger{background:var(--error-soft);color:#8C2F2F;border:1px solid #F2C9C4}
+/* timeline */
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px;position:relative;padding-bottom:16px}
+.tl-item::before{content:'';position:absolute;left:11px;top:26px;bottom:0;width:2px;
+  background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+  flex:none;border:2px solid var(--border-strong);background:#fff;color:var(--text-muted)}
+.tl-dot .icon{width:12px;height:12px}
+.tl-dot.done{background:var(--teal);border-color:var(--teal);color:#fff}
+.tl-dot.sys{background:var(--navy-soft);border-color:#D8CFC0;color:var(--navy)}
+.tl-dot.bad{background:var(--error-soft);border-color:var(--error);color:var(--error)}
+.tl-content{min-width:0}
+.tl-content b{font-size:13px;font-weight:700;color:var(--text);display:block}
+.tl-content p{font-size:12.5px;color:var(--text-muted);margin-top:1px}
+.tl-content time{font-size:11px;color:var(--text-light)}
+/* related group in drawer */
+.rel-box{border:1px dashed var(--border-strong);border-radius:10px;padding:10px 12px;
+  font-size:12.5px;background:#FAF7F1}
+.rel-box b{color:var(--navy)}
+.rel-box .ref-chip{margin:4px 4px 0 0}
+/* location highlight + raw Supabase record in drawer */
+.loc-box{display:flex;gap:10px;align-items:flex-start;background:var(--teal-soft);
+  border:1px solid #C6DCE7;border-radius:10px;padding:11px 13px}
+.loc-box .icon{color:var(--teal);margin-top:1px;flex:none}
+.loc-box b{display:block;font-size:13.5px;color:var(--navy);line-height:1.4;word-break:break-word}
+.loc-box span{font-size:12px;color:var(--text-muted);display:block;margin-top:2px}
+.db-record{display:flex;flex-direction:column;border:1px solid var(--border);
+  border-radius:10px;overflow:hidden}
+.db-record .dr-row{display:flex;gap:10px;padding:7px 11px;
+  border-bottom:1px solid var(--border);font-size:12.5px;align-items:baseline}
+.db-record .dr-row:last-child{border-bottom:none}
+.db-record .dr-row:nth-child(odd){background:#F7F4ED}
+.db-record .dr-key{flex:0 0 150px;font-family:var(--mono);font-size:11.5px;
+  font-weight:600;color:var(--text-muted);word-break:break-all}
+.db-record .dr-val{flex:1;min-width:0;word-break:break-word;color:var(--text)}
+.db-record .dr-val .iso{color:var(--text-light);font-size:11px}
+.dr-note{font-size:11.5px;color:var(--text-light);margin-top:7px;line-height:1.45}
+.drawer-foot{border-top:1px solid var(--border);padding:13px 18px;display:flex;
+  flex-wrap:wrap;gap:8px;background:#FAF8F3}
+.drawer-foot .btn{flex:1;min-width:130px}
+
+/* ---------- Toasts ---------- */
+.toasts{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:90;
+  display:flex;flex-direction:column;gap:8px;align-items:center;width:min(420px,92vw)}
+.toast{background:var(--navy);color:#fff;border-radius:10px;padding:11px 16px;
+  font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);display:flex;gap:9px;
+  align-items:center;width:100%;animation:toast-in .25s ease}
+.toast .icon{color:#7FC8A9}
+.toast.warn .icon{color:#F2C879}
+@keyframes toast-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--border);background:transparent;
+  margin-top:34px;padding:22px 0 30px}
+.foot-grid{display:flex;flex-wrap:wrap;gap:18px 40px;font-size:12.5px;color:var(--text-muted)}
+.foot-grid b{color:var(--navy);display:block;font-size:12.5px;margin-bottom:5px}
+.foot-grid a{margin-right:14px}
+.foot-version{margin-top:14px;font-size:11.5px;color:var(--text-light)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1180px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
+  .main-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:880px){
+  .topnav{display:none}
+  .brand-text span{display:none}
+  .role-chip .role-long{display:none}
+  .role-chip .role-short{display:inline}
+}
+@media (max-width:640px){
+  .topbar{gap:8px}
+  .role-chip{display:none}
+  .bell{display:none}
+  .brand-text b{max-width:132px;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}
+  .lang-toggle button{padding:6px 9px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .kpi .kpi-value{font-size:22px}
+  .head-actions{width:100%}
+  .filter-meta{width:100%;margin-left:0}
+  .field,.field select,.field input{width:100%}
+  .field{flex:1 1 46%}
+  .search-wrap{flex:1 1 100%}
+  .search-wrap input{width:100%}
+  .seg{width:100%}
+  .seg button{flex:1;min-width:0;justify-content:center;gap:4px;padding:8px 6px;font-size:11.5px}
+  .seg button .icon{width:13px;height:13px}
+  .card-head .head-right{width:100%;margin-left:0}
+  .group-card .g-actions{flex-wrap:wrap}
+  .group-card .g-actions .btn{min-width:0;padding:5px 9px;font-size:11.5px;flex:none}
+  .bar-row .bar-label{width:96px;font-size:11.5px}
+  .drawer{width:100vw}
+  .drawer-foot .btn{min-width:100%}
+  .foot-grid{flex-direction:column;gap:14px}
+}
+/* ---------- Feature 4: deadline countdown & citizen code verification ---------- */
+.cd{font-variant-numeric:tabular-nums;font-weight:700}
+.cd-ok{color:var(--success)}.cd-warn{color:var(--warning)}.cd-danger{color:var(--error)}
+.next-cd{display:inline-flex;align-items:center;gap:6px;background:var(--navy-soft);color:var(--navy);
+  border-radius:999px;padding:3px 11px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.next-cd .icon{width:13px;height:13px}
+.next-cd b{font-weight:700;font-variant-numeric:tabular-nums}
+.next-cd[hidden]{display:none}
+.cd-banner{border:1px solid var(--border);border-radius:10px;background:var(--surface);
+  padding:14px 16px;margin-bottom:6px;display:grid;grid-template-columns:1fr auto;
+  gap:6px 16px;align-items:center}
+.cd-banner.st-warn{background:var(--warning-soft);border-color:#EAD9AE}
+.cd-banner.st-danger{background:var(--error-soft);border-color:#F2C9C4}
+.cd-big{font-size:clamp(20px,2vw,24px);font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+.cd-label{display:block;font-size:12px;color:var(--text-muted);margin-top:2px}
+.cd-side{display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:var(--text-muted);text-align:right}
+.cd-side b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.cd-track{grid-column:1/-1;height:6px;border-radius:3px;background:rgba(24,22,20,.08);overflow:hidden}
+.cd-fill{height:100%;border-radius:3px;background:var(--success)}
+.st-warn .cd-fill{background:var(--warning)}
+.st-danger .cd-fill{background:var(--error)}
+.verify-box{background:var(--teal-soft);border:1px solid #D8CFC0;border-radius:10px;padding:14px 16px}
+.verify-box p{margin:0 0 12px;font-size:13.5px;line-height:1.5;color:var(--text-muted)}
+.otp{display:flex;gap:8px;flex-wrap:wrap}
+.otp-in{flex:1 1 0;min-width:0;max-width:56px;height:54px;text-align:center;font-size:22px;font-weight:700;
+  font-variant-numeric:tabular-nums;border:1px solid var(--border-strong);border-radius:9px;
+  background:var(--surface);color:var(--text);caret-color:var(--terracotta)}
+.otp-in:focus{outline:2px solid var(--ring);outline-offset:1px;border-radius:9px}
+.otp.shake{animation:otp-shake .4s ease}
+@keyframes otp-shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.verify-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.verify-err{color:var(--error);font-size:13px;font-weight:600;margin-top:10px}
+.demo-hint{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#7A5310;
+  background:var(--warning-soft);border:1px solid #EAD9AE;border-radius:8px;
+  padding:8px 11px;margin-top:12px}
+.demo-hint .icon{width:14px;height:14px;flex:none;margin-top:2px;color:#8A5C13}
+.demo-hint b{font-variant-numeric:tabular-nums;letter-spacing:1px}
+@media (max-width:640px){.cd-banner{grid-template-columns:1fr}.cd-side{text-align:left}}
+
+/* ---------- Browser chrome themed to the palette ---------- */
+::selection{background:rgba(154,62,22,.16)}
+a{text-underline-offset:3px}
+input,textarea,select{caret-color:var(--terracotta)}
+*{scrollbar-width:thin;scrollbar-color:#C6B79F transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#C6B79F;border-radius:8px;border:2px solid var(--bg);background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:#A5946F}
+td,.count-pill,.bar-val,.tl-content time{font-variant-numeric:tabular-nums}
+
+/* Reduced motion: every state change here is also an instant colour/text
+   change, so feedback survives; decorative loops stop instead of strobing
+   at 0.01 ms (a bare duration kill restarts infinite animations). */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<script>
+/* Embedded geography only: simplified district polygons (real 2011-census boundaries).
+   No complaint data is embedded — all complaints come live from Supabase (read-only). */
+const DISTRICTS = [{"name":"Almora","path":"477.7,612.1 493.1,618.9 492.4,626.2 504.5,625.2 507.4,621.3 504.5,612.9 518.3,625.9 527.0,621.5 532.6,623.7 545.9,611.1 549.5,612.3 556.0,640.9 612.5,654.4 607.2,658.7 611.3,662.5 609.3,671.4 626.8,689.7 660.1,685.6 679.3,693.9 691.8,714.3 694.8,729.5 717.0,740.5 682.8,753.7 681.8,746.5 679.7,752.9 663.1,751.0 646.8,767.4 632.3,760.1 628.3,765.2 620.4,765.7 619.9,757.2 607.4,753.8 604.6,738.7 588.1,730.6 574.2,735.2 561.6,732.5 558.6,743.0 548.8,747.3 507.6,714.8 493.8,721.0 474.6,739.9 452.5,731.5 443.4,733.9 434.5,723.2 423.2,722.5 429.9,721.5 431.7,712.3 439.4,710.4 435.4,706.0 440.4,697.3 442.5,701.1 445.6,694.8 442.3,690.2 447.0,684.8 443.5,668.7 448.6,666.1 443.9,652.5 431.7,644.0 436.6,636.8 457.5,629.1 462.6,631.3 467.0,621.0 476.7,620.7 477.7,612.1","cx":537,"cy":690,"clon":79.439,"clat":29.701,"npts":64},{"name":"Bageshwar","path":"545.9,611.1 549.4,598.7 567.3,606.4 585.0,599.6 616.1,604.8 642.2,598.9 646.8,588.6 635.3,582.5 628.1,567.7 644.7,541.3 638.7,525.9 651.0,523.9 659.2,528.7 675.7,521.0 685.1,522.3 691.4,515.3 702.0,516.7 714.1,525.9 716.9,538.2 727.8,541.3 714.0,599.9 720.6,614.0 734.1,621.8 739.7,632.2 725.3,631.7 719.1,637.2 710.0,632.7 698.6,637.0 696.8,647.2 688.5,649.9 700.5,653.6 705.6,665.3 691.5,671.7 675.7,671.1 675.6,664.5 668.0,662.1 658.3,670.9 645.5,666.9 647.7,675.8 657.9,679.0 664.0,686.5 639.8,685.4 626.8,689.7 609.3,671.4 611.3,662.5 607.2,658.7 612.5,654.4 556.0,640.9 549.5,612.3 545.9,611.1","cx":656,"cy":614,"clon":79.863,"clat":29.968,"npts":50},{"name":"Chamoli","path":"490.3,400.8 494.5,393.6 476.3,376.2 485.8,359.9 492.0,357.8 488.9,349.3 493.1,341.3 487.1,335.7 503.7,333.9 506.3,324.2 499.3,319.1 529.1,301.6 533.1,316.2 555.8,314.0 558.4,323.8 567.3,325.9 564.9,330.1 568.7,334.8 582.4,341.9 600.0,332.7 600.5,327.9 619.3,329.1 625.3,321.2 643.3,331.0 656.8,330.7 663.6,346.1 669.8,347.5 675.9,356.9 684.4,354.5 697.7,360.1 704.2,367.5 710.2,367.0 723.7,382.8 719.1,387.3 723.7,399.8 702.3,397.9 689.2,405.1 704.4,425.8 707.1,436.4 698.5,442.8 693.6,453.7 700.7,469.4 697.5,472.8 705.6,480.0 705.7,490.4 694.2,502.1 688.5,520.9 675.7,521.0 659.2,528.7 651.0,523.9 638.7,525.9 644.7,541.3 628.1,567.7 635.3,582.5 646.8,588.6 642.2,598.9 616.1,604.8 585.0,599.6 567.3,606.4 549.4,598.7 545.9,611.1 532.6,623.7 527.0,621.5 518.3,625.9 508.4,612.9 504.5,612.9 507.4,621.3 504.5,625.2 492.4,626.2 493.1,618.9 476.2,611.4 474.2,598.9 466.1,594.8 470.0,587.4 467.2,581.5 450.7,571.8 452.1,559.4 434.1,542.8 441.9,533.0 442.9,523.7 460.8,521.8 453.5,520.3 457.7,512.7 443.9,497.7 458.6,496.4 459.8,479.3 475.3,466.8 482.1,447.5 496.1,446.9 499.4,438.9 507.4,437.1 511.2,431.1 511.0,421.7 498.5,413.8 496.4,402.4 490.3,400.8","cx":568,"cy":461,"clon":79.55,"clat":30.511,"npts":96},{"name":"Champawat","path":"716.6,740.2 725.5,740.5 737.3,754.5 763.5,762.3 763.5,771.5 772.6,777.0 771.6,785.0 784.9,802.2 777.4,831.9 766.7,825.2 763.8,827.5 771.5,847.9 761.0,853.9 747.0,849.0 741.7,852.0 731.5,870.0 730.2,884.2 733.3,885.4 728.3,892.7 723.4,891.2 715.7,904.8 699.3,861.3 686.9,871.8 682.0,864.4 687.8,853.5 669.7,851.2 660.5,842.9 674.3,827.0 668.6,817.0 654.3,809.4 643.9,810.9 643.7,800.6 636.7,792.5 647.6,792.1 647.5,796.3 654.9,799.8 658.6,790.1 666.7,789.2 664.5,783.2 654.9,783.1 647.9,775.2 654.4,765.3 652.8,759.8 663.1,751.0 679.7,752.9 681.8,746.5 682.8,753.7 716.6,740.2","cx":702,"cy":811,"clon":80.026,"clat":29.271,"npts":48},{"name":"Dehradun","path":"82.4,314.7 89.3,336.2 97.8,338.3 120.1,329.5 134.6,343.1 135.6,346.4 123.1,354.2 130.2,371.9 154.0,401.8 148.1,417.1 139.8,423.2 133.6,421.5 131.8,444.8 123.3,453.5 127.1,459.9 116.2,459.1 113.0,462.7 127.0,473.4 133.0,468.7 140.9,473.9 141.6,469.2 153.7,473.4 160.3,470.2 197.8,485.7 176.2,497.3 168.2,508.2 187.0,522.3 191.0,517.9 203.4,524.7 206.2,520.0 214.8,535.9 196.5,552.9 204.2,559.8 202.3,566.2 217.3,575.1 187.5,614.8 183.3,616.0 183.9,606.0 179.0,615.4 172.4,614.4 167.1,604.9 157.6,602.1 158.5,597.3 150.0,593.4 150.1,584.0 140.5,576.0 131.8,555.5 118.0,540.2 119.7,536.8 87.2,528.6 51.9,512.0 33.7,492.2 10.4,492.2 16.5,484.7 43.1,478.8 78.6,462.5 81.5,456.2 79.1,446.9 66.7,447.8 58.0,437.9 58.8,434.8 66.0,436.8 65.9,431.3 72.9,431.8 68.7,422.7 71.6,419.2 59.2,413.4 61.2,405.3 46.5,394.7 63.2,372.1 58.2,366.3 62.2,357.8 75.6,364.4 77.8,345.0 63.6,346.1 59.7,336.4 66.1,330.4 84.6,336.2 78.1,333.8 83.0,324.7 76.2,318.4 82.4,314.7","cx":117,"cy":459,"clon":77.954,"clat":30.52,"npts":82},{"name":"Haridwar","path":"119.2,537.3 140.5,576.0 150.1,584.0 150.0,593.4 158.5,597.3 157.6,602.1 167.1,604.9 172.4,614.4 179.0,615.4 183.9,606.0 183.3,616.0 208.1,627.1 205.7,632.3 219.5,644.1 225.3,662.7 203.8,679.1 188.0,679.4 185.8,692.0 179.0,692.3 167.3,703.3 153.4,708.2 154.9,711.1 146.7,709.5 135.6,718.6 136.3,723.4 129.1,719.4 121.2,723.7 111.6,718.0 115.9,713.4 124.2,714.4 125.9,705.5 113.5,691.0 117.3,687.8 97.4,689.2 83.8,698.1 73.7,693.8 77.0,689.2 66.2,685.2 66.9,664.2 60.4,658.7 57.6,647.1 50.3,642.8 50.3,637.7 59.3,630.3 54.4,624.5 59.4,618.9 55.3,617.7 63.3,602.6 68.9,600.0 65.9,591.7 74.4,578.3 81.9,581.0 91.1,573.3 107.6,545.6 119.2,537.3","cx":124,"cy":647,"clon":77.977,"clat":29.851,"npts":55},{"name":"Nainital","path":"391.9,763.8 399.2,758.0 404.3,736.1 414.5,731.0 415.3,722.1 429.9,721.5 423.2,722.5 434.5,723.2 443.4,733.9 452.5,731.5 474.6,739.9 493.8,721.0 507.6,714.8 548.8,747.3 558.6,743.0 561.6,732.5 595.6,732.9 604.6,738.7 607.4,753.8 619.9,757.2 620.4,765.7 628.3,765.2 632.3,760.1 646.8,767.4 654.4,765.3 647.9,775.2 654.9,783.1 664.5,783.2 666.7,789.2 658.6,790.1 654.9,799.8 647.5,796.3 647.6,792.1 636.7,792.5 643.7,800.6 643.9,810.9 654.3,809.4 668.6,817.0 674.3,827.0 660.5,842.9 669.7,851.2 687.8,853.5 682.0,864.4 687.2,872.0 670.2,878.1 660.0,893.6 654.8,883.8 641.8,891.7 636.6,888.0 638.6,880.4 613.2,878.7 596.7,865.6 589.9,873.4 530.1,872.9 535.6,863.9 490.9,819.9 450.7,809.8 443.2,815.4 434.1,809.0 424.5,815.7 416.2,805.7 421.0,801.3 418.0,795.7 400.4,797.8 392.2,791.2 370.4,789.4 396.7,764.8 391.9,763.8","cx":555,"cy":795,"clon":79.504,"clat":29.328,"npts":68},{"name":"Pauri Garhwal","path":"434.3,542.9 452.1,559.4 450.7,571.8 467.2,581.5 470.0,587.4 466.1,594.8 474.2,598.9 478.2,615.7 476.7,620.7 467.0,621.0 462.6,631.3 457.5,629.1 436.6,636.8 432.2,643.0 443.9,652.5 448.6,666.1 443.5,668.7 447.0,684.8 442.3,690.2 445.6,694.8 436.2,703.7 439.4,710.4 431.7,712.3 429.9,721.5 415.3,722.1 414.5,731.0 404.3,736.1 399.2,758.0 390.4,764.9 356.2,756.3 340.8,746.2 331.2,746.3 304.6,729.8 280.9,707.2 274.8,682.9 224.1,662.0 219.5,644.1 205.7,632.3 208.1,627.1 187.5,614.8 195.8,607.3 194.6,600.8 209.8,588.1 212.7,577.0 224.4,567.3 236.1,572.3 246.2,567.0 254.3,573.9 253.2,582.5 265.9,589.4 270.8,584.0 274.8,589.8 280.8,583.9 296.5,590.2 300.4,586.0 294.9,584.9 297.6,580.7 293.9,575.9 300.2,569.4 299.1,564.4 304.7,562.7 313.1,546.7 322.5,545.9 323.3,537.9 332.6,538.4 341.7,545.1 352.7,540.7 358.2,543.2 363.8,536.5 368.8,538.5 379.0,531.8 383.8,534.4 382.0,538.7 388.8,540.3 384.2,554.5 413.7,553.8 423.7,544.2 434.3,542.9","cx":353,"cy":616,"clon":78.79,"clat":29.964,"npts":78},{"name":"Pithoragarh","path":"691.4,515.3 694.2,502.1 705.7,490.4 705.6,480.0 697.5,472.8 700.7,469.4 693.6,453.7 698.5,442.8 707.1,436.4 704.4,425.8 689.2,405.1 702.3,397.9 723.7,399.8 719.1,387.3 743.8,377.1 750.8,390.3 761.3,390.8 765.3,395.2 760.6,410.2 750.9,411.5 749.5,416.8 757.0,423.9 755.0,440.4 766.8,445.9 784.0,445.8 792.9,458.3 812.9,457.2 820.5,464.9 835.7,467.7 847.6,478.7 866.4,472.1 902.3,492.4 921.8,513.9 951.4,519.5 959.0,531.0 977.1,529.8 986.3,535.6 984.8,541.1 990.0,546.1 957.0,555.9 951.0,542.4 938.3,557.4 942.5,569.0 910.0,591.2 904.9,604.0 897.9,605.1 885.6,617.3 864.9,617.4 856.6,628.5 851.3,647.8 838.1,655.4 834.3,663.2 817.8,660.4 809.9,663.3 807.3,673.3 798.3,678.4 805.1,699.2 812.4,703.4 810.3,719.3 802.0,729.1 792.3,731.7 796.0,737.5 791.5,743.3 775.6,753.3 779.7,760.4 763.5,762.3 737.3,754.5 725.0,740.1 716.1,740.2 713.9,735.8 694.8,729.5 681.4,695.2 663.7,688.8 644.4,669.3 658.3,670.9 668.0,662.1 675.6,664.5 675.7,671.1 691.5,671.7 705.6,665.3 700.5,653.6 688.5,649.9 696.8,647.2 698.6,637.0 710.0,632.7 719.1,637.2 725.3,631.7 739.7,632.2 734.1,621.8 720.6,614.0 714.0,599.9 727.8,541.3 716.9,538.2 714.1,525.9 702.0,516.7 691.4,515.3","cx":778,"cy":574,"clon":80.294,"clat":30.112,"npts":96},{"name":"Rudraprayag","path":"422.1,376.7 448.6,388.1 453.0,394.3 460.5,391.9 469.0,398.4 496.4,402.4 498.5,413.8 511.0,421.7 511.2,431.1 507.4,437.1 499.4,438.9 496.1,446.9 482.1,447.5 475.3,466.8 459.8,479.3 458.6,496.4 443.9,497.7 457.7,512.7 453.5,520.3 460.8,521.8 442.9,523.7 441.9,533.0 434.1,543.1 423.7,544.2 419.0,551.9 384.2,554.5 388.8,540.3 382.0,538.6 390.2,531.5 377.0,527.5 372.8,520.0 375.8,514.4 361.0,492.1 370.5,476.5 363.0,470.2 375.0,461.6 374.1,445.3 387.2,427.5 391.2,403.7 417.9,393.7 422.1,376.7","cx":433,"cy":470,"clon":79.072,"clat":30.481,"npts":41},{"name":"Tehri Garhwal","path":"134.1,431.3 143.6,435.3 151.7,433.9 148.9,429.2 169.9,425.9 178.6,434.6 176.9,439.1 188.5,442.1 196.9,439.8 200.8,432.9 208.9,432.6 215.8,439.6 211.3,449.3 219.1,446.9 217.4,443.7 226.1,446.4 229.0,454.6 241.6,462.4 247.3,473.0 250.6,459.5 258.6,452.1 253.7,443.3 256.7,431.9 265.7,428.8 272.1,433.5 275.4,437.2 270.6,455.4 282.6,456.5 285.6,443.4 299.0,427.3 296.5,411.2 315.7,410.6 317.1,405.6 333.5,398.1 342.7,404.7 369.8,397.1 374.0,375.0 370.2,366.0 378.9,358.0 390.9,357.6 397.3,364.3 413.5,362.9 422.7,377.7 417.9,393.7 391.2,403.7 387.2,427.5 374.1,445.3 375.0,461.6 363.0,470.2 370.5,476.5 361.0,492.1 375.8,514.4 372.8,520.0 377.0,527.5 390.2,531.5 384.9,536.7 378.3,531.8 368.8,538.5 363.8,536.5 358.2,543.2 352.7,540.7 341.7,545.1 332.6,538.4 323.3,537.9 322.5,545.9 313.1,546.7 304.7,562.7 299.1,564.4 300.2,569.4 293.9,575.9 297.6,580.7 294.9,584.9 300.4,586.0 296.5,590.2 280.8,583.9 274.8,589.8 270.8,584.0 265.9,589.4 253.2,582.5 254.3,573.9 246.2,567.0 236.1,572.3 224.4,567.3 215.6,573.8 202.3,566.2 204.2,559.8 196.5,552.9 214.8,535.9 208.6,528.5 209.1,521.8 197.3,524.1 191.0,517.9 187.0,522.3 168.2,508.2 176.2,497.3 197.8,485.7 160.3,470.2 153.7,473.4 141.6,469.2 140.9,473.9 133.0,468.7 127.0,473.4 113.0,462.7 116.2,459.1 127.1,459.9 123.3,453.5 131.8,444.8 134.1,431.3","cx":265,"cy":483,"clon":78.478,"clat":30.435,"npts":108},{"name":"Udham Singh Nagar","path":"370.4,789.4 392.2,791.2 400.4,797.8 418.0,795.7 421.0,801.3 416.2,805.7 424.5,815.7 434.1,809.0 443.2,815.4 450.7,809.8 490.9,819.9 535.6,863.9 530.1,872.9 589.9,873.4 596.7,865.6 613.2,878.7 638.6,880.4 636.6,888.0 641.8,891.7 654.8,883.8 660.0,893.6 670.2,878.1 697.0,866.6 699.2,861.3 711.4,886.2 711.8,898.5 716.8,902.5 711.6,911.3 712.4,948.7 703.4,958.4 682.1,965.7 673.5,951.5 678.0,947.4 667.1,949.0 659.1,944.7 660.6,939.8 671.1,942.7 663.4,933.6 656.4,932.6 651.6,937.4 652.4,944.1 641.0,944.0 649.0,934.8 645.3,932.9 648.9,932.6 647.2,928.4 652.5,927.2 643.8,919.3 624.1,923.6 612.2,932.4 597.9,924.3 577.7,930.9 574.6,928.5 577.6,921.6 569.8,915.9 560.0,925.7 532.9,925.2 533.4,912.1 527.9,901.1 521.5,901.1 517.8,891.0 515.7,896.5 500.7,894.0 499.5,897.0 472.5,879.7 461.0,884.2 458.6,879.3 462.1,874.4 452.9,868.6 456.0,855.0 423.0,839.8 423.3,846.6 417.7,845.7 417.5,849.8 424.2,851.4 420.3,855.7 415.0,855.9 407.3,847.6 400.4,853.7 386.3,852.3 389.9,849.2 387.0,837.1 377.5,829.6 377.3,822.5 358.5,820.7 335.1,801.9 346.8,792.3 354.4,794.9 355.2,799.5 363.6,784.9 370.4,789.4","cx":535,"cy":879,"clon":79.434,"clat":29.032,"npts":91},{"name":"Uttarkashi","path":"527.7,302.1 499.3,319.1 506.3,324.2 503.7,333.9 487.1,335.7 493.1,341.3 488.9,349.3 492.0,357.8 485.8,359.9 476.3,376.2 494.5,393.6 490.3,400.8 469.0,398.4 460.5,391.9 453.0,394.3 448.6,388.1 420.6,376.2 413.5,362.9 397.3,364.3 390.9,357.6 378.9,358.0 370.2,366.0 374.0,375.0 369.8,397.1 342.7,404.7 333.5,398.1 317.1,405.6 315.7,410.6 296.5,411.2 299.0,427.3 285.6,443.4 282.6,456.5 270.6,455.4 275.4,437.2 272.1,433.5 265.7,428.8 256.7,431.9 253.7,443.3 258.6,452.1 250.6,459.5 247.3,473.0 241.6,462.4 229.0,454.6 226.1,446.4 217.4,443.7 219.1,446.9 211.3,449.3 215.8,439.6 208.9,432.6 200.8,432.9 196.9,439.8 188.5,442.1 176.9,439.1 178.6,434.6 169.9,425.9 148.9,429.2 151.7,433.9 143.6,435.3 132.8,430.1 133.6,421.5 139.8,423.2 148.1,417.1 154.0,401.8 130.2,371.9 123.1,354.2 135.8,345.2 120.1,329.5 97.8,338.3 89.3,336.2 77.2,306.3 88.4,302.3 101.9,280.6 121.2,274.1 139.0,280.4 142.6,272.6 159.7,270.7 175.8,259.4 200.1,257.9 210.3,247.9 217.0,249.6 218.3,243.0 235.0,242.1 242.4,245.3 245.3,254.6 253.0,251.2 259.1,255.0 267.0,266.8 286.2,266.6 293.7,259.4 302.4,258.3 313.1,262.4 316.2,270.8 320.2,267.5 346.4,270.6 359.1,267.0 365.1,283.3 380.4,295.1 415.3,292.0 408.7,274.0 400.7,270.3 398.0,261.8 392.7,261.8 379.2,242.8 396.7,219.8 406.3,220.6 412.4,227.1 417.0,225.0 417.2,203.6 429.3,202.7 433.0,194.3 452.0,200.6 461.8,214.7 459.9,221.1 478.5,228.8 474.1,234.8 482.1,243.2 475.3,249.6 496.4,261.6 502.6,284.7 526.6,290.9 527.7,302.1","cx":312,"cy":339,"clon":78.642,"clat":30.943,"npts":121}];
+</script>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Hand-drawn Lucide-style stroke icons (24x24) -->
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.6-3.2 7.9-8 9-4.8-1.1-8-4.4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-alert-triangle" viewBox="0 0 24 24"><path d="M12 4L2.5 20h19L12 4z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6"/></symbol>
+    <symbol id="i-alert-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.5" r="0.6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.8-5.3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6.5 8v5.5L10 21v-8L4 5z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 11L12 15.5 16.5 11"/><path d="M5 19h14"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.8 2.6H4.2L6 16z"/><path d="M10 21h4"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-10.3A6.5 6.5 0 0 1 12 4a6.5 6.5 0 0 1 6.5 6.7C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.6" r="2.3"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 4l9 4.5-9 4.5-9-4.5L12 4z"/><path d="M3 13.5l9 4.5 9-4.5"/><path d="M3 17.5L12 22l9-4.5"/></symbol>
+    <symbol id="i-git-branch" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="8" r="2.4"/><path d="M6 8.4v7.2"/><path d="M18 10.4c0 4-4.5 4.6-9.6 5.4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V5"/><path d="M6.5 10.5L12 5l5.5 5.5"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-15-3.5"/><path d="M4 13a8 8 0 0 0 15 3.5"/><path d="M20 4v4h-4"/><path d="M4 20v-4h4"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l1.5 4.5L8 10a12 12 0 0 0 6 6l1.5-2.5L20 15v4a2 2 0 0 1-2.2 2A16.8 16.8 0 0 1 3 6.2 2 2 0 0 1 5 4z"/></symbol>
+    <symbol id="i-road" viewBox="0 0 24 24"><path d="M5 21L10 3h4l5 18"/><path d="M12 6v2.5"/><path d="M12 12v2.5"/><path d="M12 18v2.5"/></symbol>
+    <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 3s6.5 6.6 6.5 11.2a6.5 6.5 0 0 1-13 0C5.5 9.6 12 3 12 3z"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 11c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M3 16.5c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L5 13.5h6L11 22l8-11.5h-6L13 2z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5"/><path d="M14 11v5.5"/></symbol>
+    <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9.5 18h5"/><path d="M10.5 21h3"/><path d="M12 3a6.5 6.5 0 0 1 4 11.6c-.9.7-1.5 1.5-1.5 2.4h-5c0-.9-.6-1.7-1.5-2.4A6.5 6.5 0 0 1 12 3z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 20c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.9c2.3.3 3.9 1.9 4.5 4.6"/></symbol>
+    <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6V3z"/><path d="M15 3v4h4"/><path d="M9 12h7"/><path d="M9 16h7"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10.5 13.5"/><path d="M21 3l-7 18-3.5-7.5L3 10l18-7z"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13L7 5h10l3 8v6H4v-6z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14"/><path d="M15 6v14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H3v5"/><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M16 21h5v-5"/></symbol>
+    <symbol id="i-user-check" viewBox="0 0 24 24"><circle cx="9.5" cy="8" r="3.2"/><path d="M4 20c.6-3.2 2.7-5 5.5-5 1.4 0 2.6.4 3.6 1.2"/><path d="M15 17l2 2 4-4.5"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 1 0-6.4l3-3a4.5 4.5 0 0 1 6.4 6.4l-1.7 1.7"/><path d="M14 10a4.5 4.5 0 0 1 0 6.4l-3 3a4.5 4.5 0 0 1-6.4-6.4l1.7-1.7"/></symbol>
+    <symbol id="i-unlink" viewBox="0 0 24 24"><path d="M15 8h4"/><path d="M16.5 3.5L20 7"/><path d="M9 16H5"/><path d="M7.5 20.5L4 17"/><path d="M14.5 9.5L9.5 14.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M4 10h16"/><path d="M9 3v4"/><path d="M15 3v4"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 13a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/><path d="M12 8v5l3.5 2"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 13.5V20H4V5h6.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- ===== Gov utility strip (portal utility bar) ===== -->
+<div class="gov-strip">
+  <span class="gs-note"><svg class="icon"><use href="#i-shield"/></svg><span>Government of Uttarakhand · Officer Portal</span></span>
+  <div class="gs-right">
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button id="lang-en" aria-pressed="true" onclick="setLang('en')">EN</button>
+      <button id="lang-hi" aria-pressed="false" onclick="setLang('hi')">हिंदी</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Top bar ===== -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark"><svg class="icon"><use href="#i-shield"/></svg></div>
+    <div class="brand-text">
+      <b>Apuni Sarkar <span data-i18n="brand-smart">Smart Assist</span></b>
+      <span>Uttarakhand · Officer Portal</span>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Primary">
+    <a href="#" class="active"><svg class="icon icon-sm"><use href="#i-layers"/></svg><span data-i18n="nav-overview">Complaint Map</span></a>
+    <a href="#queue"><svg class="icon icon-sm"><use href="#i-clock"/></svg><span data-i18n="nav-overdue">Overdue Queue</span></a>
+    <a href="#groups"><svg class="icon icon-sm"><use href="#i-git-branch"/></svg><span data-i18n="nav-groups">Duplicate Groups</span></a>
+    <a href="#" aria-disabled="true" title="Reports module — separate team workstream"><svg class="icon icon-sm"><use href="#i-file-text"/></svg><span data-i18n="nav-reports">Reports</span></a>
+  </nav>
+  <div class="top-right">
+    <div class="role-chip"><svg class="icon icon-sm"><use href="#i-user-check"/></svg><span class="role-long" data-i18n="role-officer">Officer · sign-in (prototype)</span><span class="role-short">Officer</span></div>
+    <button class="bell" aria-label="Overdue and escalated notifications" onclick="scrollToQueue()">
+      <svg class="icon"><use href="#i-bell"/></svg><span class="dot" id="bell-count" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<div class="demo-ribbon" role="note">
+  <svg class="icon"><use href="#i-alert-triangle"/></svg>
+  <span data-i18n="ribbon">Prototype — reads live complaints from the team Supabase (read-only) · not a production government system.</span>
+  <span class="conn-chip conn-neutral" id="conn-chip" title="Connecting to Supabase…">
+    <svg class="icon"><use href="#i-refresh"/></svg><span id="conn-text">Connecting to Supabase…</span>
+  </span>
+</div>
+
+<main class="container">
+  <!-- ===== Page head ===== -->
+  <div class="page-head">
+    <div>
+      <h1 data-i18n="title">Officer Dashboard — Complaint Monitoring</h1>
+      <div class="sub" data-i18n="subtitle">Public issues, workload and overdue cases across Uttarakhand · Features 4 &amp; 5 (Location Intelligence)</div>
+    </div>
+    <div class="head-actions">
+      <span class="sync-note"><span class="pulse" aria-hidden="true"></span><span id="sync-label" data-i18n="synced">Syncing…</span> <time id="sync-time"></time></span>
+      <button class="btn" id="refresh-live" title="Re-fetch complaints from Supabase (read-only SELECT)"><svg class="icon icon-sm"><use href="#i-refresh"/></svg><span data-i18n="refresh">Refresh live</span></button>
+      <button class="btn" id="export-csv"><svg class="icon icon-sm"><use href="#i-download"/></svg><span data-i18n="export">Export CSV</span></button>
+    </div>
+  </div>
+
+  <!-- ===== KPI cards ===== -->
+  <section class="kpi-grid" aria-label="Key indicators">
+    <button class="kpi" id="kpi-total" onclick="applyKpiFilter('total')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--teal-soft);color:var(--teal)"><svg class="icon"><use href="#i-inbox"/></svg></span><span class="kpi-label" data-i18n="kpi-total">Total Complaints (30 days)</span></div>
+      <div class="kpi-value" id="v-total">–</div>
+      <div class="kpi-sub" id="s-total" data-i18n="kpi-total-sub">across 13 districts</div>
+    </button>
+    <button class="kpi" id="kpi-open" onclick="applyKpiFilter('open')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--teal-soft);color:var(--teal)"><svg class="icon"><use href="#i-eye"/></svg></span><span class="kpi-label" data-i18n="kpi-open">Open Cases</span></div>
+      <div class="kpi-value" id="v-open">–</div>
+      <div class="kpi-sub" data-i18n="kpi-open-sub">submitted + under review + action required</div>
+    </button>
+    <button class="kpi" id="kpi-claimed" onclick="applyKpiFilter('claimed')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--navy-soft);color:var(--navy)"><svg class="icon"><use href="#i-user-check"/></svg></span><span class="kpi-label" data-i18n="kpi-claimed">Resolution Claimed</span></div>
+      <div class="kpi-value" id="v-claimed">–</div>
+      <div class="kpi-sub" data-i18n="kpi-claimed-sub">awaiting citizen confirmation</div>
+    </button>
+    <button class="kpi alert" id="kpi-overdue" onclick="applyKpiFilter('overdue')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--error-soft);color:var(--error)"><svg class="icon"><use href="#i-clock"/></svg></span><span class="kpi-label" data-i18n="kpi-overdue">Overdue</span></div>
+      <div class="kpi-value" id="v-overdue">–</div>
+      <div class="kpi-sub" data-i18n="kpi-overdue-sub">past the 10-day deadline</div>
+    </button>
+    <button class="kpi alert" id="kpi-escalated" onclick="applyKpiFilter('escalated')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--error-soft);color:var(--error)"><svg class="icon"><use href="#i-arrow-up"/></svg></span><span class="kpi-label" data-i18n="kpi-escalated">Escalated</span></div>
+      <div class="kpi-value" id="v-escalated">–</div>
+      <div class="kpi-sub" data-i18n="kpi-escalated-sub">routed to next review level</div>
+    </button>
+    <button class="kpi" id="kpi-groups" onclick="applyKpiFilter('groups')">
+      <div class="kpi-top"><span class="kpi-ic" style="background:var(--teal-soft);color:var(--teal)"><svg class="icon"><use href="#i-git-branch"/></svg></span><span class="kpi-label" data-i18n="kpi-groups">Duplicate Groups</span></div>
+      <div class="kpi-value" id="v-groups">–</div>
+      <div class="kpi-sub" id="s-groups">–</div>
+    </button>
+  </section>
+
+  <!-- ===== Filters ===== -->
+  <section class="filterbar" aria-label="Filters">
+    <div class="field search-wrap">
+      <svg class="icon"><use href="#i-search"/></svg>
+      <label class="visually-hidden" for="f-q" data-i18n="f-search">Search ID, description or locality</label>
+      <input id="f-q" type="search" data-i18n-ph="f-search-ph" placeholder="Search ID, description, locality…">
+    </div>
+    <div class="field">
+      <label for="f-cat" data-i18n="f-category">Category</label>
+      <select id="f-cat"><option value="">All categories</option></select>
+    </div>
+    <div class="field">
+      <label for="f-dist" data-i18n="f-district">District</label>
+      <select id="f-dist"><option value="">All districts</option></select>
+    </div>
+    <div class="field">
+      <label for="f-status" data-i18n="f-status">Status</label>
+      <select id="f-status"><option value="">All statuses</option></select>
+    </div>
+    <div class="field">
+      <label for="f-period" data-i18n="f-period">Period</label>
+      <select id="f-period">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+      </select>
+    </div>
+    <div class="filter-meta">
+      <span><b id="match-count">–</b> <span data-i18n="shown">shown</span></span>
+      <button class="reset-link" id="reset-filters" data-i18n="reset">Reset</button>
+    </div>
+  </section>
+
+  <!-- ===== Live connection banner (no embedded demo data) ===== -->
+  <section class="card live-banner" id="live-banner" hidden>
+    <div class="lb-icon"><svg class="icon"><use id="lb-icon-use" href="#i-refresh"/></svg></div>
+    <div class="lb-text">
+      <div class="lb-title" id="lb-title">Connecting to Supabase…</div>
+      <div class="lb-body" id="lb-body">Loading live complaints (read-only SELECT).</div>
+    </div>
+    <button class="btn" id="lb-retry" hidden><svg class="icon icon-sm"><use href="#i-refresh"/></svg><span data-i18n="retry">Retry</span></button>
+  </section>
+
+  <!-- ===== Map + rail ===== -->
+  <div class="main-grid">
+    <section class="card" aria-label="Complaint map">
+      <div class="card-head">
+        <svg class="icon" style="color:var(--teal)"><use href="#i-map"/></svg>
+        <h2 data-i18n="map-title">GIS Complaint Map — Uttarakhand</h2>
+        <span class="hint" data-i18n="map-hint">Positions approximate · derived from location text</span>
+        <div class="head-right">
+          <div class="seg" role="group" aria-label="Map view mode">
+            <button id="vm-markers" aria-pressed="true" onclick="setView('markers')"><svg class="icon icon-sm"><use href="#i-pin"/></svg><span data-i18n="vm-markers">Markers</span></button>
+            <button id="vm-clusters" aria-pressed="false" onclick="setView('clusters')"><svg class="icon icon-sm"><use href="#i-layers"/></svg><span data-i18n="vm-clusters">Clusters</span></button>
+            <button id="vm-heat" aria-pressed="false" onclick="setView('heat')"><svg class="icon icon-sm"><use href="#i-zap"/></svg><span data-i18n="vm-heat">Heat</span></button>
+            <button id="vm-districts" aria-pressed="false" onclick="setView('districts')"><svg class="icon icon-sm"><use href="#i-map"/></svg><span data-i18n="vm-districts">Districts</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <svg id="ukmap" viewBox="0 140 1000 860" role="img" aria-label="Map of Uttarakhand with complaint markers"></svg>
+        <div class="map-toolbar">
+          <button class="map-tool" id="zoom-in" aria-label="Zoom in"><svg class="icon icon-sm"><use href="#i-plus"/></svg></button>
+          <button class="map-tool" id="zoom-out" aria-label="Zoom out"><svg class="icon icon-sm"><use href="#i-minus"/></svg></button>
+          <button class="map-tool" id="zoom-fit" aria-label="Reset zoom"><svg class="icon icon-sm"><use href="#i-maximize"/></svg></button>
+        </div>
+        <div class="map-tip" id="map-tip" role="status"></div>
+      </div>
+      <div class="map-legend" id="map-legend"></div>
+    </section>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <section class="card" aria-label="Complaints by category">
+        <div class="card-head"><svg class="icon" style="color:var(--teal)"><use href="#i-filter"/></svg><h2 data-i18n="by-category">Complaints by Category</h2></div>
+        <div class="card-body" id="cat-bars"></div>
+      </section>
+      <section class="card" aria-label="Top districts">
+        <div class="card-head"><svg class="icon" style="color:var(--teal)"><use href="#i-pin"/></svg><h2 data-i18n="top-districts">Top Districts</h2></div>
+        <div class="card-body" id="dist-bars"></div>
+      </section>
+      <section class="card" aria-label="Recent activity">
+        <div class="card-head"><svg class="icon" style="color:var(--teal)"><use href="#i-history"/></svg><h2 data-i18n="recent">Recent Activity</h2></div>
+        <div class="card-body mini-list" id="recent-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===== Duplicate groups ===== -->
+  <div class="section-head" id="groups">
+    <h2 data-i18n="groups-title">Possible Related Issues (Duplicate Detection)</h2>
+    <span class="count-pill" id="groups-count">–</span>
+    <div class="head-actions"><span class="hint" style="font-size:12px;color:var(--text-light)" data-i18n="groups-hint">AI-suggested groupings — reviewer decision required · complaints keep their own IDs</span></div>
+  </div>
+  <p class="section-sub" data-i18n="groups-sub">Feature 4: similar category, location and wording are grouped as one possible incident so officials can see how many households are affected. Never auto-merged.</p>
+  <div class="group-grid" id="group-grid"></div>
+
+  <!-- ===== Overdue & escalation queue ===== -->
+  <div class="section-head" id="queue">
+    <h2 data-i18n="queue-title">Overdue &amp; Escalation Queue</h2>
+    <span class="count-pill" id="queue-count">–</span>
+    <span class="next-cd" data-next-cd hidden></span>
+    <div class="head-actions">
+      <button class="btn btn-sm" id="export-queue-csv"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button>
+    </div>
+  </div>
+  <p class="section-sub" data-i18n="queue-sub">All active cases from the live table — overdue and escalated first. Feature 4: a case becomes overdue after its 10-day deadline (computed from created_at) and is routed upward. Officer actions: mark completed (moves to citizen code verification) or escalate.</p>
+  <div class="card">
+    <div class="table-wrap">
+      <table class="queue" aria-label="Active complaints worklist — overdue and escalated first">
+        <thead><tr>
+          <th data-i18n="th-id">Reference</th>
+          <th data-i18n="th-issue">Issue</th>
+          <th data-i18n="th-district">District</th>
+          <th data-i18n="th-created">Created</th>
+          <th data-i18n="th-due">Due date</th>
+          <th data-i18n="th-overdue">Overdue / due in</th>
+          <th data-i18n="th-status">Status</th>
+          <th style="text-align:right" data-i18n="th-actions">Actions</th>
+        </tr></thead>
+        <tbody id="queue-body"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="queue-empty" hidden>
+      <svg class="icon"><use href="#i-check-circle"/></svg>
+      <b data-i18n="queue-empty-title">No active cases</b>
+      <span data-i18n="queue-empty-sub">No open cases in the current filter — new rows from the table will appear here automatically.</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <b>Apuni Sarkar Smart Assist</b>
+        <span data-i18n="foot-about">A prototype enhancement layer for Uttarakhand's Apuni Sarkar platform. It enhances — not replaces — the official portal.</span>
+      </div>
+      <div>
+        <b data-i18n="foot-privacy">Privacy</b>
+        <span data-i18n="foot-privacy-text">Prototype: map positions are approximate (derived from location text); citizen identities appear only as WhatsApp numbers. Read-only — nothing is written back.</span>
+      </div>
+      <div>
+        <b data-i18n="foot-help">Help &amp; Accessibility</b>
+        <a href="#" aria-disabled="true">Accessibility statement</a>
+        <a href="#" aria-disabled="true">Screen reader</a>
+        <a href="#" aria-disabled="true">Contact</a>
+      </div>
+    </div>
+    <div class="foot-version">Officer Dashboard module v1.0 · Workstream E (Location Intelligence) · Blueprint v1.0 · 22 November 2026</div>
+  </footer>
+</main>
+
+<!-- ===== Detail drawer ===== -->
+<div class="drawer-backdrop" id="drawer-backdrop" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+  <div class="drawer-head">
+    <div>
+      <h3 id="drawer-title">–</h3>
+      <div class="sub" id="drawer-sub">–</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close details"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-foot" id="drawer-foot"></div>
+</aside>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+/* ============================================================
+   Officer Dashboard · Apuni Sarkar Smart Assist — Workstream E
+   Features 4 (duplicate detection) + 5 (GIS complaint map) + 9 (escalation queue)
+   Globals injected before this script: DISTRICTS (geography only).
+   NO embedded mock data — all complaints come live from Supabase (read-only).
+   ============================================================ */
+'use strict';
+let NOW = new Date();
+let complaints = [];    // live Supabase rows only — no embedded mock data
+let groupsDef  = [];    // duplicate groups (computed from live rows)
+let LIVE_MODE  = false;
+let SB_CLIENT  = null;
+let CONN_STATE = 'connecting';   // connecting | live | empty | error
+let CONN_MSG   = '';
+
+/* ══════════════════════════════════════════════════════════════════════
+   SUPABASE CONNECTION — 👉 PUT YOUR PROJECT VALUES HERE 👈
+   READ-ONLY by design: the dashboard only runs SELECT queries.
+   Nothing is written back (no INSERT / UPDATE / DELETE), and nothing
+   inside your Supabase project (tables, RLS, policies) is changed.
+   Columns expected: id, complaint_number, whatsapp_number, complaint_text,
+   category, location, status, created_at, updated_at
+   ══════════════════════════════════════════════════════════════════════ */
+const SUPABASE_URL   = 'https://ufufwjbzgdrcmqcejstg.supabase.co';       // ← your Project URL
+const SUPABASE_KEY   = 'sb_publishable_jZ715VjDCaCiLHbfe_LFkA_YV45FJ-7';  // ← your Publishable (anon) key
+const SUPABASE_TABLE = 'complaints';                                     // ← table name, if you rename it
+const LIVE_MAX_ROWS  = 500;
+const DEADLINE_DAYS  = 10;   /* Feature 4: every complaint has a 10-day resolution deadline */
+/* ════════════════════════════════ end of user config ═════════════════ */
+
+/* ---------- Metadata ---------- */
+const CATS = {
+  ROADS:    {label:'Roads & Potholes',  hi:'सड़क व गड्ढे',       icon:'i-road',      color:'#90502A', bg:'#F1EBE1'},
+  WATER:    {label:'Water Supply',      hi:'पेयजल',              icon:'i-droplet',   color:'#284CAC', bg:'#E7EDF9'},
+  DRAINAGE: {label:'Drainage & Sewage', hi:'जल निकासी',          icon:'i-wave',      color:'#0D4366', bg:'#E3EDF4'},
+  POWER:    {label:'Electricity',       hi:'बिजली',              icon:'i-zap',       color:'#A16207', bg:'#FBF0D9'},
+  WASTE:    {label:'Sanitation & Waste',hi:'सफाई व कचरा',        icon:'i-trash',     color:'#217A46', bg:'#E5F2E8'},
+  LIGHT:    {label:'Street Lighting',   hi:'स्ट्रीट लाइट',       icon:'i-lightbulb', color:'#7A5C10', bg:'#F3EBD3'},
+  OTHER:    {label:'Other',             hi:'अन्य',               icon:'i-inbox',     color:'#6B5040', bg:'#EFEAE0'}
+};
+const STATUSES = {
+  SUBMITTED:         {chip:'chip-submitted',         icon:'i-inbox',       hi:'प्राप्त'},
+  UNDER_REVIEW:      {chip:'chip-under-review',      icon:'i-eye',         hi:'समीक्षा में'},
+  ACTION_REQUIRED:   {chip:'chip-action-required',   icon:'i-alert-circle',hi:'कार्रवाई आवश्यक'},
+  RESOLUTION_CLAIMED:{chip:'chip-resolution-claimed',icon:'i-user-check',  hi:'समाधान दावित'},
+  CITIZEN_CONFIRMED: {chip:'chip-citizen-confirmed', icon:'i-check-circle',hi:'नागरिक पुष्टि'},
+  REOPENED:          {chip:'chip-reopened',          icon:'i-refresh',     hi:'पुनः खोला गया'},
+  OVERDUE:           {chip:'chip-overdue',           icon:'i-clock',       hi:'विलंबित'},
+  ESCALATED:         {chip:'chip-escalated',         icon:'i-arrow-up',    hi:'एस्कलेटेड'},
+  CLOSED:            {chip:'chip-closed',            icon:'i-check',       hi:'बंद'}
+};
+const TL_ICONS = {
+  created:'i-send', assigned:'i-users', info_requested:'i-message',
+  reminder_sent:'i-bell', overdue_flagged:'i-clock', escalated:'i-arrow-up',
+  resolution_claimed:'i-user-check', citizen_rejected:'i-refresh',
+  citizen_confirmed:'i-check-circle', closed:'i-check',
+  grouped:'i-git-branch', ungrouped:'i-unlink'
+};
+const OPEN_STATUSES = ['SUBMITTED','UNDER_REVIEW','ACTION_REQUIRED','RESOLUTION_CLAIMED','REOPENED','OVERDUE','ESCALATED'];
+
+/* ---------- i18n ---------- */
+const I18N = {
+  en: {
+    'brand-smart':'Smart Assist','nav-overview':'Complaint Map','nav-overdue':'Overdue Queue',
+    'nav-groups':'Duplicate Groups','nav-reports':'Reports','role-officer':'Officer · sign-in (prototype)',
+    'ribbon':'Prototype — reads live complaints from the team Supabase (read-only) · not a production government system.',
+    'title':'Officer Dashboard — Complaint Monitoring',
+    'subtitle':'Public issues, workload and overdue cases across Uttarakhand · Features 4 & 5 (Location Intelligence)',
+    'synced':'Data synced','export':'Export CSV','retry':'Retry','refresh':'Refresh live',
+    'kpi-total':'Total Complaints (30 days)','kpi-total-sub':'across 13 districts',
+    'kpi-open':'Open Cases','kpi-open-sub':'submitted + under review + action required',
+    'kpi-claimed':'Resolution Claimed','kpi-claimed-sub':'awaiting citizen confirmation',
+    'kpi-overdue':'Overdue','kpi-overdue-sub':'past the 10-day deadline',
+    'kpi-escalated':'Escalated','kpi-escalated-sub':'routed to next review level',
+    'kpi-groups':'Duplicate Groups','kpi-groups-sub':'possible related incidents',
+    'f-search':'Search ID, description or locality','f-search-ph':'Search ID, description, locality…',
+    'f-category':'Category','f-district':'District','f-status':'Status','f-period':'Period',
+    'All categories':'All categories','All districts':'All districts','All statuses':'All statuses',
+    'Last 7 days':'Last 7 days','Last 30 days':'Last 30 days','Last 90 days':'Last 90 days',
+    'shown':'shown','reset':'Reset',
+    'map-title':'GIS Complaint Map — Uttarakhand','map-hint':'Positions approximate · derived from location text',
+    'vm-markers':'Markers','vm-clusters':'Clusters','vm-heat':'Heat','vm-districts':'Districts',
+    'by-category':'Complaints by Category','top-districts':'Top Districts','recent':'Recent Activity',
+    'groups-title':'Possible Related Issues (Duplicate Detection)',
+    'groups-hint':'AI-suggested groupings — reviewer decision required · complaints keep their own IDs',
+    'groups-sub':'Feature 4: similar category, location and wording are grouped as one possible incident so officials can see how many households are affected. Never auto-merged.',
+    'queue-title':'Overdue & Escalation Queue',
+    'queue-sub':'All active cases from the live table — overdue and escalated first. Feature 4: a case becomes overdue after its 10-day deadline (computed from created_at) and is routed upward. Officer actions: mark completed (moves to citizen code verification) or escalate.',
+    'th-id':'Reference','th-issue':'Issue','th-district':'District','th-created':'Created',
+    'th-due':'Due date','th-overdue':'Overdue / due in','th-status':'Status','th-actions':'Actions',
+    'queue-empty-title':'No active cases','queue-empty-sub':'No open cases in the current filter — new rows from the table will appear here automatically.',
+    'btn-complete':'Mark completed','btn-escalate':'Escalate','btn-remind':'Send reminder',
+    'btn-open':'Open','btn-review-group':'Review group','btn-link':'Confirm link','btn-separate':'Separate',
+    'btn-close-case':'Close case (needs citizen code)','export-queue':'CSV',
+    'foot-about':"A prototype enhancement layer for Uttarakhand's Apuni Sarkar platform. It enhances — not replaces — the official portal.",
+    'foot-privacy':'Privacy','foot-privacy-text':'Prototype: map positions are approximate (derived from location text); citizen identities appear only as WhatsApp numbers. Read-only — nothing is written back.',
+    'foot-help':'Help & Accessibility',
+    'reports':{} // statuses & categories have their own hi fields
+  },
+  hi: {
+    'brand-smart':'स्मार्ट असिस्ट','nav-overview':'शिकायत मैप','nav-overdue':'विलंब कतार',
+    'nav-groups':'डुप्लिकेट समूह','nav-reports':'रिपोर्ट','role-officer':'अधिकारी · साइन-इन (प्रोटोटाइप)',
+    'ribbon':'प्रोटोटाइप — टीम के Supabase से लाइव शिकायतें पढ़ता है (केवल-पढ़ें) · सरकारी उत्पादन प्रणाली नहीं।',
+    'title':'अधिकारी डैशबोर्ड — शिकायत निगरानी',
+    'subtitle':'पूरे उत्तराखंड की सार्वजनिक समस्याएँ, कार्यभार और विलंबित मामले · फीचर 4 और 5 (स्थान बुद्धिमत्ता)',
+    'synced':'डेटा सिंक हुआ','export':'CSV निर्यात','retry':'पुनः प्रयास','refresh':'ताज़ा करें',
+    'kpi-total':'कुल शिकायतें (30 दिन)','kpi-total-sub':'13 ज़िलों में',
+    'kpi-open':'खुले मामले','kpi-open-sub':'प्राप्त + समीक्षा में + कार्रवाई आवश्यक',
+    'kpi-claimed':'समाधान का दावा','kpi-claimed-sub':'नागरिक पुष्टि प्रतीक्षित',
+    'kpi-overdue':'विलंबित','kpi-overdue-sub':'10-दिन की समय-सीमा बीत गई',
+    'kpi-escalated':'एस्कलेटेड','kpi-escalated-sub':'अगली समीक्षा स्तर पर भेजा गया',
+    'kpi-groups':'डुप्लिकेट समूह','kpi-groups-sub':'संभावित संबंधित घटनाएँ',
+    'f-search':'आईडी, विवरण या क्षेत्र खोजें','f-search-ph':'आईडी, विवरण, क्षेत्र खोजें…',
+    'f-category':'श्रेणी','f-district':'ज़िला','f-status':'स्थिति','f-period':'अवधि',
+    'All categories':'सभी श्रेणियाँ','All districts':'सभी ज़िले','All statuses':'सभी स्थितियाँ',
+    'Last 7 days':'पिछले 7 दिन','Last 30 days':'पिछले 30 दिन','Last 90 days':'पिछले 90 दिन',
+    'shown':'दिखाए गए','reset':'रीसेट',
+    'map-title':'GIS शिकायत मैप — उत्तराखंड','map-hint':'स्थान अनुमानित · location टेक्स्ट से प्राप्त',
+    'vm-markers':'मार्कर','vm-clusters':'क्लस्टर','vm-heat':'हीट','vm-districts':'ज़िले',
+    'by-category':'श्रेणी अनुसार शिकायतें','top-districts':'प्रमुख ज़िले','recent':'हाल की गतिविधि',
+    'groups-title':'संभावित संबंधित समस्याएँ (डुप्लिकेट पहचान)',
+    'groups-hint':'AI-सुझाव — समीक्षक का निर्णय आवश्यक · शिकायतों की अपनी आईडी बनी रहती है',
+    'groups-sub':'फीचर 4: समान श्रेणी, स्थान और शब्दावली एक संभावित घटना के रूप में समूहित होती हैं ताकि अधिकारी देख सकें कि कितने परिवार प्रभावित हैं। कभी भी स्वतः विलय नहीं।',
+    'queue-title':'विलंब व एस्कलेशन कतार',
+    'queue-sub':'लाइव तालिका के सभी सक्रिय मामले — विलंबित और एस्कलेटेड सबसे ऊपर। फीचर 4: 10-दिन की समय-सीमा (created_at से गणना) बीतने पर मामला विलंबित चिह्नित होकर अगले स्तर पर भेजा जाता है। अधिकारी कार्रवाइयाँ: कार्य पूर्ण चिह्नित करें (नागरिक कोड सत्यापन पर जाता है) या एस्कलेट करें।',
+    'th-id':'संदर्भ','th-issue':'समस्या','th-district':'ज़िला','th-created':'प्राप्त',
+    'th-due':'समय-सीमा','th-overdue':'विलंब / शेष','th-status':'स्थिति','th-actions':'कार्रवाइयाँ',
+    'queue-empty-title':'कोई सक्रिय मामला नहीं','queue-empty-sub':'वर्तमान फ़िल्टर में कोई खुला मामला नहीं — तालिका की नई पंक्तियाँ यहाँ अपने आप दिखेंगी।',
+    'btn-complete':'पूर्ण चिह्नित करें','btn-escalate':'एस्कलेट करें','btn-remind':'अनुस्मारक भेजें',
+    'btn-open':'खोलें','btn-review-group':'समूह देखें','btn-link':'जोड़ा पुष्टि करें','btn-separate':'अलग करें',
+    'btn-close-case':'मामला बंद करें (नागरिक कोड चाहिए)','export-queue':'CSV',
+    'foot-about':"उत्तराखंड के अपूनी सरकार प्लेटफ़ॉर्म के लिए एक प्रोटोटाइप संवर्धन परत। यह आधिकारिक पोर्टल का विकल्प नहीं, उसमें सुधार है।",
+    'foot-privacy':'गोपनीयता','foot-privacy-text':'प्रोटोटाइप: मैप स्थान अनुमानित हैं (location टेक्स्ट से प्राप्त); नागरिक पहचान केवल WhatsApp नंबर से दिखाई जाती है। केवल-पढ़ें — कुछ भी वापस नहीं लिखा जाता।',
+    'foot-help':'सहायता व सुगम्यता'
+  }
+};
+let lang = 'en';
+const t = k => (I18N[lang][k] !== undefined && typeof I18N[lang][k] === 'string') ? I18N[lang][k] : (I18N.en[k] || k);
+const catLabel = c => lang === 'hi' ? CATS[c].hi : CATS[c].label;
+const statusLabel = s => lang === 'hi' ? STATUSES[s].hi : s.replace(/_/g,' ');
+
+function setLang(l){
+  lang = l;
+  document.getElementById('lang-en').setAttribute('aria-pressed', l==='en');
+  document.getElementById('lang-hi').setAttribute('aria-pressed', l==='hi');
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = t(el.dataset.i18n); if (v) el.textContent = v; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  const sl = $('sync-label');
+  if (sl) sl.textContent = syncLabelFor(CONN_STATE);
+  buildFilterOptions(); renderAll();
+  updateLiveBanner();
+}
+
+function syncLabelFor(st){
+  if (st === 'live')   return lang==='hi' ? 'लाइव डेटा सिंक हुआ' : 'Live data synced';
+  if (st === 'empty')  return lang==='hi' ? 'कोई शिकायत नहीं' : 'No complaints yet';
+  if (st === 'error')  return lang==='hi' ? 'जुड़ा नहीं' : 'Not connected';
+  return lang==='hi' ? 'सिंक हो रहा है…' : 'Syncing…';
+}
+
+/* ---------- State ---------- */
+const state = { q:'', cat:'', dist:'', status:'', period:30, view:'markers',
+                vb:{x:0,y:140,w:1000,h:860}, drawerId:null };
+const SVGNS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const byId = id => complaints.find(c => c.id === id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const ICON = (name, cls='icon icon-sm') => `<svg class="${cls}" aria-hidden="true"><use href="#${name}"/></svg>`;
+
+function daysBetween(a, b){ return Math.floor((b - a) / 86400000); }
+function isPastDue(c){ return (NOW - new Date(c.dueAt)) > 0 && OPEN_STATUSES.includes(c.status); }
+function daysOverdue(c){ return isPastDue(c) ? Math.max(0, daysBetween(new Date(c.dueAt), NOW)) : 0; }
+function fmtDate(iso){ return new Date(iso).toLocaleDateString(lang==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'short'}); }
+function relTime(iso){
+  const m = Math.floor((NOW - new Date(iso)) / 60000);
+  if (m < 1) return lang==='hi' ? 'अभी' : 'just now';
+  if (m < 60) return lang==='hi'? `${m} मि. पूर्व` : `${m}m ago`;
+  const h = Math.floor(m/60); if (h < 24) return lang==='hi'? `${h} घं. पूर्व` : `${h}h ago`;
+  const d = Math.floor(h/24); return lang==='hi'? `${d} दि. पूर्व` : `${d}d ago`;
+}
+
+/* ---------- Filtering ---------- */
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  const cutoff = NOW.getTime() - state.period * 86400000;
+  return complaints.filter(c => {
+    if (state.cat && c.category !== state.cat) return false;
+    if (state.dist && c.district !== state.dist) return false;
+    if (state.status && c.status !== state.status) return false;
+    if (new Date(c.createdAt).getTime() < cutoff) return false;
+    if (q && !(c.id.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
+        || c.locality.toLowerCase().includes(q) || c.district.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+function groupsFrom(list){
+  // derive groups whose members (still grouped) fall inside the filtered set
+  const ids = new Set(list.map(c => c.id));
+  return groupsDef.map(g => {
+    const members = g.memberIds.map(byId).filter(c => c && ids.has(c.id) && c.relatedGroupId === g.groupId);
+    return {...g, members};
+  }).filter(g => g.members.length >= 2);
+}
+
+/* ---------- Toasts ---------- */
+function toast(msg, warn=false){
+  const el = document.createElement('div');
+  el.className = 'toast' + (warn ? ' warn' : '');
+  el.innerHTML = ICON(warn ? 'i-alert-triangle' : 'i-check-circle') + '<span>' + esc(msg) + '</span>';
+  $('toasts').appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 320); }, 3400);
+}
+
+/* ---------- Filter controls ---------- */
+function buildFilterOptions(){
+  const mk = (sel, items, all) => {
+    const cur = $(sel).value;
+    $(sel).innerHTML = `<option value="">${esc(all)}</option>` + items.map(([v, label]) => `<option value="${esc(v)}">${esc(label)}</option>`).join('');
+    $(sel).value = cur;
+  };
+  mk('f-cat', Object.keys(CATS).map(k => [k, catLabel(k)]), t('All categories'));
+  const distItems = DISTRICTS.map(d => [d.name, d.name])
+    .concat(complaints.some(c => c.district === 'Unmapped')
+      ? [['Unmapped', lang === 'hi' ? 'अनमैप्ड / अस्पष्ट' : 'Unmapped / unclear']] : []);
+  mk('f-dist', distItems, t('All districts'));
+  mk('f-status', Object.keys(STATUSES).map(k => [k, statusLabel(k)]), t('All statuses'));
+  const period = $('f-period');
+  period.options[0].textContent = t('Last 7 days');
+  period.options[1].textContent = t('Last 30 days');
+  period.options[2].textContent = t('Last 90 days');
+}
+function bindFilters(){
+  $('f-q').addEventListener('input', e => { state.q = e.target.value; renderAll(); });
+  $('f-cat').addEventListener('change', e => { state.cat = e.target.value; renderAll(); });
+  $('f-dist').addEventListener('change', e => { state.dist = e.target.value; renderAll(); });
+  $('f-status').addEventListener('change', e => { state.status = e.target.value; renderAll(); });
+  $('f-period').addEventListener('change', e => { state.period = +e.target.value; renderAll(); });
+  $('reset-filters').addEventListener('click', () => { resetFilters(); renderAll(); });
+}
+function resetFilters(){
+  state.q=''; state.cat=''; state.dist=''; state.status=''; state.period=30;
+  $('f-q').value=''; $('f-cat').value=''; $('f-dist').value=''; $('f-status').value=''; $('f-period').value='30';
+}
+function applyKpiFilter(kind){
+  resetFilters();
+  if (kind==='overdue')  { state.status='OVERDUE'; $('f-status').value='OVERDUE'; scrollToQueue(); }
+  if (kind==='escalated'){ state.status='ESCALATED'; $('f-status').value='ESCALATED'; scrollToQueue(); }
+  if (kind==='claimed')  { state.status='RESOLUTION_CLAIMED'; $('f-status').value='RESOLUTION_CLAIMED'; }
+  if (kind==='groups')   { document.getElementById('groups').scrollIntoView({behavior:'smooth'}); renderAll(); return; }
+  renderAll();
+}
+function scrollToQueue(){ document.getElementById('queue').scrollIntoView({behavior:'smooth'}); }
+
+/* ---------- KPIs ---------- */
+function renderKpis(list){
+  const groups = groupsFrom(list);
+  const counts = s => list.filter(c => c.status === s).length;
+  const open = list.filter(c => OPEN_STATUSES.includes(c.status)).length;
+  $('v-total').textContent = list.length;
+  $('v-open').textContent = open;
+  $('v-claimed').textContent = counts('RESOLUTION_CLAIMED');
+  $('v-overdue').textContent = counts('OVERDUE');
+  $('v-escalated').textContent = counts('ESCALATED');
+  $('v-groups').textContent = groups.length;
+  $('s-groups').textContent = t('kpi-groups-sub') + ' · ' + groups.reduce((n,g)=>n+g.members.length,0) + ' reports';
+  const urgent = counts('OVERDUE') + counts('ESCALATED');
+  const bd = $('bell-count');
+  bd.textContent = urgent;
+  bd.hidden = urgent === 0;
+  $('match-count').textContent = list.length;
+}
+
+/* ---------- Bars + recent activity ---------- */
+function renderBars(list){
+  const catCount = {};
+  list.forEach(c => catCount[c.category] = (catCount[c.category]||0)+1);
+  const catRows = Object.entries(catCount).sort((a,b)=>b[1]-a[1]);
+  const catMax = Math.max(1, ...catRows.map(r=>r[1]));
+  $('cat-bars').innerHTML = catRows.length ? catRows.map(([k,n]) => `
+    <div class="bar-row">
+      <div class="bar-label">${ICON(CATS[k].icon)}<span title="${esc(catLabel(k))}">${esc(catLabel(k))}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(n/catMax*100).toFixed(1)}%;background:${CATS[k].color}"></div></div>
+      <div class="bar-val">${n}</div>
+    </div>`).join('')
+    : `<div class="empty-state" style="padding:18px">${ICON('i-filter')}<b>${esc(t('queue-empty-title'))}</b></div>`;
+
+  const distCount = {};
+  list.forEach(c => distCount[c.district] = (distCount[c.district]||0)+1);
+  const distRows = Object.entries(distCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const distMax = Math.max(1, ...distRows.map(r=>r[1]));
+  $('dist-bars').innerHTML = distRows.length ? distRows.map(([k,n]) => `
+    <div class="bar-row">
+      <div class="bar-label"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(k)}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(n/distMax*100).toFixed(1)}%"></div></div>
+      <div class="bar-val">${n}</div>
+    </div>`).join('')
+    : `<div class="empty-state" style="padding:18px">${ICON('i-pin')}<b>–</b></div>`;
+
+  // recent activity: latest audit events across filtered complaints
+  const events = [];
+  list.forEach(c => c.timeline.forEach(ev => events.push({c, ev})));
+  events.sort((a,b) => new Date(b.ev.timestamp) - new Date(a.ev.timestamp));
+  $('recent-list').innerHTML = events.slice(0,7).map(({c,ev}) => `
+    <div class="mini-item">
+      <span class="mi-ic" style="background:${CATS[c.category].bg};color:${CATS[c.category].color}">${ICON(TL_ICONS[ev.action]||'i-history')}</span>
+      <div class="mi-text"><b>${esc(c.id)} · ${esc(ev.action.replace(/_/g,' '))}</b><span>${esc(c.district)} · ${esc(ev.note)}</span></div>
+      <time>${esc(relTime(ev.timestamp))}</time>
+    </div>`).join('') || `<div class="empty-state" style="padding:18px">–</div>`;
+}
+
+/* ---------- SVG map ---------- */
+const RAMP = ['#FAEBD7','#F8E0C2','#F1C49A','#E68760','#F75B36'];
+let mapBuilt = false, tipData = null;
+
+function buildMapBase(){
+  const svg = $('ukmap');
+  svg.innerHTML = `<defs>
+    <radialGradient id="grad-heat"><stop offset="0%" stop-color="#F75B36" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#F75B36" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#F75B36" stop-opacity="0"/></radialGradient>
+    <radialGradient id="grad-hot"><stop offset="0%" stop-color="#B42318" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#B42318" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g id="g-districts"></g><g id="g-data"></g><g id="g-labels"></g>`;
+  const g = svg.querySelector('#g-districts');
+  DISTRICTS.forEach(d => {
+    const p = document.createElementNS(SVGNS, 'polygon');
+    p.setAttribute('points', d.path);
+    p.setAttribute('data-district', d.name);
+    p.setAttribute('stroke', '#D8CFC0');
+    p.setAttribute('stroke-width', '1.4');
+    p.setAttribute('fill', '#FFFFFF');
+    p.addEventListener('mouseenter', e => showTip(d, e, true));
+    p.addEventListener('mousemove', e => moveTip(e));
+    p.addEventListener('mouseleave', hideTip);
+    g.appendChild(p);
+  });
+  mapBuilt = true;
+}
+
+function distCounts(list){
+  const m = {};
+  list.forEach(c => m[c.district] = (m[c.district]||0)+1);
+  return m;
+}
+
+function renderMap(list){
+  if (!mapBuilt) buildMapBase();
+  const counts = distCounts(complaints);           // choropleth uses full data context
+  const fcounts = distCounts(list);
+  const maxCount = Math.max(1, ...Object.values(counts));
+  const svg = $('ukmap');
+
+  // district fills
+  svg.querySelectorAll('#g-districts polygon').forEach(p => {
+    const name = p.getAttribute('data-district');
+    const n = counts[name] || 0;
+    let fill = '#FFFFFF';
+    if (state.view === 'districts') fill = RAMP[Math.min(4, Math.floor(n / maxCount * 5))];
+    else if (state.view !== 'markers' && state.view !== 'clusters' && state.view !== 'heat') fill = '#FFFFFF';
+    else fill = n ? '#FAF8F3' : '#FFFFFF';
+    p.setAttribute('fill', fill);
+  });
+
+  // labels
+  const gl = svg.querySelector('#g-labels');
+  gl.innerHTML = '';
+  DISTRICTS.forEach(d => {
+    const n = fcounts[d.name] || 0;
+    const g = document.createElementNS(SVGNS, 'g');
+    const t1 = document.createElementNS(SVGNS, 'text');
+    t1.setAttribute('x', d.cx); t1.setAttribute('y', d.cy - 2);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('class', 'district-label');
+    if (state.view === 'districts' && (counts[d.name] || 0) / maxCount >= 0.55)
+      t1.setAttribute('class', 'district-label on-dark');
+    t1.textContent = d.name.replace(' Garhwal',' G.').replace('Udham Singh Nagar','US Nagar');
+    const t2 = document.createElementNS(SVGNS, 'text');
+    t2.setAttribute('x', d.cx); t2.setAttribute('y', d.cy + 13);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('class', 'd-count');
+    t2.textContent = n ? String(n) : '';
+    g.appendChild(t1); g.appendChild(t2);
+    gl.appendChild(g);
+  });
+
+  // data layer
+  const gd = svg.querySelector('#g-data');
+  gd.innerHTML = '';
+  if (state.view === 'markers'){
+    list.forEach(c => { if (c.latitude != null) gd.appendChild(markerEl(c)); });
+  } else if (state.view === 'clusters'){
+    clusterEls(list.filter(c => c.latitude != null)).forEach(cl => gd.appendChild(clusterEl(cl)));
+  } else if (state.view === 'heat'){
+    list.forEach(c => {
+      if (c.latitude == null) return;
+      const h = document.createElementNS(SVGNS, 'circle');
+      const [hx, hy] = px(c);
+      const hot = isPastDue(c);
+      h.setAttribute('cx', hx);
+      h.setAttribute('cy', hy);
+      h.setAttribute('r', 42 + Math.min(26, daysBetween(new Date(c.createdAt), NOW)) );
+      h.setAttribute('fill', `url(#${hot ? 'grad-hot' : 'grad-heat'})`);
+      h.style.pointerEvents = 'none';
+      gd.appendChild(h);
+    });
+    list.forEach(c => { if (c.latitude != null) gd.appendChild(markerEl(c, true)); });
+  }
+  renderLegend();
+}
+
+function px(c){ // lon/lat -> viewBox coords (equirectangular, same fit as simplify.py)
+  const minx=77.573108, maxx=81.045287, miny=28.722897, maxy=31.4561;
+  const scale = Math.min(1000/(maxx-minx), 1160/(maxy-miny)) * 0.98;
+  const offx = (1000 - (maxx-minx)*scale)/2;
+  const offy = (1160 - (maxy-miny)*scale)/2;
+  return [ (c.longitude-minx)*scale + offx, 1160 - ((c.latitude-miny)*scale + offy) ];
+}
+function markerEl(c, faint=false){
+  const [x,y] = px(c);
+  const g = document.createElementNS(SVGNS, 'g');
+  g.setAttribute('class','marker');
+  g.setAttribute('tabindex','0');
+  g.setAttribute('role','button');
+  g.setAttribute('aria-label', `${c.id} ${c.categoryName} ${c.district}`);
+  const ring = document.createElementNS(SVGNS,'circle');
+  ring.setAttribute('cx',x); ring.setAttribute('cy',y); ring.setAttribute('r',11);
+  ring.setAttribute('class','marker-ring');
+  ring.setAttribute('stroke', isPastDue(c) ? '#B42318' : 'rgba(0,0,0,0)');
+  const dot = document.createElementNS(SVGNS,'circle');
+  dot.setAttribute('cx',x); dot.setAttribute('cy',y);
+  dot.setAttribute('r', faint ? 3.2 : 6.5);
+  dot.setAttribute('fill', CATS[c.category].color);
+  dot.setAttribute('stroke','#fff'); dot.setAttribute('stroke-width', faint ? 0 : 1.6);
+  g.appendChild(ring); g.appendChild(dot);
+  if (!faint){
+    g.addEventListener('click', () => openDrawer(c.id));
+    g.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); openDrawer(c.id);} });
+    g.addEventListener('mouseenter', e => showTip(c, e));
+    g.addEventListener('mousemove', e => moveTip(e));
+    g.addEventListener('mouseleave', hideTip);
+  }
+  return g;
+}
+function clusterEls(list, cell=64){
+  const cells = {};
+  list.forEach(c => {
+    const [x,y] = px(c);
+    const k = Math.floor(x/cell) + ':' + Math.floor(y/cell);
+    (cells[k] = cells[k] || []).push({x, y, c});
+  });
+  return Object.values(cells).map(arr => {
+    const cx = arr.reduce((s,a)=>s+a.x,0)/arr.length;
+    const cy = arr.reduce((s,a)=>s+a.y,0)/arr.length;
+    return {cx, cy, n: arr.length, items: arr.map(a=>a.c)};
+  });
+}
+function clusterEl(cl){
+  const g = document.createElementNS(SVGNS,'g');
+  g.setAttribute('class','marker');
+  g.setAttribute('tabindex','0');
+  g.setAttribute('role','button');
+  g.setAttribute('aria-label', cl.n + ' complaints in this area');
+  const r = 16 + Math.min(16, cl.n*1.6);
+  const c1 = document.createElementNS(SVGNS,'circle');
+  c1.setAttribute('cx',cl.cx); c1.setAttribute('cy',cl.cy); c1.setAttribute('r', r+5);
+  c1.setAttribute('fill','rgba(23,107,135,.18)');
+  const c2 = document.createElementNS(SVGNS,'circle');
+  c2.setAttribute('cx',cl.cx); c2.setAttribute('cy',cl.cy); c2.setAttribute('r', r);
+  c2.setAttribute('fill', cl.n >= 4 ? '#0D4366' : '#90502A');
+  c2.setAttribute('stroke','#fff'); c2.setAttribute('stroke-width','2');
+  const txt = document.createElementNS(SVGNS,'text');
+  txt.setAttribute('x',cl.cx); txt.setAttribute('y',cl.cy+4.5);
+  txt.setAttribute('text-anchor','middle');
+  txt.setAttribute('style','fill:#fff;font-weight:700;font-size:13px;pointer-events:none');
+  txt.textContent = cl.n;
+  g.appendChild(c1); g.appendChild(c2); g.appendChild(txt);
+  g.addEventListener('click', () => {
+    setView('markers');
+    zoomTo(cl.cx, cl.cy, 340);
+  });
+  g.addEventListener('keydown', e => { if (e.key==='Enter'){ setView('markers'); zoomTo(cl.cx, cl.cy, 340); } });
+  g.addEventListener('mouseenter', e => {
+    tipData = { title: cl.n + ' complaints', sub: cl.items.slice(0,3).map(c=>c.id).join(', ') + (cl.n>3?'…':'') };
+    moveTip(e); $('map-tip').classList.add('show');
+  });
+  g.addEventListener('mousemove', e => moveTip(e));
+  g.addEventListener('mouseleave', hideTip);
+  return g;
+}
+
+function renderLegend(){
+  let html = '';
+  if (state.view === 'districts'){
+    html = `<span style="font-weight:700;color:var(--navy)">Applications density —</span>` +
+      RAMP.map((c,i) => `<span class="lg-item"><span class="swatch" style="background:${c}"></span>${['0','1','2–3','4–6','7+'][i]}</span>`).join('');
+  } else if (state.view === 'heat'){
+    html = `<span class="lg-item"><span class="swatch" style="background:linear-gradient(90deg,rgba(23,107,135,.15),rgba(23,107,135,.45))"></span>Lower → Higher concentration</span>
+            <span class="lg-item"><span class="swatch" style="background:linear-gradient(90deg,rgba(179,58,58,.2),rgba(179,58,58,.5))"></span>Overdue cases</span>`;
+  } else {
+    html = Object.entries(CATS).map(([k,v]) =>
+      `<span class="lg-item"><span class="swatch" style="background:${v.color}"></span>${esc(catLabel(k))}</span>`).join('') +
+      `<span class="lg-item"><span class="ring swatch" style="border-color:#B42318"></span>Past due</span>`;
+  }
+  $('map-legend').innerHTML = html;
+}
+
+/* tooltip */
+function showTip(obj, e, district=false){
+  tipData = district
+    ? { title: obj.name, sub: (distCounts(filtered())[obj.name]||0) + ' complaints in view' }
+    : { title: obj.id + ' · ' + catLabel(obj.category),
+        sub: obj.locality + ', ' + obj.district + ' · ' + statusLabel(obj.status) };
+  moveTip(e); $('map-tip').classList.add('show');
+}
+function moveTip(e){
+  if (!tipData) return;
+  const wrap = document.querySelector('.map-wrap');
+  const r = wrap.getBoundingClientRect();
+  const x = Math.min(Math.max(0, e.clientX - r.left), r.width);
+  const y = Math.min(Math.max(0, e.clientY - r.top), r.height);
+  const tip = $('map-tip');
+  tip.innerHTML = `<div class="tip-title">${esc(tipData.title)}</div><div class="tip-sub">${esc(tipData.sub)}</div>`;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+function hideTip(){ tipData = null; $('map-tip').classList.remove('show'); }
+
+/* zoom / pan */
+function applyVB(){ const v = state.vb; $('ukmap').setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`); }
+function zoomTo(cx, cy, w){
+  const h = w * 860/1000;
+  state.vb = { x: Math.max(0, Math.min(1000-w, cx-w/2)), y: Math.max(140, Math.min(1000-h, cy-h/2)), w, h };
+  applyVB();
+}
+function zoomBy(f){
+  const v = state.vb;
+  const nw = Math.max(240, Math.min(1000, v.w*f));
+  const cx = v.x + v.w/2, cy = v.y + v.h/2;
+  zoomTo(cx, cy, nw);
+}
+function bindZoom(){
+  $('zoom-in').addEventListener('click', () => zoomBy(0.7));
+  $('zoom-out').addEventListener('click', () => zoomBy(1.5));
+  $('zoom-fit').addEventListener('click', () => { state.vb = {x:0,y:140,w:1000,h:860}; applyVB(); });
+  const svg = $('ukmap');
+  svg.addEventListener('wheel', e => { e.preventDefault(); zoomBy(e.deltaY > 0 ? 1.18 : 0.85); }, {passive:false});
+  let drag = null;
+  svg.addEventListener('pointerdown', e => {
+    const v = state.vb; drag = {sx:e.clientX, sy:e.clientY, vx:v.x, vy:v.y, r:svg.getBoundingClientRect()};
+    svg.setPointerCapture(e.pointerId);
+  });
+  svg.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const scale = state.vb.w / drag.r.width;
+    const dx = (e.clientX - drag.sx) * scale, dy = (e.clientY - drag.sy) * scale;
+    const v = state.vb;
+    v.x = Math.max(0, Math.min(1000 - v.w, drag.vx - dx));
+    v.y = Math.max(140, Math.min(1000 - v.h, drag.vy - dy));
+    applyVB();
+  });
+  svg.addEventListener('pointerup', () => drag = null);
+  svg.addEventListener('pointerleave', () => drag = null);
+}
+
+/* ---------- Groups ---------- */
+function renderGroups(list){
+  const groups = groupsFrom(list);
+  $('groups-count').textContent = groups.length;
+  $('group-grid').innerHTML = groups.length ? groups.map(g => {
+    const cat = CATS[g.category];
+    return `<div class="group-card" data-group="${esc(g.groupId)}">
+      <div class="g-top">
+        <span class="g-ic" style="background:${cat.bg};color:${cat.color}">${ICON(cat.icon,'icon')}</span>
+        <div class="g-title">${esc(cat.label)} — ${esc(g.locality)}<span>${esc(g.district)} · group ${esc(g.groupId)}</span></div>
+      </div>
+      <div class="g-sim">${ICON('i-git-branch')} ${esc(lang==='hi' ? `${g.members.length} रिपोर्ट · समान श्रेणी · ~800 मी. के भीतर · समान शब्दावली` : g.similarity)}</div>
+      <div class="g-members">${g.members.map(m => `<span class="ref-chip">${esc(m.id)}</span>`).join('')}</div>
+      <div class="g-actions">
+        <button class="btn btn-sm" onclick="reviewGroup('${esc(g.groupId)}')">${ICON('i-eye')}${esc(t('btn-review-group'))}</button>
+        <button class="btn btn-sm" onclick="confirmLink('${esc(g.groupId)}')">${ICON('i-link')}${esc(t('btn-link'))}</button>
+        <button class="btn btn-sm" onclick="separateGroup('${esc(g.groupId)}')">${ICON('i-unlink')}${esc(t('btn-separate'))}</button>
+      </div>
+    </div>`;
+  }).join('') : `<div class="card"><div class="empty-state">${ICON('i-git-branch')}<b>${lang==='hi'?'इस फ़िल्टर में कोई संभावित डुप्लिकेट समूह नहीं':'No possible duplicate groups in this filter'}</b></div></div>`;
+}
+function reviewGroup(gid){
+  const g = groupsDef.find(x => x.groupId === gid); if (!g) return;
+  resetFilters();
+  state.cat = g.category; $('f-cat').value = g.category;
+  state.dist = g.district; $('f-dist').value = g.district;
+  renderAll();
+  document.querySelector('.main-grid').scrollIntoView({behavior:'smooth'});
+  toast(lang==='hi' ? `${gid} के ${g.memberIds.length} रिपोर्ट मैप पर दिखाए गए` : `Showing ${g.memberIds.length} reports of ${gid} on the map`);
+}
+function confirmLink(gid){
+  const g = groupsDef.find(x => x.groupId === gid); if (!g) return;
+  g.memberIds.map(byId).filter(Boolean).forEach(c => addAudit(c, 'grouped', 'Reviewer confirmed: reports linked as one possible incident (reviewer decision, in-memory only)'));
+  toast(lang==='hi' ? `${gid}: ${g.memberIds.length} रिपोर्ट एक संभावित घटना के रूप में जुड़ी` : `${gid}: linked ${g.memberIds.length} reports as one possible incident`);
+  renderAll();
+}
+function separateGroup(gid){
+  const g = groupsDef.find(x => x.groupId === gid); if (!g) return;
+  g.memberIds.map(byId).filter(Boolean).forEach(c => { c.relatedGroupId = null; addAudit(c, 'ungrouped', 'Reviewer separated reports; each keeps its own tracking (reviewer decision, in-memory only)'); });
+  toast(lang==='hi' ? `${gid}: रिपोर्ट अलग कर दी गईं — सभी की अपनी ट्रैकिंग बनी रहती है` : `${gid}: reports separated — each keeps its own tracking`, true);
+  renderAll();
+}
+function addAudit(c, action, note){
+  c.timeline.push({ action, actorType:'OFFICER', actorId:'officer-dm-11',
+    timestamp: NOW.toISOString().slice(0,16), note });
+  c.updatedAt = NOW.toISOString().slice(0,16);
+}
+
+/* ---------- Queue ---------- */
+function renderQueue(){
+  /* Feature 9 worklist: every active case from the live table — overdue and
+     escalated first, then the rest, newest first. Overdue = open case past
+     its 10-day deadline (Feature 4, computed from created_at, client-side only). */
+  const rank = c => (c.status === 'OVERDUE' ? 2 : 0) + (c.status === 'ESCALATED' ? 1 : 0);
+  const rows = complaints.filter(c => OPEN_STATUSES.includes(c.status))
+    .filter(c => matchesFilters(c))
+    .sort((a,b) => (rank(b) - rank(a)) || (daysOverdue(b) - daysOverdue(a)) ||
+      (new Date(b.createdAt) - new Date(a.createdAt)));
+  $('queue-count').textContent = rows.length;
+  $('queue-empty').hidden = rows.length > 0;
+  $('queue-body').innerHTML = rows.map(c => {
+    const cat = CATS[c.category];
+    const od = daysOverdue(c);
+    const sla = od > 0
+      ? `<span class="overdue-days">+${od} ${lang==='hi'?'दिन':'days'}</span>`
+      : `<span class="due-in cd" data-cd="${c.dueAt}" title="${lang==='hi'?'10-दिन समय-सीमा तक शेष समय — हर सेकंड अपडेट होता है':'time remaining to the 10-day deadline — ticks every second'}">${(lang==='hi'?'शेष ':'') + fmtCd(new Date(c.dueAt).getTime() - NOW.getTime()) + (lang==='hi'?'':' left')}</span>`;
+    return `<tr>
+      <td class="cell-id"><button class="btn btn-ghost btn-sm" style="padding:2px 4px" onclick="openDrawer('${esc(c.id)}')" aria-label="Open ${esc(c.id)}">${esc(c.id)}</button></td>
+      <td class="cell-loc"><b>${ICON(cat.icon)} ${esc(catLabel(c.category))}</b><span>${esc(c.locality)}</span></td>
+      <td>${esc(c.district)}</td>
+      <td>${esc(fmtDate(c.createdAt))}</td>
+      <td>${esc(fmtDate(c.dueAt))}</td>
+      <td>${sla}</td>
+      <td>${chipEl(c.status)}</td>
+      <td><div class="row-actions">
+        <button class="btn btn-primary btn-sm" ${canComplete(c)?'':'disabled'} onclick="markCompleted('${esc(c.id)}')">${ICON('i-user-check')}${esc(t('btn-complete'))}</button>
+        ${canVerify(c) ? `<button class="btn btn-teal btn-sm" onclick="focusVerify('${esc(c.id)}')" title="${lang==='hi'?'नागरिक से प्राप्त 6-अंकीय कोड दर्ज करें':'enter the 6-digit code the citizen gives you'}">${ICON('i-shield')}${lang==='hi'?'कोड':'Verify code'}</button>` : ''}
+        <button class="btn btn-sm" ${canEscalate(c)?'':'disabled'} onclick="escalate('${esc(c.id)}')">${ICON('i-arrow-up')}${esc(t('btn-escalate'))}</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  // mirror into mobile-friendly rendering: CSS handles horizontal scroll (min-width)
+}
+function matchesFilters(c){
+  const q = state.q.trim().toLowerCase();
+  const cutoff = NOW.getTime() - state.period * 86400000;
+  if (state.cat && c.category !== state.cat) return false;
+  if (state.dist && c.district !== state.dist) return false;
+  if (state.status && c.status !== state.status) return false;
+  if (new Date(c.createdAt).getTime() < cutoff) return false;
+  if (q && !(c.id.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
+      || c.locality.toLowerCase().includes(q) || c.district.toLowerCase().includes(q))) return false;
+  return true;
+}
+function chipEl(status){
+  const s = STATUSES[status];
+  return `<span class="chip ${s.chip}">${ICON(s.icon)}${esc(statusLabel(status))}</span>`;
+}
+
+/* ---------- Officer actions (state machine) ---------- */
+function canComplete(c){ return ['UNDER_REVIEW','ACTION_REQUIRED','OVERDUE','REOPENED','ESCALATED'].includes(c.status); }
+function canEscalate(c){ return ['OVERDUE','REOPENED','UNDER_REVIEW'].includes(c.status); }
+function markCompleted(id){
+  const c = byId(id); if (!c || !canComplete(c)) return;
+  c.status = 'RESOLUTION_CLAIMED';
+  addAudit(c, 'resolution_claimed', 'Officer marked work completed; awaiting citizen confirmation with one-time code');
+  toast((lang==='hi' ? `${id}: कार्य पूर्ण चिह्नित — नागरिक पुष्टि प्रतीक्षित` : `${id}: marked completed — awaiting citizen confirmation`) + roNote());
+  renderAll(); if (state.drawerId === id) renderDrawer(c);
+}
+function escalate(id){
+  const c = byId(id); if (!c || !canEscalate(c)) return;
+  c.status = 'ESCALATED';
+  addAudit(c, 'escalated', 'Escalated to next configured review level (in-memory only)');
+  toast((lang==='hi' ? `${id}: अगली समीक्षा स्तर पर एस्कलेट किया गया` : `${id}: escalated to the next review level`) + roNote(), true);
+  renderAll(); if (state.drawerId === id) renderDrawer(c);
+}
+function sendReminder(id){
+  const c = byId(id); if (!c) return;
+  addAudit(c, 'reminder_sent', 'Due-date reminder notification generated (no real SMS sent)');
+  toast((lang==='hi' ? `${id}: अनुस्मारक जारी किया गया (कोई वास्तविक SMS नहीं)` : `${id}: reminder generated (no real SMS)`) + roNote(), true);
+  renderAll(); if (state.drawerId === id) renderDrawer(c);
+}
+
+/* ---------- Feature 4: citizen-verified resolution ---------- */
+function canVerify(c){ return c.status === 'RESOLUTION_CLAIMED'; }
+function fmtCd(ms){
+  const s = Math.max(0, Math.floor(ms / 1000));
+  const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
+        m = Math.floor(s % 3600 / 60), sec = s % 60, p = n => String(n).padStart(2, '0');
+  return `${d}d ${p(h)}:${p(m)}:${p(sec)}`;
+}
+function reopenClaimed(id){
+  const c = byId(id); if (!c || c.status !== 'RESOLUTION_CLAIMED') return;
+  c.status = 'REOPENED';
+  addAudit(c, 'citizen_rejected', lang==='hi' ? 'नागरिक ने कहा कि समस्या हल नहीं हुई — शिकायत पुनः खोली गई (फीचर 4)' : 'Citizen reported the issue not resolved — complaint reopened (Feature 4)');
+  toast((lang==='hi' ? `${id}: नागरिक की अस्वीकृति — पुनः खोला गया` : `${id}: citizen says not resolved — reopened`) + roNote(), true);
+  renderAll(); if (state.drawerId === id) renderDrawer(c);
+}
+function verifyCode(id){
+  const c = byId(id); if (!c || c.status !== 'RESOLUTION_CLAIMED') return;
+  const box = document.getElementById('otp-box'); if (!box) return;
+  const err = $('verify-err');
+  const entered = [...box.querySelectorAll('.otp-in')].map(i => i.value).join('');
+  if (entered.length < 6){
+    if (err){ err.hidden = false; err.textContent = lang==='hi' ? 'पूरा 6-अंकीय कोड दर्ज करें' : 'Enter all six digits of the code'; }
+    return;
+  }
+  if (entered === c.verifCode){
+    c.status = 'CITIZEN_CONFIRMED';
+    addAudit(c, 'citizen_confirmed', lang==='hi' ? 'नागरिक सत्यापन कोड मेल खाया — शिकायत बंद (फीचर 4)' : 'Citizen verification code matched — complaint closed (Feature 4)');
+    toast((lang==='hi' ? `${id}: नागरिक पुष्टि के साथ बंद` : `${id}: closed after citizen verification`) + roNote());
+    renderAll(); if (state.drawerId === id) renderDrawer(c);
+  } else {
+    addAudit(c, 'code_mismatch', lang==='hi' ? 'दर्ज कोड मेल नहीं खाया — शिकायत खुली रही' : 'Entered code did not match; complaint stays open');
+    if (err){ err.hidden = false; err.textContent = lang==='hi' ? 'कोड मेल नहीं खाया — शिकायत खुली रहेगी। नागरिक से दोबारा जाँचें।' : 'Code does not match — the complaint stays open. Re-check with the citizen.'; }
+    box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+    box.querySelectorAll('.otp-in').forEach(i => i.value = '');
+    const f = box.querySelector('.otp-in'); if (f) f.focus();
+  }
+}
+function focusVerify(id){
+  openDrawer(id);
+  const p = document.getElementById('verify-panel');
+  if (p){ p.scrollIntoView({ block: 'center' }); const f = p.querySelector('.otp-in'); if (f) f.focus(); }
+}
+function otpMove(el){
+  el.value = el.value.replace(/\D/g, '').slice(-1);
+  if (el.value){ const nx = el.nextElementSibling; if (nx && nx.classList.contains('otp-in')) nx.focus(); }
+}
+function otpKey(e, el){
+  if (e.key === 'Backspace' && !el.value){
+    const pv = el.previousElementSibling;
+    if (pv && pv.classList.contains('otp-in')){ pv.focus(); pv.value = ''; e.preventDefault(); }
+  }
+  if (e.key === 'Enter'){ const b = document.querySelector('#verify-panel .verify-actions .btn-primary'); if (b) b.click(); }
+}
+function otpPaste(e, el){
+  e.preventDefault();
+  const digits = ((e.clipboardData || {}).getData('text') || '').replace(/\D/g, '').slice(0, 6);
+  if (!digits || !document.getElementById('otp-box')) return;
+  const ins = [...document.getElementById('otp-box').querySelectorAll('.otp-in')];
+  ins.forEach((inp, i) => inp.value = digits[i] || '');
+  ins[Math.min(digits.length, 5)].focus();
+}
+/* 1-second ticker: updates every [data-cd] element in place — queue rows and
+   the drawer banner — plus the "next deadline" chip in the queue header.
+   Does NOT re-render lists, so any input the officer is typing stays intact. */
+function tickCountdowns(){
+  const T = Date.now();
+  document.querySelectorAll('[data-cd]').forEach(el => {
+    const left = new Date(el.dataset.cd).getTime() - T;
+    if (el.dataset.kind === 'banner'){
+      el.textContent = fmtCd(left);
+      el.classList.toggle('cd-danger', left <= 0);
+    } else if (left > 0){
+      el.textContent = (lang==='hi' ? 'शेष ' : '') + fmtCd(left) + (lang==='hi' ? '' : ' left');
+      el.classList.toggle('cd-warn', left < 5 * 86400000 && left >= 2 * 86400000);
+      el.classList.toggle('cd-danger', left < 2 * 86400000);
+    } else if (el.dataset.done !== '1'){
+      el.dataset.done = '1';
+      el.textContent = lang==='hi' ? 'समय-सीमा समाप्त' : 'deadline reached';
+      el.classList.add('cd-danger');
+    }
+  });
+  const nx = document.querySelector('[data-next-cd]');
+  if (nx){
+    const open = complaints.filter(c => OPEN_STATUSES.includes(c.status));
+    if (open.length){
+      const next = open.reduce((a, c) => new Date(c.dueAt) < new Date(a.dueAt) ? c : a);
+      const left = new Date(next.dueAt).getTime() - T;
+      nx.hidden = false;
+      nx.title = next.id;
+      nx.innerHTML = `${ICON('i-clock')}<span>${lang==='hi' ? 'अगली समय-सीमा' : 'next deadline'}</span><b class="${left <= 0 ? 'cd-danger' : ''}">${left <= 0 ? '+' + fmtCd(-left) : fmtCd(left)}</b>`;
+    } else nx.hidden = true;
+  }
+}
+/* Drawer countdown banner: filed date, day X of 10, ticking time left, progress */
+function cdBanner(c){
+  const created = new Date(c.createdAt), T = NOW.getTime(), due = new Date(c.dueAt).getTime();
+  const dayNo = Math.min(DEADLINE_DAYS, Math.max(1, Math.floor((T - created.getTime()) / 86400000) + 1));
+  const left = due - T;
+  const st = left <= 0 || left < 2 * 86400000 ? 'danger' : left < 5 * 86400000 ? 'warn' : 'ok';
+  const pct = Math.min(100, Math.max(0, (T - created.getTime()) / (86400000 * DEADLINE_DAYS) * 100));
+  return `<div class="cd-banner st-${st}">
+    <div class="cd-main">
+      <span class="cd-big ${st === 'ok' ? 'cd-ok' : st === 'warn' ? 'cd-warn' : 'cd-danger'}" data-cd="${c.dueAt}" data-kind="banner">${fmtCd(left)}</span>
+      <span class="cd-label">${left > 0 ? (lang==='hi' ? '10-दिन की समय-सीमा तक शेष' : 'remaining to the 10-day deadline') : (lang==='hi' ? '10-दिन की समय-सीमा बीत गई' : 'past the 10-day deadline')}</span>
+    </div>
+    <div class="cd-side">
+      <span>${lang==='hi' ? 'दर्ज' : 'Filed'}: <b>${new Date(c.createdAt).toLocaleString(lang==='hi'?'hi-IN':'en-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</b></span>
+      <span>${lang==='hi' ? `दिन ${dayNo}/${DEADLINE_DAYS}` : `Day ${dayNo} of ${DEADLINE_DAYS}`}</span>
+      <span>${lang==='hi' ? 'समय-सीमा' : 'Deadline'}: <b>${fmtDate(c.dueAt)}</b></span>
+    </div>
+    <div class="cd-track"><div class="cd-fill" style="width:${pct}%"></div></div>
+  </div>`;
+}
+/* Feature 4 step 3: the officer enters the code the CITIZEN provides */
+function verifyPanel(c){
+  const inputs = Array.from({ length: 6 }, (_, i) =>
+    `<input class="otp-in" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="${lang==='hi' ? 'कोड अंक ' + (i+1) : 'code digit ' + (i+1)}" oninput="otpMove(this)" onkeydown="otpKey(event,this)" onpaste="otpPaste(event,this)">`).join('');
+  return `<div class="drawer-sec" id="verify-panel">
+    <h4>${lang==='hi' ? 'नागरिक सत्यापन — फीचर 4' : 'Citizen verification — Feature 4'}</h4>
+    <div class="verify-box">
+      <p>${lang==='hi' ? 'नागरिक को पंजीकरण पर जारी 6-अंकीय गुप्त सत्यापन कोड पूछें और नीचे दर्ज करें। कोड मेल खाने पर ही शिकायत बंद होगी — अधिकारी स्वयं बंद नहीं कर सकते।' : 'Ask the citizen for the 6-digit secret verification code issued to them at registration, and enter it below. The complaint closes only when the code matches — officers cannot close it themselves.'}</p>
+      <div class="otp" id="otp-box" role="group" aria-label="${lang==='hi' ? 'नागरिक सत्यापन कोड' : 'Citizen verification code'}">${inputs}</div>
+      <div class="verify-actions">
+        <button class="btn btn-primary" onclick="verifyCode('${esc(c.id)}')">${ICON('i-shield')}${lang==='hi' ? 'कोड दर्ज करें और बंद करें' : 'Enter code & close'}</button>
+        <button class="btn" onclick="reopenClaimed('${esc(c.id)}')">${ICON('i-refresh')}${lang==='hi' ? 'हल नहीं हुआ — पुनः खोलें' : 'Not resolved — reopen'}</button>
+      </div>
+      <div class="verify-err" id="verify-err" role="alert" hidden></div>
+      ${c.codeIsDemo ? `<div class="demo-hint">${ICON('i-alert-circle')}<span>${lang==='hi' ? `प्रोटोटाइप डेमो कोड: <b>${c.verifCode}</b> — तालिका में verification_code कॉलम नहीं है, इसलिए कोड शिकायत ID से जनरेट किया गया है।` : `Prototype demo code: <b>${c.verifCode}</b> — the table has no verification_code column yet, so this code is generated from the complaint ID.`}</span></div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ---------- Drawer ---------- */
+function openDrawer(id){
+  state.drawerId = id;
+  renderDrawer(byId(id));
+  document.body.classList.add('drawer-open');
+  $('drawer').querySelector('.drawer-close').focus();
+}
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  state.drawerId = null;
+  renderAll();
+}
+function statusCallout(c){
+  const od = daysOverdue(c);
+  switch(c.status){
+    case 'RESOLUTION_CLAIMED':
+      return `<div class="callout callout-info">${ICON('i-user-check')}<div><b>${lang==='hi'?'नागरिक पुष्टि प्रतीक्षित':'Awaiting citizen confirmation'}.</b> ${lang==='hi'?'नागरिक से 6-अंकीय सत्यापन कोड पूछकर नीचे दर्ज करें — कोड मेल खाने पर ही शिकायत बंद होगी।':'Ask the citizen for their 6-digit verification code and enter it below — the complaint closes only when the code matches.'}</div></div>`;
+    case 'REOPENED':
+      return `<div class="callout callout-danger">${ICON('i-refresh')}<div><b>${lang==='hi'?'नागरिक ने समाधान अस्वीकार किया':'Citizen rejected the claimed resolution'}.</b> ${lang==='hi'?'मामला पुनः खोला गया — समीक्षा आवश्यक।':'The case was reopened for review. Verify the site and take corrective action.'}</div></div>`;
+    case 'OVERDUE':
+      return `<div class="callout callout-danger">${ICON('i-clock')}<div><b>${lang==='hi'?'विलंबित':'Overdue'} ${od} ${lang==='hi'?'दिन':'days'}.</b> ${lang==='hi'?'10-दिन की समय-सीमा बीत गई; विलंबित चिह्नित और वरिष्ठ अधिकारी को एस्कलेशन हेतु भेजा गया।':'The 10-day deadline (Feature 4) has passed; flagged overdue and queued for senior-officer escalation.'}</div></div>`;
+    case 'ESCALATED':
+      return `<div class="callout callout-danger">${ICON('i-arrow-up')}<div><b>${lang==='hi'?'एस्कलेटेड':'Escalated'}.</b> ${lang==='hi'?'अगली समीक्षा स्तर पर भेजा गया (केवल इन-मेमोरी)।':'Sent to the next configured review level (in-memory only).'}</div></div>`;
+    case 'ACTION_REQUIRED':
+      return `<div class="callout callout-warn">${ICON('i-alert-circle')}<div><b>${lang==='hi'?'नागरिक से अतिरिक्त जानकारी चाहिए':'Waiting on citizen input'}.</b> ${lang==='hi'?'स्थान का फोटो/स्पष्टीकरण नागरिक से मांगा गया।':'A location photo / clarification has been requested from the citizen.'}</div></div>`;
+    case 'CLOSED':
+      return `<div class="callout callout-success">${ICON('i-check-circle')}<div><b>${lang==='hi'?'मामला बंद':'Case closed'}.</b> ${lang==='hi'?'नागरिक पुष्टि के साथ पूर्ण।':'Completed after citizen confirmation.'}</div></div>`;
+    default: return '';
+  }
+}
+function fmtRaw(v){
+  /* render any Supabase column value verbatim, timestamps humanized */
+  if (v === null || v === undefined || v === '') return '—';
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
+  if (typeof v === 'object') return esc(JSON.stringify(v));
+  const s = String(v);
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s)){
+    const d = new Date(s);
+    if (!isNaN(d)) return esc(d.toLocaleString(lang==='hi'?'hi-IN':'en-IN',
+      {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'})) +
+      ` <span class="iso">(${esc(s)})</span>`;
+  }
+  return esc(s);
+}
+function renderDrawer(c){
+  if (!c) return;
+  $('drawer-title').textContent = c.id + ' · ' + catLabel(c.category);
+  $('drawer-sub').innerHTML = chipEl(c.status) + ' &nbsp;·&nbsp; ' + esc(c.channel) + (c.relatedGroupId ? ' · ' + esc(c.relatedGroupId) : '');
+  const rel = c.relatedGroupId ? groupsDef.find(g => g.groupId === c.relatedGroupId) : null;
+  const others = rel ? rel.memberIds.filter(i => i !== c.id).map(byId).filter(Boolean) : [];
+  $('drawer-body').innerHTML = `
+    ${statusCallout(c)}
+    ${OPEN_STATUSES.includes(c.status) ? cdBanner(c) : ''}
+    ${c.status === 'RESOLUTION_CLAIMED' ? verifyPanel(c) : ''}
+    ${c.locality && c.locality !== '—' ? `<div class="drawer-sec">
+      <h4>${lang==='hi'?'स्थान':'Location'}</h4>
+      <div class="loc-box">${ICON('i-pin')}<div><b>${esc(c.locality)}</b>
+      <span>${lang==='hi'?'ज़िला':'District'}: ${esc(c.district)}${c.latitude != null ? ` · ${c.latitude.toFixed(4)}, ${c.longitude.toFixed(4)}` : ''}${c.live ? ` · ${lang==='hi'?'तालिका के location फ़ील्ड से':'exact text from the table location field'}` : ''}</span></div></div>
+    </div>` : ''}
+    <div class="drawer-sec">
+      <h4>${lang==='hi'?'विवरण':'Description'}</h4>
+      <div class="desc-box">${esc(c.description)}</div>
+    </div>
+    <div class="drawer-sec">
+      <h4>${lang==='hi'?'मेटाडेटा':'Details'}</h4>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="k">${lang==='hi'?'ज़िला':'District'}</div><div class="v">${esc(c.district)}</div></div>
+        <div class="meta-item"><div class="k">${lang==='hi'?'क्षेत्र':'Locality'}</div><div class="v">${esc(c.locality)}</div></div>
+        <div class="meta-item"><div class="k">${lang==='hi'?'चैनल':'Channel'}</div><div class="v">${esc(c.channel)}</div></div>
+        <div class="meta-item"><div class="k">${lang==='hi'?'नागरिक':'Citizen'}</div><div class="v">${esc(c.citizenRef)}</div></div>
+        <div class="meta-item"><div class="k">${lang==='hi'?'प्राप्त':'Created'}</div><div class="v">${esc(fmtDate(c.createdAt))}</div></div>
+        <div class="meta-item"><div class="k">${lang==='hi'?'समय-सीमा':'Due'}</div><div class="v">${esc(fmtDate(c.dueAt))}${isPastDue(c)?` <span class="overdue-days">+${daysOverdue(c)}d</span>`:''}</div></div>
+        <div class="meta-item"><div class="k">Coordinates</div><div class="v" style="font-family:var(--mono);font-size:12px">${c.latitude != null ? c.latitude.toFixed(4) + ', ' + c.longitude.toFixed(4) : (lang==='hi'?'मैप पर नहीं':'not mapped')}</div></div>
+        ${c.live ? `<div class="meta-item"><div class="k">DB status (raw)</div><div class="v">${esc(String(c.rawStatus ?? '—'))}</div></div>
+        <div class="meta-item"><div class="k">DB row id</div><div class="v" style="font-family:var(--mono);font-size:12px">#${esc(String(c.dbId))}</div></div>` : ''}
+        <div class="meta-item"><div class="k">${lang==='hi'?'अंतिम अपडेट':'Updated'}</div><div class="v">${esc(relTime(c.updatedAt))}</div></div>
+      </div>
+    </div>
+    ${c.live && c.raw ? `<div class="drawer-sec">
+      <h4>${lang==='hi'?'सुपाबेस रिकॉर्ड — तालिका के सभी फ़ील्ड':'Supabase record — all fields, as stored in the table'}</h4>
+      <div class="db-record">${Object.entries(c.raw).sort(([a],[b]) => a.localeCompare(b)).map(([k,v]) =>
+        `<div class="dr-row"><span class="dr-key">${esc(k)}</span><span class="dr-val">${fmtRaw(v)}</span></div>`).join('')}</div>
+      <p class="dr-note">${lang==='hi'?'ऊपर हर कॉलम वैसा ही दिखता है जैसा तालिका में है — तालिका में नए कॉलम जोड़ने पर वे भी अपने आप यहाँ दिखेंगे।':'Every column above is shown exactly as stored. Columns added to the table later appear here automatically.'}</p>
+    </div>` : ''}
+    ${rel ? `<div class="drawer-sec">
+      <h4>${lang==='hi'?'संभावित संबंधित समस्या':'Possible related issue'}</h4>
+      <div class="rel-box"><b>${esc(rel.groupId)}</b> — ${esc(catLabel(rel.category))}, ${esc(rel.locality)} (${esc(rel.district)})<br>
+      ${esc(lang==='hi' ? `${rel.memberIds.length} समान रिपोर्ट ~800 मी. के भीतर` : `${rel.memberIds.length} similar reports within ~800 m`)}
+      <div>${others.map(o => `<button class="ref-chip" style="cursor:pointer" onclick="openDrawer('${esc(o.id)}')">${esc(o.id)}</button>`).join('')}</div></div>
+    </div>` : ''}
+    <div class="drawer-sec">
+      <h4>${lang==='hi'?'ऑडिट टाइमलाइन':'Audit timeline'}</h4>
+      <div class="tl">${c.timeline.map(ev => {
+        const cls = ev.actorType === 'SYSTEM' ? 'sys' : (['overdue_flagged','citizen_rejected','escalated'].includes(ev.action) ? 'bad' : 'done');
+        return `<div class="tl-item">
+          <span class="tl-dot ${cls}">${ICON(TL_ICONS[ev.action]||'i-history')}</span>
+          <div class="tl-content"><b>${esc(ev.action.replace(/_/g,' '))}</b><p>${esc(ev.note)}</p><time>${esc(new Date(ev.timestamp).toLocaleString(lang==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))} · ${esc(ev.actorType.toLowerCase())}</time></div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  const foot = [];
+  if (canComplete(c)) foot.push(`<button class="btn btn-primary" onclick="markCompleted('${esc(c.id)}')">${ICON('i-user-check')}${esc(t('btn-complete'))}</button>`);
+  if (canEscalate(c)) foot.push(`<button class="btn btn-danger" onclick="escalate('${esc(c.id)}')">${ICON('i-arrow-up')}${esc(t('btn-escalate'))}</button>`);
+  if (OPEN_STATUSES.includes(c.status)) foot.push(`<button class="btn" onclick="sendReminder('${esc(c.id)}')">${ICON('i-bell')}${esc(t('btn-remind'))}</button>`);
+  if (c.status === 'RESOLUTION_CLAIMED'){
+    foot.push(`<button class="btn btn-teal" onclick="focusVerify('${esc(c.id)}')" title="${lang==='hi'?'नागरिक से प्राप्त कोड दर्ज करके शिकायत बंद करें':'Close the complaint by entering the code the citizen gives you'}">${ICON('i-shield')}${lang==='hi'?'नागरिक कोड दर्ज करें':'Enter citizen code'}</button>`);
+  } else if (OPEN_STATUSES.includes(c.status)){
+    foot.push(`<button class="btn" disabled title="${lang==='hi'?'नागरिक द्वारा कोड पुष्टि के बिना मामला बंद नहीं हो सकता':'A case can only close after the citizen verifies with the one-time code — officers cannot bypass this'}">${ICON('i-shield')}${esc(t('btn-close-case'))}</button>`);
+  }
+  $('drawer-foot').innerHTML = foot.join('');
+}
+
+/* ---------- CSV export ---------- */
+function csvFrom(rows){
+  const head = ['id','category','district','locality','status','createdAt','dueAt','citizenRef','channel','latitude','longitude'];
+  const lines = [head.join(',')];
+  rows.forEach(c => lines.push(head.map(k => `"${String(c[k]).replace(/"/g,'""')}"`).join(',')));
+  return '\uFEFF' + lines.join('\r\n');
+}
+function downloadCSV(name, rows){
+  const blob = new Blob([csvFrom(rows)], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+/* ---------- View mode ---------- */
+function setView(v){
+  state.view = v;
+  ['markers','clusters','heat','districts'].forEach(k => {
+    const b = $('vm-' + k); if (b) b.setAttribute('aria-pressed', String(k === v));
+  });
+  renderMap(filtered());
+}
+
+/* ---------- Render all ---------- */
+function renderAll(){
+  const list = filtered();
+  renderKpis(list);
+  renderBars(list);
+  renderMap(list);
+  renderGroups(list);
+  renderQueue();
+  if (state.drawerId) renderDrawer(byId(state.drawerId));
+}
+
+/* ============================================================
+   Supabase live data — READ-ONLY integration (Workstream E)
+   Maps the live `complaints` table onto the blueprint Complaint
+   contract. Nothing is ever written back to Supabase.
+   ============================================================ */
+function roNote(){
+  return LIVE_MODE
+    ? (lang==='hi' ? ' · केवल-पढ़ें कनेक्शन — Supabase में सहेजा नहीं गया'
+                   : ' · read-only connection — not saved to Supabase')
+    : '';
+}
+
+/* --- normalisers: raw DB values -> blueprint vocabulary --- */
+function normCategory(raw){
+  const s = String(raw || '').toLowerCase();
+  if (CATS[String(raw || '').toUpperCase()]) return String(raw).toUpperCase();
+  if (/street\s?light|lamp|स्ट्रीट ?लाइट|बत्ती/.test(s)) return 'LIGHT';
+  if (/garbage|waste|sanitat|trash|kooda|कचरा|सफाई/.test(s)) return 'WASTE';
+  if (/drain|sewer|sewage|नाला|जल निकासी/.test(s)) return 'DRAINAGE';
+  if (/water|pipeline|paani|पानी|पेयजल/.test(s)) return 'WATER';
+  if (/road|pothole|footpath|सड़क|गड्ढा/.test(s)) return 'ROADS';
+  if (/electric|power|bijli|transformer|बिजली/.test(s)) return 'POWER';
+  return 'OTHER';
+}
+function normStatus(raw){
+  if (STATUSES[String(raw || '').toUpperCase()]) return String(raw).toUpperCase();
+  const s = String(raw || '').toLowerCase();
+  if (/overdue|विलंब/.test(s)) return 'OVERDUE';
+  if (/escalat/.test(s)) return 'ESCALATED';
+  if (/reopen|reject|not resolved|अस्वीकृत/.test(s)) return 'REOPENED';
+  if (/citizen confirm|confirmed|पुष्टि/.test(s)) return 'CITIZEN_CONFIRMED';
+  if (/resolved|fixed|claim|completed|समाधान/.test(s)) return 'RESOLUTION_CLAIMED';
+  if (/closed|close|done|बंद/.test(s)) return 'CLOSED';
+  if (/action required|info|document|आवश्यक/.test(s)) return 'ACTION_REQUIRED';
+  if (/review|progress|assigned|process|wip|समीक्षा/.test(s)) return 'UNDER_REVIEW';
+  return 'SUBMITTED';
+}
+
+/* --- location -> district detection (no geocoding service needed) --- */
+const DISTRICT_ALIASES = [
+  ['Dehradun',          ['dehradun','dehra dun','mussoorie','clement town','vasant vihar','doiwala','selaqui']],
+  ['Haridwar',          ['haridwar','hardwar','jwalapur','roshnabad','roorkee','bhagwanpur','ranipur']],
+  ['Udham Singh Nagar', ['udham singh nagar','udhamsingh nagar','us nagar','u.s. nagar','rudrapur','kichha','sitarganj','bazpur','kashipur','jaspur','khatima']],
+  ['Nainital',          ['nainital','haldwani','kathgodam','bhimtal','bhowali','kaladhungi']],
+  ['Pauri Garhwal',     ['pauri','kotdwar','lansdowne','srinagar']],
+  ['Tehri Garhwal',     ['tehri','narendranagar','kirtinagar','pratapnagar']],
+  ['Chamoli',           ['chamoli','joshimath','karnaprayag','tharali','gopeshwar']],
+  ['Rudraprayag',       ['rudraprayag','agastyamuni','okhimath','tilwara','kedarnath']],
+  ['Bageshwar',         ['bageshwar','kapkote','baijnath']],
+  ['Pithoragarh',       ['pithoragarh','didihat','berinag','munsiyari','gangolihat']],
+  ['Almora',            ['almora','ranikhet','someshwar','bhikiyasen','dwarahat']],
+  ['Champawat',         ['champawat','lohaghat','banbasa']],
+  ['Uttarkashi',        ['uttarkashi','chinyalisaur','gangotri','bhatwari','dunda']]
+];
+function detectDistrict(loc){
+  const s = ' ' + String(loc || '').toLowerCase() + ' ';
+  for (const [name, aliases] of DISTRICT_ALIASES)
+    for (const a of aliases)
+      if (s.includes(' ' + a)) return name;
+  return null;
+}
+/* deterministic jitter so live rows sit near, not on, the district centroid */
+function hashOffset(id){
+  let h = 0;
+  for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  const a = (h & 0xff) / 0xff * Math.PI * 2;
+  const r = 0.008 + ((h >>> 8 & 0xff) / 0xff) * 0.012;
+  return [Math.cos(a) * r, Math.sin(a) * r];
+}
+
+/* --- row -> blueprint Complaint --- */
+/* Feature 4: the citizen's secret verification code. Read from the table if a
+   verification_code / otp / citizen_code column exists; otherwise generated
+   deterministically from the complaint ID for the prototype and flagged as a
+   demo code in the UI. Officers only ever get an entry field fed by what the
+   citizen tells them — the code is never invented on their behalf silently. */
+function verifCodeFor(r){
+  const raw = r.verification_code || r.otp || r.citizen_code;
+  if (raw != null && String(raw).trim() !== ''){
+    const digits = String(raw).replace(/\D/g, '');
+    if (digits.length === 6) return digits;
+  }
+  let h = 0; const s = String(r.complaint_number || r.id || 'UK');
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return String(100000 + (h % 900000));
+}
+
+function adaptRow(r){
+  const created = r.created_at || r.createdAt || null;
+  const updated = r.updated_at || r.updatedAt || created || null;
+  const cat = normCategory(r.category);
+  const district = detectDistrict(r.location);
+  let lat = null, lon = null;
+  if (district){
+    const d = DISTRICTS.find(x => x.name === district);
+    if (d){
+      const [olat, olon] = hashOffset(r.complaint_number || r.id);
+      lat = d.clat + olat; lon = d.clon + olon;
+    }
+  }
+  const stamp = created || NOW.toISOString().slice(0, 16);
+  const c = {
+    id: String(r.complaint_number || ('UK-CMP-' + r.id)),
+    dbId: r.id,
+    live: true,
+    category: cat,
+    categoryName: CATS[cat].label,
+    description: r.complaint_text || (lang==='hi' ? '(कोई विवरण नहीं)' : '(no description provided)'),
+    district: district || 'Unmapped',
+    locality: r.location || '—',
+    latitude: lat,
+    longitude: lon,
+    citizenRef: r.whatsapp_number ? String(r.whatsapp_number) : '—',
+    channel: r.whatsapp_number ? 'WHATSAPP' : 'WEB',
+    verifCode: verifCodeFor(r),
+    codeIsDemo: !(r.verification_code || r.otp || r.citizen_code),
+    createdAt: stamp,
+    /* demo SLA only: due = created + the 10-day deadline (Feature 4), computed
+       in the dashboard — nothing is added to the Supabase table */
+    dueAt: created ? new Date(new Date(created).getTime() + DEADLINE_DAYS * 86400000).toISOString().slice(0, 16) : stamp,
+    updatedAt: updated || stamp,
+    relatedGroupId: null,
+    timeline: []
+  };
+  /* Feature 9 (computed, client-side only): open rows past their due date
+     are flagged OVERDUE exactly like the production scheduler would */
+  c.status = normStatus(r.status);
+  c.rawStatus = r.status;
+  /* keep the untouched Supabase row so the drawer can show every column
+     the table has — including columns added to the table later */
+  c.raw = r;
+  if (OPEN_STATUSES.includes(c.status) && (NOW - new Date(c.dueAt)) > 0) c.status = 'OVERDUE';
+  c.timeline = synthTimeline(c);
+  return c;
+}
+function synthTimeline(c){
+  const ev = [{ action: 'created', actorType: 'CITIZEN', actorId: 'live-db',
+    timestamp: c.createdAt,
+    note: lang==='hi' ? 'Supabase टेबल में पंक्ति बनी (लाइव सिंक, केवल-पढ़ें)'
+                      : 'Complaint row created in the live Supabase table (read-only sync)' }];
+  if (c.updatedAt && c.updatedAt !== c.createdAt){
+    ev.push({ action: 'status_changed', actorType: 'SYSTEM', actorId: 'live-db',
+      timestamp: c.updatedAt,
+      note: (lang==='hi' ? 'वर्तमान स्थिति "' : 'Current status "') + (c.rawStatus || c.status) +
+            (lang==='hi' ? '" Supabase से सिंक हुई (updated_at)' : '" synced from Supabase (updated_at)') });
+  }
+  return ev;
+}
+
+/* --- Feature 4 on live data: client-side possible-related-issue detection --- */
+function textWords(s){
+  return new Set(String(s || '').toLowerCase()
+    .replace(/[^\w\u0900-\u097F ]+/g, ' ')
+    .split(/\s+/).filter(w => w.length > 3));
+}
+function computeLiveGroups(list){
+  const buckets = {};
+  list.filter(c => OPEN_STATUSES.includes(c.status) && c.district !== 'Unmapped')
+      .forEach(c => { const k = c.category + '|' + c.district;
+                      (buckets[k] = buckets[k] || []).push(c); });
+  const groups = [];
+  Object.values(buckets).forEach(arr => {
+    const used = new Set();
+    for (let i = 0; i < arr.length; i++){
+      if (used.has(i)) continue;
+      used.add(i);
+      const w1 = textWords(arr[i].description);
+      const cluster = [arr[i]];
+      for (let j = i + 1; j < arr.length; j++){
+        if (used.has(j)) continue;
+        const w2 = textWords(arr[j].description);
+        let inter = 0; w2.forEach(w => { if (w1.has(w)) inter++; });
+        const union = new Set([...w1, ...w2]).size;
+        const containment = Math.min(w1.size, w2.size) ? inter / Math.min(w1.size, w2.size) : 0;
+        if ((union && inter / union >= 0.34) || containment >= 0.4){
+          cluster.push(arr[j]); used.add(j);
+        }
+      }
+      if (cluster.length >= 2){
+        const gid = 'GRP-L' + (groups.length + 1);
+        cluster.forEach(c => { c.relatedGroupId = gid; });
+        groups.push({ groupId: gid,
+          category: cluster[0].category,
+          district: cluster[0].district,
+          locality: cluster[0].locality,
+          memberIds: cluster.map(c => c.id),
+          similarity: cluster.length + ' reports · same category & district · similar wording (auto-detected)',
+          suggestedLabel: CATS[cluster[0].category].label + ' — ' + cluster[0].locality });
+      }
+    }
+  });
+  return groups;
+}
+
+/* --- connection + loader --- */
+function setConn(mode, text, tip){
+  const chip = $('conn-chip');
+  if (!chip) return;
+  chip.className = 'conn-chip conn-' + mode;
+  chip.title = tip || '';
+  $('conn-text').textContent = text;
+}
+function loadScriptOnce(src, timeout){
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    let done = false;
+    const t = setTimeout(() => { if (!done){ done = true; reject(new Error('supabase-js CDN timed out')); } }, timeout || 9000);
+    s.src = src;
+    s.onload = () => { if (!done){ done = true; clearTimeout(t); resolve(); } };
+    s.onerror = () => { if (!done){ done = true; clearTimeout(t); reject(new Error('supabase-js CDN could not load (offline?)')); } };
+    document.head.appendChild(s);
+  });
+}
+/* connection banner: the only place boot/loading/empty/error states are shown */
+function updateLiveBanner(){
+  const b = $('live-banner');
+  if (!b) return;
+  b.hidden = CONN_STATE === 'live';
+  b.className = 'card live-banner lb-' + CONN_STATE;
+  const iconMap = { connecting:'i-refresh', empty:'i-inbox', error:'i-alert-circle', live:'i-check-circle' };
+  const use = $('lb-icon-use');
+  if (use) use.setAttribute('href', '#' + (iconMap[CONN_STATE] || 'i-refresh'));
+  const title = $('lb-title'), body = $('lb-body'), retry = $('lb-retry');
+  if (!title) return;
+  if (CONN_STATE === 'connecting'){
+    title.textContent = lang==='hi' ? 'Supabase से जुड़ रहा है…' : 'Connecting to Supabase…';
+    body.textContent = lang==='hi' ? 'लाइव शिकायतें लोड हो रही हैं (केवल-पढ़ें SELECT)।' : 'Loading live complaints (read-only SELECT).';
+  } else if (CONN_STATE === 'empty'){
+    title.textContent = lang==='hi' ? 'जुड़ा हुआ — अभी कोई शिकायत नहीं' : 'Connected — no complaints yet';
+    body.textContent = lang==='hi' ? `"${SUPABASE_TABLE}" टेबल अभी खाली है। WhatsApp से दर्ज शिकायतें यहाँ स्वतः दिखेंगी।`
+      : `The "${SUPABASE_TABLE}" table is empty right now. Complaints filed via WhatsApp will appear here automatically.`;
+  } else if (CONN_STATE === 'error'){
+    title.textContent = lang==='hi' ? 'लाइव डेटा लोड नहीं हो सका' : 'Could not load live data';
+    body.textContent = (lang==='hi' ? 'कारण: ' : 'Reason: ') + (CONN_MSG || 'unknown');
+  }
+  if (retry) retry.hidden = !(CONN_STATE === 'error' || CONN_STATE === 'empty');
+}
+async function loadSupabase(manual){
+  const rbtn = $('refresh-live');
+  if (rbtn && rbtn.disabled) return;   /* a refresh is already in flight */
+  if (rbtn){
+    rbtn.disabled = true;
+    rbtn.setAttribute('aria-busy', 'true');
+    const lb = rbtn.querySelector('span');
+    if (lb) rbtn.dataset.label = lb.textContent;   /* restore exactly what was there */
+    if (lb) lb.textContent = lang === 'hi' ? 'ताज़ा कर रहे हैं…' : 'Refreshing…';
+  }
+  const restoreBtn = () => {
+    if (!rbtn) return;
+    rbtn.disabled = false;
+    rbtn.removeAttribute('aria-busy');
+    const lb = rbtn.querySelector('span');
+    if (lb) lb.textContent = t('refresh') !== 'refresh' ? t('refresh') : (rbtn.dataset.label || 'Refresh live');
+  };
+  if (!SUPABASE_URL || !SUPABASE_KEY){
+    restoreBtn();
+    CONN_STATE = 'error';
+    CONN_MSG = 'SUPABASE_URL / SUPABASE_KEY not set in the config block at the top of the script';
+    setConn('error', lang==='hi' ? 'कॉन्फ़िग अधूरा' : 'Config incomplete', CONN_MSG);
+    updateLiveBanner();
+    return;
+  }
+  CONN_STATE = 'connecting';
+  setConn('neutral', lang==='hi' ? 'Supabase से जुड़ रहा है…' : 'Connecting to Supabase…');
+  updateLiveBanner();
+  try {
+    if (!window.supabase) await loadScriptOnce('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+    if (!SB_CLIENT) SB_CLIENT = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data, error } = await SB_CLIENT.from(SUPABASE_TABLE)
+      .select('*').order('created_at', { ascending: false }).limit(LIVE_MAX_ROWS);
+    if (error) throw error;
+    LIVE_MODE = true;
+    NOW = new Date();
+    complaints = (data || []).map(adaptRow);
+    groupsDef = computeLiveGroups(complaints);
+    CONN_STATE = complaints.length ? 'live' : 'empty';
+    if (complaints.length){
+      setConn('live',
+        (lang==='hi' ? 'लाइव · Supabase · ' : 'LIVE · Supabase · ') + complaints.length + (lang==='hi' ? ' शिकायतें' : ' complaints'),
+        'Read-only SELECT from "' + SUPABASE_TABLE + '" — nothing is written back to Supabase');
+      toast(lang==='hi' ? `Supabase से ${complaints.length} शिकायतें लोड हुईं (केवल-पढ़ें)` :
+            `Loaded ${complaints.length} complaints from Supabase (read-only)`);
+    } else {
+      setConn('warn',
+        lang==='hi' ? 'Supabase जुड़ा · अभी 0 शिकायतें' : 'Supabase connected · 0 complaints yet',
+        'SELECT succeeded, but the "' + SUPABASE_TABLE + '" table has no rows yet. New complaints appear here automatically, or press Retry.');
+    }
+    const sl = $('sync-label');
+    if (sl) sl.textContent = syncLabelFor(CONN_STATE);
+    buildFilterOptions();
+    $('sync-time').textContent = NOW.toLocaleString(lang==='hi' ? 'hi-IN' : 'en-IN',
+      { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    renderAll();
+    updateLiveBanner();
+    restoreBtn();
+  } catch (err){
+    restoreBtn();
+    LIVE_MODE = false;
+    CONN_STATE = 'error';
+    CONN_MSG = String((err && err.message) || err);
+    complaints = [];
+    groupsDef = [];
+    setConn('error',
+      lang==='hi' ? 'Supabase उपलब्ध नहीं' : 'Supabase unreachable', CONN_MSG);
+    const sl = $('sync-label');
+    if (sl) sl.textContent = syncLabelFor('error');
+    if (manual) toast(lang==='hi' ? 'Supabase कनेक्शन विफल: ' + CONN_MSG : 'Supabase connection failed: ' + CONN_MSG, true);
+    console.warn('[OfficerDashboard] Supabase load failed:', CONN_MSG);
+    buildFilterOptions();
+    renderAll();
+    updateLiveBanner();
+  }
+}
+
+/* ---------- Init ---------- */
+(function init(){
+  $('sync-time').textContent = NOW.toLocaleString(lang==='hi'?'hi-IN':'en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  buildFilterOptions();
+  bindFilters();
+  bindZoom();
+  tickCountdowns();
+  setInterval(tickCountdowns, 1000);   /* Feature 4: live countdown tick */
+  $('export-csv').addEventListener('click', () => {
+    const rows = filtered();
+    if (!rows.length){ toast(lang==='hi' ? 'निर्यात के लिए कोई शिकायत नहीं' : 'No complaints to export', true); return; }
+    downloadCSV('apuni-sarkar-complaints-live.csv', rows);
+    toast(lang==='hi' ? 'CSV निर्यात (लाइव डेटा)' : 'CSV exported (live data)');
+  });
+  $('export-queue-csv').addEventListener('click', () => {
+    const rows = complaints.filter(c => ['OVERDUE','REOPENED','ESCALATED'].includes(c.status));
+    if (!rows.length){ toast(lang==='hi' ? 'कतार खाली है — निर्यात करने के लिए कुछ नहीं' : 'Queue is empty — nothing to export', true); return; }
+    downloadCSV('apuni-sarkar-overdue-queue.csv', rows);
+    toast(lang==='hi' ? 'कतार CSV निर्यात (लाइव डेटा)' : 'Queue CSV exported (live data)');
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) closeDrawer();
+  });
+  $('refresh-live').addEventListener('click', () => loadSupabase(true));
+  $('lb-retry').addEventListener('click', () => loadSupabase(true));
+  renderAll();
+  loadSupabase(false);
+  // Developer hook: preview the live-data pipeline with sample rows, without touching Supabase
+  window.__previewLiveRows = rows => {
+    complaints = rows.map(adaptRow);
+    groupsDef = computeLiveGroups(complaints);
+    LIVE_MODE = true; NOW = new Date();
+    CONN_STATE = 'live';
+    const sl = $('sync-label');
+    if (sl) sl.textContent = syncLabelFor('live');
+    buildFilterOptions(); renderAll(); updateLiveBanner();
+  };
+})();
+</script>
+</body>
+</html>
