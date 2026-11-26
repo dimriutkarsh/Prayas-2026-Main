@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123b35">
+<title>Apuni Sarkar | Offline Complaint Demo</title>
+<style>
+:root{--green:#14564b;--green2:#0d4038;--mint:#e8f4ef;--ink:#172b28;--muted:#647773;--line:#dce7e2;--bg:#f4f7f5;--white:#fff;--amber:#a96512;--red:#b53b3b;--shadow:0 18px 55px rgba(23,55,47,.09)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.topbar{background:var(--green2);color:#fff;padding:13px 22px}.topinner{max-width:1160px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.2px}.logo{width:39px;height:39px;border-radius:12px;background:#fff;color:var(--green);display:grid;place-items:center;font-size:20px}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75;letter-spacing:.5px;margin-top:2px}.topright{display:flex;align-items:center;gap:12px;font-size:13px}.netpill{display:flex;align-items:center;gap:7px;border:1px solid #ffffff45;border-radius:99px;padding:7px 11px}.dot{width:8px;height:8px;border-radius:50%;background:#53d69a;display:inline-block}.dot.off{background:#ffbd5c}
+.wrap{max-width:1160px;margin:32px auto;padding:0 20px 50px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:23px}.eyebrow{color:var(--green);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.hero h1{font-size:clamp(27px,4vw,38px);line-height:1.12;margin:8px 0}.hero p{margin:0;color:var(--muted);max-width:650px;line-height:1.6}.demoTag{background:#fff3df;color:#87520d;border:1px solid #f2dfbd;border-radius:99px;padding:8px 12px;font-size:12px;font-weight:750;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,.8fr);gap:22px;align-items:start}.card{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.formcard{padding:25px}.cardhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.cardhead h2{font-size:19px;margin:0}.step{font-size:11px;color:var(--muted);background:#f1f5f3;padding:6px 10px;border-radius:99px}
+label{display:block;font-size:13px;font-weight:700;margin:0 0 8px}.required{color:var(--red)}.field{margin-bottom:18px}.input,select,textarea{width:100%;border:1px solid #d5e1dc;background:#fff;border-radius:10px;padding:12px 13px;color:var(--ink);outline:none;transition:.2s}.input:focus,select:focus,textarea:focus{border-color:#4c9b87;box-shadow:0 0 0 3px #4c9b871b}textarea{min-height:112px;resize:vertical}.hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.gpsbox{border:1px solid #cfe2d9;background:#f5fbf8;padding:14px;border-radius:12px}.gpsrow{display:flex;align-items:center;justify-content:space-between;gap:12px}.gpscopy strong{display:block;font-size:13px}.gpscopy span{font-size:11px;color:var(--muted)}.gpsbtn{border:0;background:var(--green);color:white;border-radius:9px;padding:10px 13px;font-weight:700;font-size:12px;white-space:nowrap}.gpsbtn:disabled{opacity:.6;cursor:wait}.gpsstatus{font-size:11px;margin-top:9px;color:var(--muted)}.gpsstatus.good{color:#18744f}.gpsstatus.bad{color:var(--red)}
+.actions{display:flex;gap:10px;align-items:center;margin-top:22px}.submit{flex:1;border:0;background:var(--green);color:#fff;padding:14px 18px;border-radius:11px;font-weight:800;box-shadow:0 7px 18px #14564b25}.submit:hover{background:#0e473e}.reset{border:1px solid var(--line);background:#fff;padding:13px 15px;border-radius:11px;color:var(--muted);font-weight:700}.side{display:grid;gap:17px}.statuscard{padding:20px}.statushead{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.statushead h3{font-size:15px;margin:0}.count{font-size:11px;background:var(--mint);color:var(--green);padding:5px 9px;border-radius:99px;font-weight:800}.queueempty{text-align:center;padding:23px 8px;color:var(--muted)}.queueempty .emptyicon{font-size:28px;margin-bottom:8px}.queueempty strong{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}.queueempty span{font-size:11px;line-height:1.5}.queueitem{border:1px solid var(--line);border-radius:11px;padding:12px;margin-top:10px}.qtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.qid{font-size:11px;font-weight:800;color:var(--green)}.qstatus{font-size:10px;font-weight:800;border-radius:99px;padding:4px 7px;background:#fff3df;color:#94600e}.qstatus.sent{background:#e5f5ed;color:#18744f}.qdesc{font-size:12px;font-weight:700;margin:8px 0 4px}.qmeta{font-size:10px;color:var(--muted)}.syncbtn{width:100%;margin-top:12px;border:1px solid #cfe2d9;background:#f5fbf8;color:var(--green);border-radius:9px;padding:10px;font-size:12px;font-weight:800}
+.networkcard{padding:18px 20px}.networkcard h3{font-size:14px;margin:0 0 7px}.networkcard p{font-size:11px;color:var(--muted);line-height:1.5;margin:0 0 13px}.toggleline{display:flex;align-items:center;justify-content:space-between;gap:10px}.toggleline span{font-size:12px;font-weight:750}.switch{position:relative;width:46px;height:26px;background:#c8d4cf;border-radius:99px;border:0;padding:3px;transition:.2s}.switch:after{content:"";display:block;width:20px;height:20px;background:white;border-radius:50%;transition:.2s;box-shadow:0 1px 4px #0002}.switch.on{background:var(--green)}.switch.on:after{transform:translateX(20px)}.switchlabel{font-size:10px;color:var(--muted);margin-top:7px}
+.info{padding:16px 18px;background:#eef5f1;border:1px solid #dcebe3;border-radius:13px}.info strong{font-size:12px;display:block;margin-bottom:5px}.info p{font-size:11px;line-height:1.55;color:#526b63;margin:0}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#183c35;color:#fff;padding:12px 17px;border-radius:11px;box-shadow:0 10px 30px #0002;font-size:13px;z-index:5;transition:.25s;max-width:calc(100% - 30px)}.toast.show{opacity:1;transform:translate(-50%,0)}.modalback{position:fixed;inset:0;background:#10241f88;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modalback.show{display:flex}.modal{background:white;border-radius:18px;padding:25px;max-width:420px;width:100%;box-shadow:0 20px 70px #0003}.modalicon{width:48px;height:48px;border-radius:14px;background:#e6f5ed;color:#17734f;display:grid;place-items:center;font-size:24px}.modal h3{margin:15px 0 6px}.modal p{color:var(--muted);font-size:13px;line-height:1.55}.token{font-size:18px;font-weight:900;color:var(--green);background:#f1f8f4;padding:13px;border-radius:10px;letter-spacing:.4px}.modal button{width:100%;margin-top:16px;border:0;background:var(--green);color:white;padding:12px;border-radius:10px;font-weight:800}
+footer{text-align:center;color:#81908b;font-size:11px;margin-top:25px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.demoTag{white-space:normal}.topinner{align-items:flex-start}.topright{flex-direction:column;align-items:flex-end;gap:6px}.wrap{margin-top:23px}.formcard{padding:19px}}
+@media(max-width:520px){.grid2{grid-template-columns:1fr;gap:0}.formcard{padding:16px}.actions{flex-direction:column}.submit,.reset{width:100%}.gpsrow{align-items:flex-start;flex-direction:column}.gpsbtn{width:100%}.topbar{padding:11px 14px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topinner">
+  <div class="brand"><div class="logo">अ</div><div>Apuni Sarkar<small>UTTARAKHAND · CITIZEN SERVICES</small></div></div>
+  <div class="topright"><div class="netpill"><i class="dot" id="netDot"></i><span id="netText">Checking connection…</span></div><span>Offline complaint prototype</span></div>
+</div></header>
+<main class="wrap">
+  <section class="hero"><div><div class="eyebrow">Citizen grievance portal</div><h1>Raise a complaint.<br>Even without internet.</h1><p>Your complaint is saved securely on this device when you're offline and automatically submitted when a connection returns.</p></div><div class="demoTag">DEMO PROTOTYPE · No real government submission</div></section>
+  <div class="layout">
+    <section class="card formcard">
+      <div class="cardhead"><h2>Complaint details</h2><span class="step">STEP 1 OF 2</span></div>
+      <form id="complaintForm">
+        <div class="field"><label for="name">Your name <span class="required">*</span></label><input class="input" id="name" name="name" placeholder="Enter your full name" required maxlength="80"></div>
+        <div class="grid2">
+          <div class="field"><label for="phone">Mobile number <span class="required">*</span></label><input class="input" id="phone" name="phone" inputmode="numeric" pattern="[0-9]{10}" placeholder="10-digit mobile number" required></div>
+          <div class="field"><label for="category">Complaint category <span class="required">*</span></label><select id="category" name="category" required><option value="">Select category</option><option>Roads & Infrastructure</option><option>Water Supply</option><option>Electricity</option><option>Health Services</option><option>Education</option><option>Ration / PDS</option><option>Sanitation</option><option>Other</option></select></div>
+        </div>
+        <div class="field"><label for="description">Describe your complaint <span class="required">*</span></label><textarea id="description" name="description" placeholder="Explain the issue, when it started, and how it affects you…" required maxlength="1500"></textarea><div class="hint">Please do not include passwords, bank details or other sensitive information.</div></div>
+        <div class="field">
+          <label>Complaint location <span class="required">*</span></label>
+          <div class="gpsbox">
+            <div class="gpsrow"><div class="gpscopy"><strong>Fetch your current GPS location</strong><span>Required before you can submit a complaint</span></div><button type="button" class="gpsbtn" id="gpsBtn">◎ Fetch my location</button></div>
+            <div class="gpsstatus" id="gpsStatus">Location not fetched yet. Allow location access when your browser asks.</div>
+            <input type="hidden" id="latitude" name="latitude"><input type="hidden" id="longitude" name="longitude">
+            <div class="hint">GPS works only if your device supports it and you grant permission. HTTPS or localhost is required by most browsers.</div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="district">District <span class="required">*</span></label><input class="input" id="district" name="district" placeholder="e.g. Tehri Garhwal" required></div>
+          <div class="field"><label for="village">Village / locality <span class="required">*</span></label><input class="input" id="village" name="village" placeholder="Enter village or locality" required></div>
+        </div>
+        <div class="actions"><button type="submit" class="submit" id="submitBtn">Submit complaint <span aria-hidden="true">→</span></button><button type="reset" class="reset">Clear form</button></div>
+        <div class="hint">If offline, a local reference number is generated. It is not an official complaint ID until the server confirms receipt.</div>
+      </form>
+    </section>
+    <aside class="side">
+      <section class="card statuscard">
+        <div class="statushead"><h3>Your offline request queue</h3><span class="count" id="queueCount">0 REQUESTS</span></div>
+        <div id="queueList"><div class="queueempty"><div class="emptyicon">☷</div><strong>No pending requests</strong><span>Complaints saved while offline will appear here and sync automatically when you're back online.</span></div></div>
+        <button class="syncbtn" id="syncBtn" type="button">↻ Sync pending requests now</button>
+      </section>
+      <section class="card networkcard">
+        <h3>Prototype network simulator</h3><p>Use this switch to test both cases. It overrides the browser's actual online status for this demo only.</p>
+        <div class="toggleline"><span id="simLabel">Simulate offline mode</span><button type="button" class="switch" id="networkSwitch" role="switch" aria-checked="false" aria-label="Simulate offline mode"></button></div>
+        <div class="switchlabel" id="simHint">OFF · Using your actual network connection</div>
+      </section>
+      <div class="info"><strong>How this demo behaves</strong><p><b>Online:</b> waits 3 seconds to simulate upload, then confirms submission. <b>Offline:</b> saves the request in browser storage. On refresh or when connection returns, pending requests are processed automatically.</p></div>
+    </aside>
+  </div>
+  <footer>Apuni Sarkar · Offline-first complaint experience · Demonstration only</footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<div class="modalback" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modalicon">✓</div><h3 id="modalTitle">Complaint submitted</h3><p id="modalMessage">Your complaint has been submitted successfully.</p><div class="token" id="modalToken">APU-DEMO-000001</div><button id="closeModal">Done</button></div></div>
+<script>
+(() => {
+  const STORAGE_KEY = "apuni_demo_complaints_v1";
+  const $ = id => document.getElementById(id);
+  let simulateOffline = false;
+  let processing = false;
+  let toastTimer;
+  const makeId = () => "APU-LOCAL-" + (crypto.randomUUID ? crypto.randomUUID().slice(0,8) : Math.random().toString(36).slice(2,10)).toUpperCase();
+  const getItems = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; } };
+  const saveItems = items => localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  const isOnline = () => navigator.onLine && !simulateOffline;
+  const showToast = msg => { $("toast").textContent=msg; $("toast").classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$("toast").classList.remove("show"),3200); };
+  const stamp = value => new Date(value).toLocaleString([], {dateStyle:"medium",timeStyle:"short"});
+  function updateNetwork(){
+    const online=isOnline(); $("netDot").classList.toggle("off",!online); $("netText").textContent=online?"Internet available":"Offline · requests saved locally";
+    $("simHint").textContent=simulateOffline?"ON · Demo is forcing offline mode":"OFF · Using your actual network connection";
+    $("simLabel").textContent=simulateOffline?"Offline mode is ON":"Simulate offline mode";
+  }
+  function renderQueue(){
+    const items=getItems(); $("queueCount").textContent=items.length+" REQUEST"+(items.length===1?"":"S");
+    if(!items.length){$("queueList").innerHTML='<div class="queueempty"><div class="emptyicon">☷</div><strong>No pending requests</strong><span>Complaints saved while offline will appear here and sync automatically when you are back online.</span></div>';return;}
+    $("queueList").innerHTML=items.map(item=>`<div class="queueitem"><div class="qtop"><span class="qid">${escapeHtml(item.localId)}</span><span class="qstatus ${item.status==="Submitted"?"sent":""}">${escapeHtml(item.status)}</span></div><div class="qdesc">${escapeHtml(item.category)} · ${escapeHtml(item.district)}</div><div class="qmeta">Saved ${stamp(item.createdAt)}${item.serverId?" · Official demo ID: "+escapeHtml(item.serverId):""}</div></div>`).join("");
+  }
+  function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function openModal(item, offline){
+    $("modalTitle").textContent=offline?"Saved on this device":"Complaint submitted";
+    $("modalMessage").textContent=offline?"You are offline. Keep this local reference number. Your request will be submitted automatically when a connection is available.":"Demo server accepted your complaint. In a real deployment, this ID would come from your Spring Boot API.";
+    $("modalToken").textContent=offline?item.localId:item.serverId;
+    $("successModal").classList.add("show");
+  }
+  $("closeModal").addEventListener("click",()=>$("successModal").classList.remove("show"));
+  $("successModal").addEventListener("click",e=>{if(e.target===$("successModal"))$("successModal").classList.remove("show");});
+  $("gpsBtn").addEventListener("click",()=>{
+    const btn=$("gpsBtn"),status=$("gpsStatus");
+    if(!navigator.geolocation){status.textContent="GPS location is not supported by this browser.";status.className="gpsstatus bad";return;}
+    btn.disabled=true;btn.textContent="Fetching GPS…";status.textContent="Waiting for device location permission…";status.className="gpsstatus";
+    navigator.geolocation.getCurrentPosition(pos=>{
+      $("latitude").value=pos.coords.latitude.toFixed(6);$("longitude").value=pos.coords.longitude.toFixed(6);
+      status.textContent=`✓ Location captured: ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)} (±${Math.round(pos.coords.accuracy)} m)`;
+      status.className="gpsstatus good";btn.textContent="✓ Location fetched";btn.disabled=false;
+    },err=>{
+      const msg=err.code===1?"Location permission denied. Allow location access in browser settings and try again.":err.code===2?"Unable to determine location. Move outdoors or try again.":"Location request timed out. Please retry.";
+      status.textContent=msg;status.className="gpsstatus bad";btn.textContent="↻ Retry GPS";btn.disabled=false;
+    },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+  });
+  $("complaintForm").addEventListener("submit",async e=>{
+    e.preventDefault();
+    if(!$("latitude").value||!$("longitude").value){$("gpsStatus").textContent="Please fetch your GPS location before submitting."; $("gpsStatus").className="gpsstatus bad";$("gpsBtn").focus();showToast("GPS location is mandatory.");return;}
+    if(!e.currentTarget.reportValidity())return;
+    const data=Object.fromEntries(new FormData(e.currentTarget).entries());
+    const item={...data,localId:makeId(),createdAt:new Date().toISOString(),status:"Waiting for network",serverId:null};
+    const items=getItems();items.unshift(item);saveItems(items);renderQueue();
+    e.currentTarget.reset();$("latitude").value="";$("longitude").value="";$("gpsStatus").textContent="Location not fetched yet. Allow location access when your browser asks.";$("gpsStatus").className="gpsstatus";$("gpsBtn").textContent="◎ Fetch my location";
+    if(isOnline()){showToast("Request saved. Uploading…");processQueue(item.localId);}else{openModal(item,true);showToast("Saved locally. It will sync when internet returns.");}
+  });
+  async function processQueue(focusId=null){
+    if(processing||!isOnline())return;
+    processing=true;
+    try{
+      let items=getItems();
+      for(let i=0;i<items.length;i++){
+        if(!isOnline())break;
+        if(items[i].status==="Submitted")continue;
+        items[i].status="Uploading";saveItems(items);renderQueue();
+        await new Promise(resolve=>setTimeout(resolve,3000));
+        if(!isOnline()){items=getItems();const current=items.find(x=>x.localId===items[i].localId);if(current)current.status="Waiting for network";saveItems(items);renderQueue();break;}
+        items=getItems();const current=items.find(x=>x.localId===items[i].localId);if(!current)continue;
+        current.status="Submitted";
+        current.serverId="APU-DEMO-"+new Date().getFullYear()+"-"+Math.random().toString(10).slice(2,8);
+        current.submittedAt=new Date().toISOString();saveItems(items);renderQueue();
+        if(focusId===current.localId)openModal(current,false);
+        showToast("Request synced: "+current.localId);
+      }
+    }finally{processing=false;renderQueue();}
+  }
+  $("syncBtn").addEventListener("click",()=>{if(!isOnline()){showToast("No connection yet. Requests remain saved locally.");return;}processQueue();});
+  $("networkSwitch").addEventListener("click",()=>{
+    simulateOffline=!simulateOffline;$("networkSwitch").classList.toggle("on",simulateOffline);$("networkSwitch").setAttribute("aria-checked",String(simulateOffline));updateNetwork();
+    if(isOnline())processQueue();else showToast("Offline simulation enabled.");
+  });
+  window.addEventListener("online",()=>{updateNetwork();showToast("Connection restored. Syncing queued requests…");processQueue();});
+  window.addEventListener("offline",()=>{updateNetwork();showToast("Connection lost. New requests will be saved locally.");});
+  updateNetwork();renderQueue();
+  // Process previously saved complaints immediately after the page is reopened, if online.
+  if(isOnline()&&getItems().some(x=>x.status!=="Submitted"))setTimeout(()=>processQueue(),250);
+})();
+</script>
+</body>
+</html>
